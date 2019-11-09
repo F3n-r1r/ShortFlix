@@ -60,7 +60,10 @@ export default new Vuex.Store({
 		/*-------------------------------------------------*\
 			1.1. - SET NEW THEME
 		\*-------------------------------------------------*/
-
+		setTheme({commit}, theme) {
+			commit('theme', theme);
+			localStorage.setItem('theme', theme);
+		},
 		/*-------------------------------------------------*\
 			1.2. - GET CURRENT USER
 		\*-------------------------------------------------*/
@@ -125,6 +128,13 @@ export default new Vuex.Store({
 		/*-------------------------------------------------*\
 			1.5. - LOGOUT USER
 		\*-------------------------------------------------*/
-
+		logout({commit}){
+			return new Promise((resolve, reject) => {
+				commit('logout')
+				localStorage.removeItem('token')
+				delete axios.defaults.headers.common['Authorization']
+				resolve()
+			})
+		}
 	},
 })
