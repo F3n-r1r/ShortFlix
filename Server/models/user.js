@@ -20,7 +20,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { saltrounds } = require('../config/envConfig');
-const { validateEmail } = require('../utils/validate');
+const { validateEmail } = require('../utilities/validate');
 
 
 /*-------------------------------------------------*\
