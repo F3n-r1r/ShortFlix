@@ -2,7 +2,7 @@
     INDEX:
         1. - FILE NOTES
         2. - REQUIRE DEPENDENCIES
-        3. - ALL USER RELATED ROUTES
+        3. - GET ALL USERS ROUTE
         4. - MODULE EXPORTS
 \*--------------------------------------------------------------------------------------------------*/
 
@@ -15,17 +15,14 @@
 /*-------------------------------------------------*\
     2. - REQUIRE DEPENDENCIES
 \*-------------------------------------------------*/
-const express = require('express');
-const router = express.Router();
+
 
 /*-------------------------------------------------*\
-    3. - ALL USER RELATED ROUTES
+    3. - GET ALL USERS ROUTE
 \*-------------------------------------------------*/
-router.use('/getAll', require('./_getAll'));
-router.use('/getCurrent', require('./_getCurrent'));
+
 
 
 /*-------------------------------------------------*\
     4. - MODULE EXPORTS
 \*-------------------------------------------------*/
-module.exports = router;

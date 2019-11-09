@@ -2,7 +2,7 @@
     INDEX:
         1. - FILE NOTES
         2. - REQUIRE DEPENDENCIES
-        3. - ALL USER RELATED ROUTES
+        3. - GET CURRENT USER ROUTE
         4. - MODULE EXPORTS
 \*--------------------------------------------------------------------------------------------------*/
 
@@ -17,12 +17,28 @@
 \*-------------------------------------------------*/
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken')
+const user = require('../../models/user');
+const { jwtkey } = require('../../config/envConfig');
+
 
 /*-------------------------------------------------*\
-    3. - ALL USER RELATED ROUTES
+    3. - GET CURRENT USER ROUTE
 \*-------------------------------------------------*/
-router.use('/getAll', require('./_getAll'));
-router.use('/getCurrent', require('./_getCurrent'));
+router.get('/', function(req, res) {
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey);            // MAKE UTILITY FUNCTION FOR CHECKING AUTH ???
+    user.findOne({
+        _id: decodedToken.id
+    }).then((user) => {
+        res.json({
+            user: user
+        })
+    }).catch(err => {
+        res.json({
+            error: err
+        })
+    })
+});
 
 
 /*-------------------------------------------------*\

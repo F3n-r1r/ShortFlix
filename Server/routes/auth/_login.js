@@ -24,7 +24,7 @@ const { jwtkey } = require('../../config/envConfig');
 
 
 /*-------------------------------------------------*\
-    3. - LOGIN USER ROUTE FUNCTION
+    3. - LOGIN USER ROUTE
 \*-------------------------------------------------*/
 router.post('/', function(req, res) {
     user.findOne({
