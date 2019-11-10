@@ -1,0 +1,163 @@
+/*-----------------------------------------------------------------*\
+    
+    Info:
+        The _buttons.scss contains all the types of buttons used
+        in this application and these can all be extended from.
+
+    Index:
+        1 - Primary Button
+        2 - Secondary Button
+        3 - Icon Button
+        4 - Burger Button
+
+\*-----------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------*\
+    1 - Primary Button
+\*-----------------------------------------------------------------*/
+%primary-btn {
+    position: relative;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ff9966;
+    cursor: pointer;
+    outline: none;
+    transition: background-color .3s;
+
+    &:hover {
+        background-color: darken(#ff9966, 10%);
+    }
+}
+
+
+/*-----------------------------------------------------------------*\
+    2 - Secondary Button
+\*-----------------------------------------------------------------*/
+%secondary-btn {
+    position: relative;
+    display: inline-block;
+    background: none;
+    padding: 10px 30px;
+    outline: none;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    transition-property: transform;
+  
+    &:before {
+        pointer-events: none;
+        position: absolute;
+        z-index: -1;
+        content: '';
+        top: 100%;
+        left: 5%;
+        height: 10px;
+        width: 90%;
+        opacity: 0;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+        transition-duration: 0.3s;
+        transition-property: transform opacity;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    &:hover:before {
+        opacity: 1;
+        transform: translateY(5px);
+    }
+}
+
+
+/*-----------------------------------------------------------------*\
+    3 - Icon Button
+\*-----------------------------------------------------------------*/
+%icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    // Set required font size where it is used
+
+    &:focus {
+        outline: 0;
+    }
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    .icon {
+        margin-left: 5px;
+    }
+}
+
+
+/*-----------------------------------------------------------------*\
+    4 - Burger Button
+\*-----------------------------------------------------------------*/
+%burger-btn {  
+    border: 0;
+    background: none;
+    border-bottom: 4px solid currentColor;
+    width: 28px;
+    transition: border-bottom 1s ease-in-out, opacity .75s;
+    color: white;
+
+    // Fix for extra space in Firefox
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }	 
+
+    &:before {
+        content: "";
+        display: block;
+        border-bottom: 4px solid currentColor;
+        width: 100%;
+        margin-bottom: 5px;
+        transition: transform 0.5s ease-in-out;          
+    }
+
+    &:after {
+        content: "";
+        display: block;
+        border-bottom: 4px solid currentColor;
+        width: 100%;
+        margin-bottom: 5px;
+        transition: transform 0.5s ease-in-out;
+    }
+}
+
+%burger-btn--active {
+    border-bottom: 4px solid transparent;
+    transition: border-bottom 0.8s ease-in-out, opacity .5s;
+
+    &:before {
+        transform: rotate(-405deg) translateY(1px) translateX(-3px);    
+        transition: transform 0.5s ease-in-out;
+    }
+
+    &:after {
+        transform: rotate(405deg) translateY(-4px) translateX(-5px);      
+        transition: transform 0.5s ease-in-out;
+    }
+}
+
+
+
+
+

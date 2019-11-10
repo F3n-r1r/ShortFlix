@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from './store'
 
 /* Import main layouts */
 import Dashboard from './Layout/Dashboard.vue';

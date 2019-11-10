@@ -53,8 +53,8 @@
 /*----------------------------------------------------------------------------------*\
 	IMPORTS
 *\----------------------------------------------------------------------------------*/
-import auth from '../Components/Home/Auth.vue';
-import modal from '../Components/Shared/Modal.vue';
+import auth from './Components/Home/Auth.vue';
+import modal from './Components/Shared/Modal.vue';
 
 
 /*----------------------------------------------------------------------------------*\
