@@ -10,7 +10,7 @@
 				<h1 class="center__logo">ShortFlix</h1>
 			</div>
 			<div class="header__right">
-				<button class="right__login" @click="showModal"><i class="fas fa-user-lock"></i></button>
+				<button class="right__login" @click="toggleModal"><i class="fas fa-user-lock"></i></button>
 			</div>  
 		</header>
 
@@ -34,9 +34,9 @@
 		<!-------------------------------------------------------------------------------------->
 		<!-- MODAL COMPONENT																  -->
 		<!-------------------------------------------------------------------------------------->
-		<modal v-show="isModalVisible">
+		<modal v-show="isModalVisible" style="background-color: rgba(0, 0, 0, 0.3);"> <!-- FIND NEW WAY TO APPLY MODAL BG COLOR ONLY FOR USE ON HOME PAGE -->
 			<div class="modal-content">
-				<button type="button" class="modal-content__close-btn" @click="closeModal" aria-label="Close modal">
+				<button type="button" class="modal-content__close-btn" @click="toggleModal" aria-label="Close modal">
 					<i class="fas fa-times"></i>
 				</button>
 				<auth/>
@@ -73,7 +73,7 @@ export default {
 	*\----------------------------------------------------------------------------------*/
 	data () {
 		return {
-		isModalVisible: false,
+			isModalVisible: false,
 		};
 	},
 
@@ -81,13 +81,14 @@ export default {
 		METHODS
 	*\----------------------------------------------------------------------------------*/
 	methods: {
-		showModal() {
-			this.isModalVisible = true;
-			document.body.style.overflow = "hidden";
-		},
-		closeModal() {
-			this.isModalVisible = false;
-			document.body.removeAttribute("style");
+		toggleModal() {
+			if(!this.isModalVisible) {
+				this.isModalVisible = true;
+				document.body.style.overflow = "hidden";
+			} else {
+				this.isModalVisible = false;
+				document.body.removeAttribute("style");
+			}
 		}
 	}
 }

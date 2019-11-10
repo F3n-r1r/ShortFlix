@@ -104,6 +104,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .flip-enter-active {
 	animation: flipEnter 2s forwards;
+	overflow: hidden;
 }
 
 @keyframes flipEnter {
@@ -126,6 +127,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .flip-leave-active {
 	animation: flipLeave 2s forwards;
+	overflow: hidden;
 }
 
 @keyframes flipLeave {

@@ -20,15 +20,6 @@
                     <router-link class="item__link" to="/Dashboard/Profile"><i class="link__icon far fa-user"></i>Profile</router-link>
                 </li>
                 <li class="list__item">
-                    <router-link class="item__link" to="/Dashboard/Messages"><i class="link__icon far fa-envelope"></i>Messages</router-link>
-                </li>
-                <li class="list__item">
-                    <router-link class="item__link" to="/Dashboard/News"><i class="link__icon far fa-newspaper"></i>News</router-link>
-                </li>
-                <li class="list__item">
-                    <router-link class="item__link" to="/Dashboard/Community"><i class="link__icon fas fa-users"></i>Community</router-link>
-                </li>
-                <li class="list__item">
                     <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                 </li>
             </ul>
