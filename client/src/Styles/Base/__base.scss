@@ -1,0 +1,17 @@
+/*-----------------------------------------------------------------*\
+    
+    Info:
+        The __base.scss imports all global standards so that only
+        this file needs to be referenced and not all components.
+
+    Index:
+        1 - Imports
+
+\*-----------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------*\
+    1 - Imports
+\*-----------------------------------------------------------------*/
+@import 'fonts';
+@import 'normalize';
