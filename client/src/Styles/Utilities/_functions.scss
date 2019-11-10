@@ -1,0 +1,49 @@
+/*-----------------------------------------------------------------*\
+    
+    Info:
+        The _functions.scss contains all the scss functions used
+        in this application.
+
+    Index:
+        1 - Imports
+        2 - Shorthand Color Function
+        3 - Shorthand Screenwidth Function
+        4 - Media Query Function
+
+\*-----------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------*\
+    1 - Imports
+\*-----------------------------------------------------------------*/
+@import 'maps';
+
+
+/*-----------------------------------------------------------------*\
+    2 - Shorthand Color Function
+\*-----------------------------------------------------------------*/
+@function getColor($arg1, $arg2) {
+    @return map-get($arg1, $arg2);
+}
+
+
+/*-----------------------------------------------------------------*\
+    3 - Shorthand Screenwidth Function
+\*-----------------------------------------------------------------*/
+@function getScreenWidth($arg) {
+  @return map-get($screenWidths, $arg);
+}
+
+
+/*-----------------------------------------------------------------*\
+    4 - Media Query Function
+\*-----------------------------------------------------------------*/
+@function getQuery($type, $size) {
+    $map: (
+      "min": "(min-width: #{getScreenWidth($size)})",
+      "max": "(max-width: #{getScreenWidth($size)})"
+    );
+    @return map-get( $map, $type );
+  }
+
+

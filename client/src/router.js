@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 /* Import main layouts */
 import Dashboard from './Layout/Dashboard.vue';
-import Home from './´Layout/Home.vue';
+import Home from './Layout/Home.vue';
 
 /* Import views */
 import Movies from './Layout/Views/Dashboard/Movies.vue';

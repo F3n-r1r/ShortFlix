@@ -1,0 +1,50 @@
+/*-----------------------------------------------------------------*\
+    
+    Info:
+        The _maps.scss contains all the scss maps/variables used in 
+        this application.
+
+    Index:
+        1 - Color Maps
+        2 - Screenwidth Map
+
+\*-----------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------*\
+    1 - Color Maps
+\*-----------------------------------------------------------------*/
+$accents: (
+    primary: #ff5e62,
+    secondary: #ff9966,
+    tertiary: #3caea3,
+    _white: #ffffff,
+    _black: #000000
+);
+
+$darkTheme: (
+    primary: #1f2023,
+    secondary: #121212,
+    fontColor: rgba(255, 255, 255, .75)
+);
+
+$lightTheme: (
+    primary: #F6F6F8,
+    secondary: #DADADA,
+    fontColor: rgba(0, 0, 0, .75)
+);
+
+
+
+
+/*-----------------------------------------------------------------*\
+    2 - Screenwidth Map
+\*-----------------------------------------------------------------*/
+$screenWidths: (
+    xs: 576px,
+    sm: 768px,
+    md: 992px,
+    lg: 1200px,
+    xl: 1440px
+);
+
