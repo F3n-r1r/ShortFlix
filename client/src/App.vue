@@ -35,23 +35,23 @@ export default {
 	/*----------------------------------------------------------------------------------*\
 		METHODS
 	*\----------------------------------------------------------------------------------*/
-	methods: {
-		logout: function () {
-			this.$store.dispatch('logout')
-			.then(() => {
-				this.$router.push('/login')
-			})
-		}
-	},
+	// methods: {
+	// 	logout: function () {
+	// 		this.$store.dispatch('logout')
+	// 		.then(() => {
+	// 			this.$router.push('/login')
+	// 		})
+	// 	}
+	// },
 
 	/*----------------------------------------------------------------------------------*\
 		COMPUTED
 	*\----------------------------------------------------------------------------------*/
-	computed : {
-		isLoggedIn : function() { 
-			return this.$store.getters.isLoggedIn
-		}
-	},
+	// computed : {
+	// 	isLoggedIn : function() { 
+	// 		return this.$store.getters.isLoggedIn
+	// 	}
+	// },
 
 	/*----------------------------------------------------------------------------------*\
 		CREATED
@@ -60,7 +60,7 @@ export default {
 		this.$http.interceptors.response.use(undefined, function (err) {
 			return new Promise(function (resolve, reject) {
 				if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-					this.$store.dispatch(logout)
+					this.$store.dispatch('logout');
 				} else {
 					throw err;
 				}
