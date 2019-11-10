@@ -21,8 +21,8 @@ const router = express.Router();
 /*-------------------------------------------------*\
     3. - ALL USER RELATED ROUTES
 \*-------------------------------------------------*/
-router.use('/getAll', require('./_getAll'));
 router.use('/getCurrent', require('./_getCurrent'));
+
 
 
 /*-------------------------------------------------*\
