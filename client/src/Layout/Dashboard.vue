@@ -1,0 +1,202 @@
+<template>
+	<div class="dashboard" :class="theme">
+		
+		<!-------------------------------------------------------------------------------------->
+		<!-- DASHBOARD HEADER																  -->
+		<!-------------------------------------------------------------------------------------->
+		<dashboardheader class="dashboard__header"/>
+
+
+		<!-------------------------------------------------------------------------------------->
+		<!-- DASHBOARD ASIDE																  -->
+		<!-------------------------------------------------------------------------------------->
+		<dashboardaside class="dashboard__aside"/>
+
+
+		<!-------------------------------------------------------------------------------------->
+		<!-- DASHBOARD MAIN	ROUTE															  -->
+		<!-------------------------------------------------------------------------------------->
+		<main class="dashboard__main">
+			<transition name="fade" mode="out-in">
+				<router-view></router-view>
+			</transition>
+		</main>
+		
+	</div>
+</template>
+
+
+
+
+
+<script>
+/*----------------------------------------------------------------------------------*\
+	IMPORTS
+*\----------------------------------------------------------------------------------*/
+import dashboardheader from '../Layout/Components/Dashboard/Header.vue';
+import dashboardaside from '../Layout/Components/Dashboard/Aside.vue';
+
+
+/*----------------------------------------------------------------------------------*\
+	EXPORTS
+*\----------------------------------------------------------------------------------*/
+export default {
+  	name: 'Dashboard',
+    components: {
+		dashboardheader,
+		dashboardaside
+	},
+	  
+	/*----------------------------------------------------------------------------------*\
+		DATA
+	*\----------------------------------------------------------------------------------*/
+	data() {
+		return {
+			theme: this.$store.getters.theme
+		}
+	},
+
+	/*----------------------------------------------------------------------------------*\
+		COMPUTED
+	*\----------------------------------------------------------------------------------*/
+	computed: {
+		themeChange () {
+			return this.$store.getters.theme;
+		}
+	},
+
+	/*----------------------------------------------------------------------------------*\
+		WATCH
+	*\----------------------------------------------------------------------------------*/
+	watch: {
+		themeChange(value) {
+			this.theme = value;
+		}
+	}
+}
+</script>
+
+
+
+
+
+<style lang="scss">
+/*----------------------------------------------------------------------------------*\
+    DASHBOARD LAYOUT
+*\----------------------------------------------------------------------------------*/
+.dashboard {
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 100px 1fr;
+
+	@include media(min, md) {
+		grid-template-columns: 300px 1fr;
+	}
+
+
+	/*----------------------------------------------------------------------------------*\
+		DASHBOARD HEADER
+	*\----------------------------------------------------------------------------------*/
+	&__header {
+		position: relative;
+		grid-row: 1;
+
+		@include media(min, md) {
+			grid-column: 2;
+		}
+	}
+
+
+	/*----------------------------------------------------------------------------------*\
+		DASHBOARD ASIDE
+	*\----------------------------------------------------------------------------------*/
+	&__aside { // MOVE TO COMPONENT INSTEAD (ALL OF IT!???)
+		position: fixed;
+		width: 300px;
+		height: 100%;
+		z-index: 999;
+		transform: translateX(-300px);
+
+		@include media(min, md) {
+			position: relative;
+			width: auto;
+			grid-row: 1 / -1;
+			grid-column: 1;
+			transform: translateX(0);
+		}
+
+		&--active {
+			transform: translateX(0);
+		}
+	}
+
+
+	/*----------------------------------------------------------------------------------*\
+		DASHBOARD MAIN
+	*\----------------------------------------------------------------------------------*/
+	&__main {
+		position: relative;
+		grid-row: 2;
+		transition: background-color $themeTransitionTime;
+
+		@include media(min, md) {
+			grid-column: 2;
+		}
+
+		/*----------------------------------------------------------------------------------*\
+			VIEW CLASS
+		*\----------------------------------------------------------------------------------*/
+		.view {	// All dashboard related views needs this class
+			width: 100%;
+			height: 100%;
+			padding: 0px 20px;
+			transition: background-color $themeTransitionTime;
+		}
+
+
+		/*----------------------------------------------------------------------------------*\
+			PAGE TRANSITION
+		*\----------------------------------------------------------------------------------*/
+		.fade-enter-active, .fade-leave-active {
+			transition-duration: 0.3s;
+			transition-property: opacity;
+			transition-timing-function: ease;
+		}
+
+		.fade-enter, .fade-leave-active {
+			opacity: 0
+		}
+	}	
+}
+
+
+/*----------------------------------------------------------------------------------*\
+    DARK THEME COLORS
+*\----------------------------------------------------------------------------------*/
+.dark-theme { 
+	background-color: getColor($darkTheme, primary);
+	.dashboard {
+		&__main {
+			.view {
+				background-color: getColor($darkTheme, primary);
+			}
+		}
+	}
+}
+
+
+/*----------------------------------------------------------------------------------*\
+    LIGHT THEME COLORS
+*\----------------------------------------------------------------------------------*/
+.light-theme { 
+	background-color: getColor($lightTheme, primary);
+	.dashboard {
+		&__main {
+			.view {
+				background-color: getColor($lightTheme, secondary);
+			}
+		}
+	}
+}
+</style>
