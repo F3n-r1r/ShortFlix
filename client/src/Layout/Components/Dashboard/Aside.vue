@@ -22,6 +22,9 @@
                 <li class="list__item">
                     <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                 </li>
+                <li class="list__item" v-if="user.role === 'Admin'">
+                    <router-link class="item__link" to="/Dashboard/Admin"><i class="link__icon fas fa-tools"></i>Admin</router-link>
+                </li>
             </ul>
         </nav>
 
@@ -45,6 +48,12 @@
 *\----------------------------------------------------------------------------------*/
 export default {
     name: 'dashboardaside',
+    props: {
+		user: {
+			//type: Array,
+			required: true
+		}
+	},
     methods: {
         closeMenu: function() {
             document.querySelector('.header .header__burger-btn').classList.remove('header__burger-btn--active');

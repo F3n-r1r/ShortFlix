@@ -67,6 +67,12 @@ import modal from '../Shared/Modal.vue';
 *\----------------------------------------------------------------------------------*/
 export default {
 	name: 'dashboardheader',
+	props: {
+		user: {
+			//type: Array,
+			required: true
+		}
+	},
 	components: {
 		modal
 	},
@@ -77,7 +83,6 @@ export default {
 	data() {
 		return {
 			isModalVisible: false,
-			user: '',
 		}
 	},
 
@@ -123,9 +128,6 @@ export default {
 		COMPUTED
 	*\----------------------------------------------------------------------------------*/
 	computed: {
-		getUser() {
-			return this.$store.getters.user
-		},
 		getTheme() {
 			return this.$store.getters.theme
 		}
@@ -135,9 +137,6 @@ export default {
 		WATCH
 	*\----------------------------------------------------------------------------------*/
 	watch: {
-		getUser(user) {
-			this.user = user;
-		},
 		getTheme(theme) {
 			if(theme === 'dark-theme') {
 				document.querySelector('.toggle__checkbox').checked = true
@@ -152,8 +151,6 @@ export default {
 		MOUNTED
 	*\----------------------------------------------------------------------------------*/
 	mounted() {
-		this.user = this.$store.getters.user;
-
 		if(this.$store.getters.theme === 'dark-theme') {
 			document.querySelector('.toggle__checkbox').checked = true
 			document.querySelector('.header .dropdown__content .content__item .item__theme-name').innerHTML = 'Dark Mode'

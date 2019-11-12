@@ -4,13 +4,13 @@
 		<!-------------------------------------------------------------------------------------->
 		<!-- DASHBOARD HEADER																  -->
 		<!-------------------------------------------------------------------------------------->
-		<dashboardheader class="dashboard__header"/>
+		<dashboardheader :user="currentUser" class="dashboard__header"/>
 
 
 		<!-------------------------------------------------------------------------------------->
 		<!-- DASHBOARD ASIDE																  -->
 		<!-------------------------------------------------------------------------------------->
-		<dashboardaside class="dashboard__aside"/>
+		<dashboardaside :user="currentUser" class="dashboard__aside"/>
 
 
 		<!-------------------------------------------------------------------------------------->
@@ -52,7 +52,8 @@ export default {
 	*\----------------------------------------------------------------------------------*/
 	data() {
 		return {
-			theme: this.$store.getters.theme
+			theme: this.$store.getters.theme,
+			currentUser: []
 		}
 	},
 
@@ -62,7 +63,10 @@ export default {
 	computed: {
 		themeChange () {
 			return this.$store.getters.theme;
-		}
+		},
+		getUser() {
+			return this.$store.getters.user
+		},
 	},
 
 	/*----------------------------------------------------------------------------------*\
@@ -71,7 +75,17 @@ export default {
 	watch: {
 		themeChange(value) {
 			this.theme = value;
+		},
+		getUser(user) {
+			this.currentUser = user;
 		}
+	},
+
+	/*----------------------------------------------------------------------------------*\
+		MOUNTED
+	*\----------------------------------------------------------------------------------*/
+	mounted() {
+		this.currentUser = this.$store.getters.user;
 	}
 }
 </script>
