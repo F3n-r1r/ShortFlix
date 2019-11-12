@@ -5,7 +5,7 @@
     <ul>
         <li v-for="(user, index) in pendingUsers" :key="index">
             {{ index }} - {{user.firstname}}
-            <button @click="approveUser(user)">Approve</button>
+            <button @click="approveUser(user._id)">Approve</button>
         </li>
     </ul>
 
@@ -17,39 +17,42 @@
 import axios from 'axios';
 
 export default {
-  name: 'Admin',
-  components: {
+    name: 'Admin',
+    components: {
 
-  },
-  data() {
-      return {
-          pendingUsers: {}
-      }
-  },
-  methods: {
-    approveUser: function(user) {
+    },
+    data() {
+        return {
+            pendingUsers: {}
+        }
+    },
+    methods: {
+        approveUser: function(userId) {
+            return new Promise((resolve, reject) => {
+                let data = {
+                    id: userId
+                }
+                axios({method: 'POST', url: 'http://localhost:8000/user/approve', data: data })
+                .then(resp => {
+                    this.pendingUsers = this.pendingUsers.filter(x => x._id !== userId);
+                    resolve(resp);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        }
+    },
+    created: function() {
         return new Promise((resolve, reject) => {
-            axios({method: 'POST', url: 'http://localhost:8000/user/approve', data: user._id})
+            axios({method: 'GET', url: 'http://localhost:8000/user/pending', data: this.$store.getters.user})
             .then(resp => {
-                this.pendingUsers = this.pendingUsers.filter(x => x._id !== user._id);
+                this.pendingUsers = resp.data.user;
                 resolve(resp);
             }).catch(err => {
                 reject(err);
             })
         })
-      }
-  },
-  created: function() {
-    return new Promise((resolve, reject) => {
-        axios({method: 'GET', url: 'http://localhost:8000/user/pending', data: this.$store.getters.user})
-        .then(resp => {
-            this.pendingUsers = resp.data.user;
-            resolve(resp);
-        }).catch(err => {
-            reject(err);
-        })
-    })
-  }
+    }
 }
 </script>
 
