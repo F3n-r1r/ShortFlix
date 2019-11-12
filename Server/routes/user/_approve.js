@@ -19,17 +19,20 @@ const express = require('express');
 const router = express.Router();
 const user = require('../../models/user');
 
+
 /*-------------------------------------------------*\
     3. - APPROVE USER ROUTE
 \*-------------------------------------------------*/
-router.get('/', function(req, res) {
-    user.findOne({
-        _id: req.body._id
-    })
-    .then((users) => {
-        user.approved_user.create()
-        res.json({
-            user: user
+router.post('/', function(req, res) {
+    user.findOneAndUpdate(
+        { _id: req.body.id },
+        { $set: { approved: true }},
+        { new: true }
+    )
+    .then((user) => {
+        res.status(200).json({
+            status: 200,
+            message: 'User approved'
         })
     }).catch(err => {
         res.json({
@@ -37,7 +40,6 @@ router.get('/', function(req, res) {
         })
     })
 });
-
 
 
 /*-------------------------------------------------*\
