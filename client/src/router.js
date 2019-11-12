@@ -30,8 +30,20 @@ const routes = [
 				component: Movies
 			}
 		],
-		meta: {
-			requiresAuth: true
+		async beforeEnter(to, from, next) {
+			try {
+				if(store.getters.isLoggedIn) {
+					next();
+				}
+			} catch(e) {
+				console.log(e);
+				next({
+					name: '/',
+					query: {
+						redirectFrom: to.fullPath
+					}
+				})
+			}
 		}
 	},
 
@@ -40,8 +52,16 @@ const routes = [
 		path: '/',
 		name: '/',
 		component: Home,
-		meta: {
-			checkAuth: true
+		async beforeEnter(to, from, next) {
+			try {
+				if(store.getters.isLoggedIn) {
+					next('/Dashboard/Movies');
+				} else {
+					next();
+				}
+			} catch(e) {
+				next();
+			}
 		}
 	}
 
@@ -52,37 +72,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-
-
-// Used to check if users are authenticated when trying to navigate to 
-// frontpage, if they are they should be send to the dashboard instead
-router.beforeEach((to, from, next) => {
-	if(to.matched.some(record => record.meta.checkAuth)) {
-		if (store.getters.isLoggedIn) {
-		  next('/Dashboard/Profile') 
-		  return
-		}
-		next() 
-	  } else {
-		next()
-	  }
-  })
-  
-  
-  // Used to check if users are authenticated when trying to navigate to auth 
-  // protected routes, if they are not they should be send to frontpage
-  router.beforeEach((to, from, next) => {
-	if(to.matched.some(record => record.meta.requiresAuth)) {
-	  if (store.getters.isLoggedIn) {
-		next()
-		return
-	  }
-	  next('/') 
-	} else {
-	  next() 
-	}
-  })
 
 
 

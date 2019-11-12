@@ -64,7 +64,7 @@ export default {
   name: 'Home',
   components: {
     modal,
-    auth
+	auth
   },
 
 

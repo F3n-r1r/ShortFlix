@@ -25,6 +25,7 @@ const mongoose = require('mongoose');
     3. - DATABASE CONNECTION
 \*-------------------------------------------------*/
 mongoose.connect(databaseconnection, {
+    useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true
 })
