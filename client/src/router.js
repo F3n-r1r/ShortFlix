@@ -9,6 +9,7 @@ import Home from './Layout/Home.vue';
 /* Import views */
 import Movies from './Layout/Views/Dashboard/Movies.vue';
 import Profile from './Layout/Views/Dashboard/Profile.vue';
+import Admin from './Layout/Views/Dashboard/Admin.vue';
 
 
 Vue.use(VueRouter)
@@ -28,12 +29,19 @@ const routes = [
 				name: 'Movies',
 				path: 'Movies',
 				component: Movies
+			},
+			{
+				name: 'Admin',
+				path: 'Admin',
+				component: Admin,
 			}
 		],
 		async beforeEnter(to, from, next) {
 			try {
 				if(store.getters.isLoggedIn) {
-					next();
+					next();		
+				} else {
+					next('/')
 				}
 			} catch(e) {
 				console.log(e);

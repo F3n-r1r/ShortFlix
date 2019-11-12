@@ -11,7 +11,7 @@ export default new Vuex.Store({
  	 state: {
 		status: '',
 		token: localStorage.getItem('token') || '',
-		user: {},
+		user: '',
 		theme: localStorage.getItem('theme') || 'light-theme'
   	},
 
@@ -71,7 +71,7 @@ export default new Vuex.Store({
 			if(getters.isLoggedIn) {
 				let token = state.token;
 				return new Promise((resolve, reject) => {
-					axios({method: 'GET', url: 'http://localhost:8000/user/getCurrent'})
+					axios({method: 'GET', url: 'http://localhost:8000/user/current'})
 					.then(resp => {
 						let user = resp.data.user
 						commit('auth_success', {token, user})
