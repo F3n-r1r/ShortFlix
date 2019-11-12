@@ -58,10 +58,15 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: [
-            'User',
+            'Student',
+            'Professional',
             'Admin'
         ],
-        default: 'User'
+        default: 'Student'
+    },
+    approved: {
+        type: String,
+        default: false
     }
 })
 
@@ -90,4 +95,4 @@ userSchema.pre('save', function(next) {
 /*-------------------------------------------------*\
     5. - MODULE EXPORTS
 \*-------------------------------------------------*/
-module.exports = mongoose.model('User', userSchema);
+module.exports =  mongoose.model('User', userSchema, 'users');
