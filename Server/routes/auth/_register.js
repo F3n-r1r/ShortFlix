@@ -18,8 +18,6 @@
 const express = require('express');
 const router = express.Router();
 const user = require('../../models/user');
-const { jwtkey } = require('../../config/envConfig');
-const jwt = require('jsonwebtoken');
 
 
 /*-------------------------------------------------*\
@@ -32,12 +30,10 @@ router.post('/', function(req, res) {
         firstname: req.body.firstname,
         lastname: req.body.lastname
     }).then(user => {
-        const token = jwt.sign({id: user._id}, jwtkey, { expiresIn: '24h' });
+        console.log(`This user i now registered: ${user}`)
         res.status(201).json({
             status: 201,
             message: 'User succesfully registered',
-            token: token,
-            user: user
         })
     }).catch(err => {
         res.status(500).json({

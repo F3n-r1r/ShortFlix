@@ -10,7 +10,7 @@
 				<h1 class="center__logo">ShortFlix</h1>
 			</div>
 			<div class="header__right">
-				<button class="right__login" @click="toggleModal"><i class="fas fa-user-lock"></i></button>
+				<button class="right__login" @click="toggleAuthModal"><i class="fas fa-user-lock"></i></button>
 			</div>  
 		</header>
 
@@ -32,17 +32,31 @@
 
 
 		<!-------------------------------------------------------------------------------------->
-		<!-- MODAL COMPONENT																  -->
+		<!-- (AUTH) MODAL COMPONENT															  -->
 		<!-------------------------------------------------------------------------------------->
-		<modal v-show="isModalVisible" style="background-color: rgba(0, 0, 0, 0.3);"> <!-- FIND NEW WAY TO APPLY MODAL BG COLOR ONLY FOR USE ON HOME PAGE -->
-			<div class="modal-content">
-				<button type="button" class="modal-content__close-btn" @click="toggleModal" aria-label="Close modal">
+		<modal v-show="authModal" style="background-color: rgba(0, 0, 0, 0.3);"> <!-- FIND NEW WAY TO APPLY MODAL BG COLOR ONLY FOR USE ON HOME PAGE -->
+			<div class="modal-content modal-content--auth">
+				<button type="button" class="auth__close-btn" @click="toggleAuthModal" aria-label="Close modal">
 					<i class="fas fa-times"></i>
 				</button>
-				<auth/>
+				<!-- AUTH COMPONENT -->
+				<auth :registerSubmitDone="toggleMessageModal"/>
 			</div>
 		</modal>
 
+
+		<!-------------------------------------------------------------------------------------->
+		<!-- (REGISTERED MESSAGE) MODAL COMPONENT											  -->
+		<!-------------------------------------------------------------------------------------->
+		<modal v-show="registerMsgModal" style="background-color: rgba(0, 0, 0, 0.3);"> <!-- FIND NEW WAY TO APPLY MODAL BG COLOR ONLY FOR USE ON HOME PAGE -->
+			<div class="modal-content modal-content--message" style="background-color: #fff">
+				<h4 class="message__headline">Hello <span class="headline__username">{{ registeredUsername }}</span>!</h4>
+				<p class="message__text">Your request has succesfully been submitted and will be processed within the next 1-2 works days</p>
+				<button class="message__close-btn" type="button" @click="toggleMessageModal">
+					Ok
+				</button>
+			</div>
+		</modal>
 
 
     </div>
@@ -73,7 +87,9 @@ export default {
 	*\----------------------------------------------------------------------------------*/
 	data () {
 		return {
-			isModalVisible: false,
+			authModal: false,
+			registerMsgModal: false,
+			registeredUsername: ''
 		};
 	},
 
@@ -81,12 +97,23 @@ export default {
 		METHODS
 	*\----------------------------------------------------------------------------------*/
 	methods: {
-		toggleModal() {
-			if(!this.isModalVisible) {
-				this.isModalVisible = true;
+		toggleAuthModal() {
+			if(!this.authModal) {
+				this.authModal = true;
 				document.body.style.overflow = "hidden";
 			} else {
-				this.isModalVisible = false;
+				this.authModal = false;
+				document.body.removeAttribute("style");
+			}
+		},
+		toggleMessageModal(username) {
+			this.registeredUsername = username;
+			if(!this.registerMsgModal) {
+				this.registerMsgModal = true;
+				document.body.style.overflow = "hidden";
+			} else {
+				this.registerMsgModal = false;
+				this.authModal = false;
 				document.body.removeAttribute("style");
 			}
 		}
@@ -202,13 +229,47 @@ export default {
 		MODAL COMPONENT
 	*\----------------------------------------------------------------------------------*/
 	.modal-content {
-		&__close-btn {
-			position: absolute;
-			@extend %icon-btn;
-			font-size: 18px;
-			right: 10px;
-			top: 10px;;
-			z-index: 999;
+
+		/*----------------------------------------------------------------------------------*\
+			AUTHENTICATION MODAL CONTENT
+		*\----------------------------------------------------------------------------------*/
+		&--auth {
+			.auth__close-btn {
+				position: absolute;
+				@extend %icon-btn;
+				font-size: 18px;
+				right: 10px;
+				top: 10px;;
+				z-index: 999;
+			}
+		}
+
+			
+		/*----------------------------------------------------------------------------------*\
+			REGISTER MESSAGE MODAL CONTENT
+		*\----------------------------------------------------------------------------------*/
+		&--message {
+			@include flexColumn(center, center);
+			text-align: center;
+			max-width: 500px;
+			padding: 20px;
+
+			.message__headline {
+				margin-bottom: 10px;
+
+				.headline__username {
+					text-transform: capitalize;
+				}
+			}
+
+			.message__text {
+
+			}
+
+			.message__close-btn {
+				@extend %primary-btn;
+				margin-top: 20px;
+			}
 		}
 	}
 }

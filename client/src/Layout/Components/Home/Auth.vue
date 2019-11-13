@@ -71,8 +71,6 @@
                 </div>
             </div>
         </div>
-
- 
     </div>
 </template>
 
@@ -86,6 +84,10 @@
 *\----------------------------------------------------------------------------------*/
 export default {
     name: 'Auth',
+    props: ['registerSubmitDone'],
+    components: {
+
+    },
 
     /*----------------------------------------------------------------------------------*\
 		DATA
@@ -116,9 +118,10 @@ export default {
             let passwordConfirm = this.register_password_confirmation;
             if(data.password == passwordConfirm) {
                 this.$store.dispatch('register', data)
-                .then(() => 
-                    this.$router.push('/Dashboard/Profile')
-                )
+                .then(() => {   
+                    let name = data.firstname.toLowerCase();
+                    this.registerSubmitDone(name);
+                })
                 .catch(err => console.log(err))
             } else {
                 console.log('passwords does not match');
@@ -134,7 +137,7 @@ export default {
                 if(res == 'Incorrect password' || res == 'Incorrect email') {
                     this.login_error = res;
                 } else {
-                    this.$router.push('/Dashboard/Profile')
+                    this.$router.push('/Dashboard/Movies')
                 }
             })
             .catch(err => console.log(err))
