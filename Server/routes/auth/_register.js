@@ -28,7 +28,8 @@ router.post('/', function(req, res) {
         email: req.body.email,
         password: req.body.password, // Password is hashed in pre 'save' function in the model
         firstname: req.body.firstname,
-        lastname: req.body.lastname
+        lastname: req.body.lastname,
+        role: req.body.role
     }).then(user => {
         console.log(`This user i now registered: ${user}`)
         res.status(201).json({

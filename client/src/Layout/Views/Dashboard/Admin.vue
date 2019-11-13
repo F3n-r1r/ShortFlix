@@ -4,7 +4,7 @@
 
     <ul>
         <li v-for="(user, index) in pendingUsers" :key="index">
-            {{ index }} - {{user.firstname}}
+            {{ index }} - {{ user.firstname }} - {{ user.role }}
             <button @click="approveUser(user._id)">Approve</button>
         </li>
     </ul>

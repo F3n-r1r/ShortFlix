@@ -27,6 +27,13 @@
                     <label class="form-group__label" for="register-password-confirmation">Confirm Password</label>
                     <input class="form-group__input" id="register-password-confirmation" @focus="inputFocus" @blur="inputDeFocus" required v-model="register_password_confirmation" name="confirm-password" type="password"/>
                 </div>
+                <div class="form-group">
+                    <select class="form-group__select" v-model="register_role" required>
+                        <option value="" disabled selected>Select your role</option>
+                        <option value="Student">Student</option>
+                        <option value="Professional">Professional</option>
+                    </select>
+                </div>
                 <button class="form-btn" type="submit">Submit</button>
             </form>
         </div>
@@ -99,6 +106,7 @@ export default {
             register_password_confirmation: '',
             register_firstname: '',
             register_lastname: '',
+            register_role: '',
             login_email: '',
             login_password: '',
         }
@@ -113,8 +121,10 @@ export default {
                 email: this.register_email,
                 password: this.register_password,
                 firstname: this.register_firstname,
-                lastname: this.register_lastname
+                lastname: this.register_lastname,
+                role: this.register_role
             }
+            console.log(data.role)
             let passwordConfirm = this.register_password_confirmation;
             if(data.password == passwordConfirm) {
                 this.$store.dispatch('register', data)
@@ -212,7 +222,7 @@ export default {
                 width: 100%;
 
                 &__focus {
-                    transform: translate(25%, -125%) !important;
+                    transform: translate(10px, -155%) !important;
                     font-size: 90%;
                 }
 
@@ -220,7 +230,7 @@ export default {
                     position: absolute;
                     left: 0;
                     top: 50%;
-                    padding: 5px 5px;
+                    padding: 0px 5px;
                     background-color: getColor($accents, _white);
                     z-index: 1;
                     font-size: 12px;
@@ -231,17 +241,25 @@ export default {
                 &__input {
                     position: relative;
                     width: 100%;
-                    padding: 10px 10px;
+                    padding: 8px 10px;
                     outline: 0;
                     background-color: getColor($accents, _white);
                     border-radius: 5px;
+                    border: 1px solid getColor($accents, primary);
+                }
+
+                &__select {
+                    width: 100%;
+                    padding: 8px 10px;
+                    border-radius: 5px;
+                    outline: 0;
                     border: 1px solid getColor($accents, primary);
                 }
             }
 
             &-btn {
                 @extend %primary-btn;
-                margin-top: 20px;
+                margin-top: 15px;
             }
         }
     }
