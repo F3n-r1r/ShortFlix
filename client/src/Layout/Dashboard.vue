@@ -17,7 +17,7 @@
 		<!-- DASHBOARD MAIN	ROUTE															  -->
 		<!-------------------------------------------------------------------------------------->
 		<main class="dashboard__main">
-			<transition name="fade" mode="out-in">
+			<transition name="scale-fade" mode="out-in">
 				<router-view></router-view>
 			</transition>
 		</main>
@@ -172,14 +172,20 @@ export default {
 		/*----------------------------------------------------------------------------------*\
 			PAGE TRANSITION
 		*\----------------------------------------------------------------------------------*/
-		.fade-enter-active, .fade-leave-active {
-			transition-duration: 0.3s;
-			transition-property: opacity;
+		.scale-fade-enter-active, .scale-fade-leave-active {
+			transition-duration: 0.5s;
+			transition-property: opacity, transform;
 			transition-timing-function: ease;
 		}
 
-		.fade-enter, .fade-leave-active {
-			opacity: 0
+		.scale-fade-enter-active {
+			transform: scale(1);
+			opacity: 1;
+		}
+
+		.scale-fade-enter, .scale-fade-leave-active {
+			opacity: 0;
+			transform: scale(.5);
 		}
 	}	
 }
@@ -191,6 +197,8 @@ export default {
 .dark-theme { 
 	background-color: getColor($darkTheme, primary);
 	.dashboard {
+		background-color: getColor($darkTheme, primary);
+
 		&__main {
 			.view {
 				background-color: getColor($darkTheme, primary);
@@ -207,6 +215,8 @@ export default {
 	background-color: getColor($lightTheme, primary);
 	.dashboard {
 		&__main {
+			background-color: getColor($lightTheme, secondary);
+
 			.view {
 				background-color: getColor($lightTheme, secondary);
 			}

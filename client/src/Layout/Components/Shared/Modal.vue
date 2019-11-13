@@ -1,15 +1,17 @@
 <template>
-    <div class="modal-backdrop">
+	<transition name="fade">
+    	<div class="modal-backdrop">
 
-		<!-------------------------------------------------------------------------------------->
-		<!-- DROPDOWN CONTAINER																  -->
-		<!-------------------------------------------------------------------------------------->
-        <div class="modal-backdrop__modal">
-			<!-- RENDERED CONTENT -->
-            <slot></slot>
-        </div>
-
-    </div>
+			<!-------------------------------------------------------------------------------------->
+			<!-- DROPDOWN CONTAINER																  -->
+			<!-------------------------------------------------------------------------------------->
+			<div class="modal-backdrop__modal">	
+				<!-- RENDERED CONTENT -->
+				<slot></slot>
+			</div>
+		
+    	</div>
+	</transition>
 </template>
 
 
@@ -55,6 +57,18 @@ export default {
 		border-radius: 5px;
 		overflow-x: auto;
 	}
+}
+
+
+/*----------------------------------------------------------------------------------*\
+	MODAL TRANSITION
+*\----------------------------------------------------------------------------------*/
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: 0.2s opacity ease-out;
 }
 
 
