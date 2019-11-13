@@ -22,15 +22,32 @@
 
 			<!-- DROPDOWN CONTENT -->
 			<ul class="dropdown__content">
-				<li class="content__item" @click="changeTheme">
-					<span class="item__theme-name"></span>
-					<div class="item__toggle">
-						<input type="checkbox" id="toggle__checkbox" class="toggle__checkbox" />
-						<label for="toggle__checkbox" class="toggle__label"></label>
-					</div>
+				<li class="content__item">
+					<ul class="item__list">
+						<li class="list__header">Profile<li>
+						<li class="list__item"><router-link class="item__link" to="">Edit Profile<i class="link__icon far fa-edit"></i></router-link></li>
+						<li class="list__item"><router-link class="item__link" to="">View Profile<i class="link__icon far fa-user"></i></router-link></li>
+					</ul>
 				</li>
-				<li class="content__item" @click="showModal"><span>Sign Out</span>
-					<i class="fas fa-door-open"></i>
+				<li class="content__item">
+					<ul class="item__list">
+						<li class="list__header">Settings</li>
+						<li class="list__item list__item--alt" @click="changeTheme">
+							<span class="item__theme-name"></span>
+							<div class="item__toggle">
+								<input type="checkbox" id="toggle__checkbox" class="toggle__checkbox" />
+								<label for="toggle__checkbox" class="toggle__label"></label>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li class="content__item">
+					<ul class="item__list">
+						<li class="list__item list__item--alt" @click="showModal">
+							<span>Sign Out</span>
+							<i class="fas fa-door-open"></i>
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</div>
@@ -286,48 +303,94 @@ export default {
 			}
 
 			.content__item {
-				@include flexRow(center, space-between);
-				padding: 15px 20px;
-				cursor: pointer;
 				user-select: none;
-				border-left: 3px solid transparent;
 				transition: background-color $themeTransitionTime, border-left $themeTransitionTime;
-
-				&:hover {
-					transition: background-color $hoverTransitionTime, color $hoverTransitionTime;
+				
+				&:last-child {
+					.item__list {
+						&:after {
+							display: none; 
+						}
+					}
 				}
 
-				.item__toggle {
-					.toggle__checkbox {
-						display: none;
+				.item__list {
+					position: relative;
+					width:100%;
 
-						&:checked ~ label::after {
-							transform: translateX(21px);
-						}
-
+					&:after {
+						content: "";
+						position: absolute;
+						transform: translateX(10px);
+						bottom: 0;
+						width: calc(100% - 20px);
+						border-bottom: 1px solid transparent;
+						transition: border-bottom-color $themeTransitionTime;
 					}
 
-					.toggle__label {
-						pointer-events: none;
-						border-radius: 50px;
-						cursor: pointer;
-						display: inline-block;
-						position: relative;
-						width: 40px;
-						height: 20px;
-						transition: background-color $themeTransitionTime;
+					.list__header {
+						font-weight: 600;
+						padding: 10px 10px 5px 13px;
+						letter-spacing: 2px;
+						transition: color $themeTransitionTime;
+					}
 
-						&:after {
-							border-radius: 50%;
-							content: ' ';
-							cursor: pointer;
-							display: inline-block;
-							position: absolute;
-							left: 2px;
-							top: 3px;
-							width: 14px;
-							height: 14px;
-							transition: background-color $themeTransitionTime, transform $toggleTransitionTime;
+					.list__item {
+						border-left: 3px solid transparent;
+						cursor: pointer;
+						font-size: 14px;
+						transition: color $themeTransitionTime;
+
+						&--alt {
+							@include flexRow(center, space-between);
+							padding: 10px 13px 10px 10px;
+						}
+
+						&:hover {
+							transition: background-color $hoverTransitionTime, color $hoverTransitionTime;
+						}
+
+						.item__link {
+							@include flexRow(center, space-between);
+							height: 100%;
+							padding: 10px 13px 10px 10px;
+							transition: color $themeTransitionTime;
+						}
+
+						.item__toggle {
+							height: 18px;
+
+							.toggle__checkbox {
+								display: none;
+
+								&:checked ~ label::after {
+									transform: translateX(21px);
+								}
+							}
+
+							.toggle__label {
+								pointer-events: none;
+								border-radius: 50px;
+								cursor: pointer;
+								display: inline-block;
+								position: relative;
+								width: 40px;
+								height: 100%;
+								transition: background-color $themeTransitionTime;
+
+								&:after {
+									border-radius: 50%;
+									content: ' ';
+									cursor: pointer;
+									display: inline-block;
+									position: absolute;
+									left: 2px;
+									top: 2px;
+									width: 14px;
+									height: 14px;
+									transition: background-color $themeTransitionTime, transform $toggleTransitionTime;
+								}
+							}
 						}
 					}
 				}
@@ -417,17 +480,35 @@ export default {
 				.content__item {
 					background-color: getColor($darkTheme, secondary);
 
-					&:hover {
-						background-color: lighten(getColor($darkTheme, secondary), 5%);
-						border-color: getColor($accents, primary);
-					}
+					.item__list {
+						&:after {
+							border-bottom-color: rgba(255, 255, 255, .2);
+						}
 
-					.item__toggle {
-						.toggle__label {
-								background-color: getColor($accents, primary);
+						.list__header {
+							color: getColor($accents, _white);
+						}
 
-							&:after {
-								background-color: getColor($accents, _white);
+						.list__item {
+							color: getColor($accents, _white);
+
+							&:hover {
+								background-color: lighten(getColor($darkTheme, secondary), 5%);
+								border-color: getColor($accents, primary);
+							}
+
+							.item__link {
+								color: getColor($accents, _white);
+							}
+
+							.item__toggle {
+								.toggle__label {
+										background-color: getColor($accents, primary);
+
+									&:after {
+										background-color: getColor($accents, _white);
+									}
+								}
 							}
 						}
 					}
@@ -506,17 +587,35 @@ export default {
 				.content__item {
 					background-color: getColor($lightTheme, primary);
 
-					&:hover {
-						background-color: lighten(getColor($lightTheme, primary), 5%);
-						border-color: getColor($accents, primary);
-					}
+					.item__list {
+						&:after {
+							border-bottom-color: rgba(0, 0, 0, .2);
+						}
 
-					.item__toggle {
-						.toggle__label {
-								background-color: getColor($lightTheme, secondary);
+						.list__header {
+							color: getColor($accents, _black);
+						}
 
-							&:after {
-								background-color: getColor($accents, _white);
+						.list__item {
+							color: getColor($accents, _black);
+
+							&:hover {
+								background-color: lighten(getColor($lightTheme, secondary), 5%);
+								border-color: getColor($accents, primary);
+							}
+
+							.item__link {
+								color: getColor($accents, _black);
+							}
+
+							.item__toggle {
+								.toggle__label {
+										background-color: getColor($lightTheme, secondary);
+
+									&:after {
+										background-color: getColor($accents, _white);
+									}
+								}
 							}
 						}
 					}
