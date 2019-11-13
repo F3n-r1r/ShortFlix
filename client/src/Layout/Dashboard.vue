@@ -10,7 +10,8 @@
 		<!-------------------------------------------------------------------------------------->
 		<!-- DASHBOARD ASIDE																  -->
 		<!-------------------------------------------------------------------------------------->
-		<dashboardaside :user="currentUser" class="dashboard__aside"/>
+		<dashboardaside :user="currentUser"/>
+
 
 
 		<!-------------------------------------------------------------------------------------->
@@ -125,25 +126,7 @@ export default {
 	/*----------------------------------------------------------------------------------*\
 		DASHBOARD ASIDE
 	*\----------------------------------------------------------------------------------*/
-	&__aside { // MOVE TO COMPONENT INSTEAD (ALL OF IT!???)
-		position: fixed;
-		width: 300px;
-		height: 100%;
-		z-index: 999;
-		transform: translateX(-300px);
 
-		@include media(min, md) {
-			position: relative;
-			width: auto;
-			grid-row: 1 / -1;
-			grid-column: 1;
-			transform: translateX(0);
-		}
-
-		&--active {
-			transform: translateX(0);
-		}
-	}
 
 
 	/*----------------------------------------------------------------------------------*\
@@ -212,7 +195,7 @@ export default {
     LIGHT THEME COLORS
 *\----------------------------------------------------------------------------------*/
 .light-theme { 
-	background-color: getColor($lightTheme, primary);
+	background-color: getColor($lightTheme, secondary);
 	.dashboard {
 		&__main {
 			background-color: getColor($lightTheme, secondary);

@@ -25,8 +25,8 @@
 				<li class="content__item">
 					<ul class="item__list">
 						<li class="list__header">Profile<li>
-						<li class="list__item"><router-link class="item__link" to="">Edit Profile<i class="link__icon far fa-edit"></i></router-link></li>
-						<li class="list__item"><router-link class="item__link" to="">View Profile<i class="link__icon far fa-user"></i></router-link></li>
+						<li class="list__item"><router-link class="item__link" to="#">Edit Profile<i class="link__icon far fa-edit"></i></router-link></li>
+						<li class="list__item"><router-link class="item__link" to="#">View Profile<i class="link__icon far fa-user"></i></router-link></li>
 					</ul>
 				</li>
 				<li class="content__item">
@@ -109,8 +109,8 @@ export default {
 	methods: {
 		openMenu: function() {
 			document.querySelector('.header .header__burger-btn').classList.add('header__burger-btn--active');
-			document.querySelector('.aside .aside-header__burger-btn').classList.add('aside-header__burger-btn--active');
-			document.querySelector('.dashboard .dashboard__aside').classList.add('dashboard__aside--active');
+			document.querySelector('.aside .content-header__burger-btn').classList.add('content-header__burger-btn--active');
+			document.querySelector('.dashboard .aside').classList.add('aside--active');
 		},
 		logout: function() {
 			this.$store.dispatch('logout')
@@ -455,6 +455,10 @@ export default {
     .header {
 		background-color: getColor($darkTheme, primary);
 
+		&__burger-btn {
+			color: getColor($accents, _white);
+		}
+
 		&__dropdown {
 			.dropdown__btn {
 				&:hover > .btn__username {
@@ -561,6 +565,10 @@ export default {
 .light-theme {
 	.header {
 		background-color: getColor($lightTheme, secondary);
+
+		&__burger-btn {
+			color: getColor($accents, _black);
+		}
 
 		&__dropdown {
 			.dropdown__btn {

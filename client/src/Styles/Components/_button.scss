@@ -115,7 +115,6 @@
     border-bottom: 4px solid currentColor;
     width: 28px;
     transition: border-bottom 1s ease-in-out, opacity .75s;
-    color: white;
 
     // Fix for extra space in Firefox
     &::-moz-focus-inner {
