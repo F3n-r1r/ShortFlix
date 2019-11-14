@@ -17,13 +17,34 @@
 \*-------------------------------------------------*/
 const express = require('express');
 const router = express.Router();
-const user = require('../../models/user');
+const jwt = require('jsonwebtoken')
+const user = require('../models/user');
+const { jwtkey } = require('../config/envConfig');
 
 
 /*-------------------------------------------------*\
-    3. - APPROVE USER ROUTE
+    3. - GET CURRENT USER ROUTE
 \*-------------------------------------------------*/
-router.post('/', function(req, res) {
+router.get('/current', function(req, res) {
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey);            // MAKE UTILITY FUNCTION FOR CHECKING AUTH ???
+    user.findOne({
+        _id: decodedToken.id
+    }).then((user) => {
+        res.json({
+            user: user
+        })
+    }).catch(err => {
+        res.json({
+            error: err
+        })
+    })
+});
+
+
+/*-------------------------------------------------*\
+    4. - APPROVE USER ROUTE
+\*-------------------------------------------------*/
+router.post('/approve', function(req, res) {
     user.findOneAndUpdate(
         { _id: req.body.id },
         { $set: { approved: true }},
@@ -43,6 +64,29 @@ router.post('/', function(req, res) {
 
 
 /*-------------------------------------------------*\
-    4. - MODULE EXPORTS
+    5. - GET ALL PENDING USERS ROUTE
+\*-------------------------------------------------*/
+router.get('/pending', function(req, res) {
+    user.find({
+        approved: false
+    })
+    .select({
+        'password': 0,
+         '__v': 0
+    })
+    .then((user) => {
+        res.json({
+            user: user
+        })
+    }).catch(err => {
+        res.json({
+            error: err
+        })
+    })
+});
+
+
+/*-------------------------------------------------*\
+    6. - MODULE EXPORTS
 \*-------------------------------------------------*/
 module.exports = router;

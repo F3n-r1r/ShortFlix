@@ -20,6 +20,6 @@
     3. - MODULE EXPORTS
 \*-------------------------------------------------*/
 module.exports = function(app) {
-    app.use('/user', require('./user'));
-    app.use('/auth', require('./auth'));
+    app.use('/api/user', require('./_user'));
+    app.use('/api/auth', require('./_auth'));
 }

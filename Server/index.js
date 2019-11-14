@@ -24,6 +24,7 @@ const history = require('connect-history-api-fallback');
 const morgan = require('morgan');
 
 
+
 /*-------------------------------------------------*\
     3. - SETUP MIDDLEWARE
 \*-------------------------------------------------*/
@@ -33,28 +34,34 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 app.use(morgan('combined'));
 
+// Socket IO
+//const server = require('http').Server(app)
+// const io = require('socket.io')(server);
+
 // Setup db connection
 require('./config/dbConfig');
 
 // Setup routes
-require('./routes')(app);
+require('./routes/index')(app);
 
 app.use(history({
     verbose: true
 }));
 
+
 /*-------------------------------------------------*\
     4. - START SERVER
 \*-------------------------------------------------*/
-let listen = (port) => {
-    app.listen(port, () => {
-        console.log(`Server is running on port: ${port}`);
+let portNum = process.env.PORT || port;
+let listen = (portNum) => {
+    app.listen(portNum, () => {
+        console.log(`Server is running on port: ${portNum}`);
         }).on('error', (err) => {
         if(err.errno === 'EADDRINUSE') {
-            port++;
-            console.log(`----- Port ${port} is busy, trying with port ${port} -----`);
+            portNum++;
+            console.log(`----- Port ${portNum} is busy, trying with port ${portNum} -----`);
             setTimeout(() => {
-                listen(port)
+                listen(portNum)
             }, 500);
            } else {
             console.log(err);
@@ -62,4 +69,4 @@ let listen = (port) => {
     });
 }
 
-listen(port);
+listen(portNum);

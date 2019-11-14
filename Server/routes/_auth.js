@@ -19,14 +19,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const user = require('../../models/user');
-const { jwtkey } = require('../../config/envConfig');
+const user = require('../models/user');
+const { jwtkey } = require('../config/envConfig');
 
 
 /*-------------------------------------------------*\
     3. - LOGIN USER ROUTE
 \*-------------------------------------------------*/
-router.post('/', function(req, res) {
+router.post('/login', function(req, res) {
     user.findOne({
         email: req.body.email
     }).then((user) => {
@@ -49,6 +49,33 @@ router.post('/', function(req, res) {
         })
     });
 });
+
+
+/*-------------------------------------------------*\
+    4. - REGISTER USER ROUTE
+\*-------------------------------------------------*/
+router.post('/register', function(req, res) {
+    user.create({
+        email: req.body.email,
+        password: req.body.password, // Password is hashed in pre 'save' function in the model
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        role: req.body.role
+    }).then(user => {
+        console.log(`This user i now registered: ${user}`)
+        res.status(201).json({
+            status: 201,
+            message: 'User succesfully registered',
+        })
+    }).catch(err => {
+        res.status(500).json({
+            status: 500,
+            message: 'An error occured',
+            error: err
+        });
+    })
+});
+
 
 
 /*-------------------------------------------------*\
