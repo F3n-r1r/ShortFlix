@@ -11,6 +11,8 @@ import Movies from './Layout/Views/Dashboard/Movies.vue';
 import Talks from './Layout/Views/Dashboard/Talks.vue';
 import Profile from './Layout/Views/Dashboard/Profile.vue';
 import Admin from './Layout/Views/Dashboard/Admin.vue';
+import Community from './Layout/Views/Dashboard/Community.vue';
+import Network from './Layout/Views/Dashboard/Network.vue';
 
 
 
@@ -36,6 +38,16 @@ const routes = [
 				name: 'Talks',
 				path: 'Talks',
 				component: Talks
+			},
+			{
+				name: 'Network',
+				path: 'Network',
+				component: Network
+			},
+			{
+				name: 'Community',
+				path: 'Community',
+				component: Community
 			},
 			{
 				name: 'Admin',

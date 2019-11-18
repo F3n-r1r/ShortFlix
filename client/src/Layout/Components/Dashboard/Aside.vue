@@ -23,6 +23,12 @@
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Talks"><i class="link__icon far fa-comment-dots"></i>Talks</router-link>
                     </li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/Network"><i class="link__icon fas fa-users"></i>Network</router-link>
+                    </li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/Community"><i class="link__icon fas fa-users"></i>Community</router-link>
+                    </li>
                     <li class="list__item" v-if="user.role === 'Admin'">
                         <router-link class="item__link" to="/Dashboard/Admin"><i class="link__icon fas fa-tools"></i>Admin</router-link>
                     </li>
