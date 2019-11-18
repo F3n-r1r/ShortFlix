@@ -22,7 +22,7 @@ const mongoose = require('mongoose');
 /*-------------------------------------------------*\
     3. - NETWORK SCHEMA
 \*-------------------------------------------------*/
-const friendSchema = new mongoose.Schema({
+const networkSchema = new mongoose.Schema({
     requester: { type: Schema.Types.ObjectId, ref: 'Users'},
     recipient: { type: Schema.Types.ObjectId, ref: 'Users'},
     status: {

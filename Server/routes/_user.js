@@ -19,7 +19,27 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const user = require('../models/user');
+const network = require('../models/network');
 const { jwtkey } = require('../config/envConfig');
+
+
+
+
+/*-------------------------------------------------*\
+    3. - GET ALL USERS
+\*-------------------------------------------------*/
+router.get('/all', function(req, res) {
+    user.find({
+    }).then((users) => {
+        res.json({
+            users: users
+        })
+    }).catch(err => {
+        res.json({
+            err: err
+        })
+    });
+});
 
 
 /*-------------------------------------------------*\
@@ -84,6 +104,55 @@ router.get('/pending', function(req, res) {
         })
     })
 });
+
+
+
+/*-------------------------------------------------*\
+    6. - NEWTORK ADD REQUEST
+\*-------------------------------------------------*/
+router.post('/network/request', function(req, res) {
+    const network = network.findOneAndUpdate (
+        { requester: userA, recipient: UserB },
+        { $set: { status: 'pending' } },
+        { upsert: true, new: true }
+    )
+    
+    const userA = user.findOneAndUpdate (
+        { _id: UserA },
+        { $push: { friends: network._id }}
+    )
+
+    const userB = user.findOneAndUpdate (
+        { _id: UserB },
+        { $push: { friends: network._id }}
+    )
+});
+
+
+/*-------------------------------------------------*\
+    7. - ACCEPT NETWORK REQUEST
+\*-------------------------------------------------*/
+
+
+
+/*-------------------------------------------------*\
+    8. - DENY NETWORK REQUEST
+\*-------------------------------------------------*/
+
+
+
+/*-------------------------------------------------*\
+    8. - GET PENDING NETOWRK REQUESTS
+\*-------------------------------------------------*/
+
+
+
+/*-------------------------------------------------*\
+    9. - GET PERSONAL NETWORK
+\*-------------------------------------------------*/
+
+
+
 
 
 /*-------------------------------------------------*\
