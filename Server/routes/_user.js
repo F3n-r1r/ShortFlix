@@ -29,7 +29,10 @@ const { jwtkey } = require('../config/envConfig');
     3. - GET ALL USERS
 \*-------------------------------------------------*/
 router.get('/all', function(req, res) {
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey); 
     user.find({
+        _id: { $ne: decodedToken.id },
+        approved: "true"
     }).then((users) => {
         res.json({
             users: users
@@ -111,21 +114,25 @@ router.get('/pending', function(req, res) {
     6. - NEWTORK ADD REQUEST
 \*-------------------------------------------------*/
 router.post('/network/request', function(req, res) {
-    const network = network.findOneAndUpdate (
-        { requester: userA, recipient: UserB },
+    network.findOneAndUpdate (
+        { requester: req.body.userA, recipient: req.body.userB },
         { $set: { status: 'pending' } },
         { upsert: true, new: true }
-    )
-    
-    const userA = user.findOneAndUpdate (
-        { _id: UserA },
-        { $push: { friends: network._id }}
-    )
-
-    const userB = user.findOneAndUpdate (
-        { _id: UserB },
-        { $push: { friends: network._id }}
-    )
+    ).then((doc) => {  
+        // console.log(doc._id) 
+        Object.entries(req.body).forEach(([key, val]) => {
+            user.findOneAndUpdate (
+                { _id: val },
+                { $push: { network: doc._id }}
+            ).then((data) => {
+                console.log(data)
+            })
+        })
+    }).catch((err) => {
+        res.json({
+            err: err
+        })
+    })
 });
 
 
@@ -148,9 +155,8 @@ router.post('/network/request', function(req, res) {
 
 
 /*-------------------------------------------------*\
-    9. - GET PERSONAL NETWORK
+    9. - GET NETWORK
 \*-------------------------------------------------*/
-
 
 
 

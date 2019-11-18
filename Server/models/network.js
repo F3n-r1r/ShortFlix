@@ -23,15 +23,13 @@ const mongoose = require('mongoose');
     3. - NETWORK SCHEMA
 \*-------------------------------------------------*/
 const networkSchema = new mongoose.Schema({
-    requester: { type: Schema.Types.ObjectId, ref: 'Users'},
-    recipient: { type: Schema.Types.ObjectId, ref: 'Users'},
+    requester: { type: mongoose.Schema.Types.ObjectId, ref: 'Users'},
+    recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'Users'},
     status: {
-      type: Number,
+      type: String,
       enums: [
-          'requested',
           'pending',
-          'accepted',
-          // REJECTED ?
+          'accepted'
       ]
     }
 })
