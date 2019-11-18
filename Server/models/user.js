@@ -55,6 +55,10 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    network: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Network'
+    }],
     role: {
         type: String,
         enum: [
