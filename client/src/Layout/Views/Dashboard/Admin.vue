@@ -32,7 +32,7 @@ export default {
                 let data = {
                     id: userId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/user/approve', data: data })
+                axios({method: 'POST', url: 'http://localhost:8000/api/user/approve', data: data })
                 .then(resp => {
                     this.pendingUsers = this.pendingUsers.filter(x => x._id !== userId);
                     resolve(resp);
@@ -44,7 +44,7 @@ export default {
     },
     created: function() {
         return new Promise((resolve, reject) => {
-            axios({method: 'GET', url: 'http://localhost:8000/user/pending', data: this.$store.getters.user})
+            axios({method: 'GET', url: 'http://localhost:8000/api/user/pending', data: this.$store.getters.user})
             .then(resp => {
                 this.pendingUsers = resp.data.user;
                 resolve(resp);

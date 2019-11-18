@@ -71,7 +71,7 @@ export default new Vuex.Store({
 			if(getters.isLoggedIn) {
 				let token = state.token;
 				return new Promise((resolve, reject) => {
-					axios({method: 'GET', url: 'http://localhost:8000/user/current'})
+					axios({method: 'GET', url: 'http://localhost:8000/api/user/current'})
 					.then(resp => {
 						let user = resp.data.user
 						commit('auth_success', {token, user})
@@ -88,7 +88,7 @@ export default new Vuex.Store({
 		register({commit}, user){
 			return new Promise((resolve, reject) => {
 				commit('auth_request')
-				axios({method: 'POST', url: 'http://localhost:8000/auth/register', data: user })
+				axios({method: 'POST', url: 'http://localhost:8000/api/auth/register', data: user })
 				.then(resp => {    
 					resolve(resp)
 				})
@@ -104,7 +104,7 @@ export default new Vuex.Store({
 		login({commit}, user) {
 			return new Promise((resolve, reject) => {
 				commit('auth_request');
-				axios({method: 'POST', url: 'http://localhost:8000/auth/login', data: user})
+				axios({method: 'POST', url: 'http://localhost:8000/api/auth/login', data: user})
 				.then(resp => {
 					const token = resp.data.token;
 					const user = resp.data.user;

@@ -20,6 +20,9 @@
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                     </li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/Talks"><i class="link__icon far fa-comment-dots"></i>Talks</router-link>
+                    </li>
                     <li class="list__item" v-if="user.role === 'Admin'">
                         <router-link class="item__link" to="/Dashboard/Admin"><i class="link__icon fas fa-tools"></i>Admin</router-link>
                     </li>

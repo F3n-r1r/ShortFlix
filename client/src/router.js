@@ -8,8 +8,10 @@ import Home from './Layout/Home.vue';
 
 /* Import views */
 import Movies from './Layout/Views/Dashboard/Movies.vue';
+import Talks from './Layout/Views/Dashboard/Talks.vue';
 import Profile from './Layout/Views/Dashboard/Profile.vue';
 import Admin from './Layout/Views/Dashboard/Admin.vue';
+
 
 
 Vue.use(VueRouter)
@@ -29,6 +31,11 @@ const routes = [
 				name: 'Movies',
 				path: 'Movies',
 				component: Movies
+			},
+			{
+				name: 'Talks',
+				path: 'Talks',
+				component: Talks
 			},
 			{
 				name: 'Admin',
