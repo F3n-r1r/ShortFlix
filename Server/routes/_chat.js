@@ -27,70 +27,108 @@ const { jwtkey } = require('../config/envConfig');
 
 
 /*-------------------------------------------------*\
-    3. - CREATE NEW THREAD
+    3. - CREATE NEW THREAD / OR GET MESSAGES OF THREAD
 \*-------------------------------------------------*/
-router.post('/new_thread', function(req, res) {
-    chat.thread.count({
+router.post('/thread', function(req, res) {
+    chat.thread.create({
         users: [
             jwt.verify(req.headers['authorization'], jwtkey).id,
             req.body.id
         ]
-    }).then((count) => {
-        if(count === 0) {
-            chat.thread.create({
-                users: [
-                    jwt.verify(req.headers['authorization'], jwtkey).id,
-                    req.body.id
-                ]
-            }).then(() => {
-                res.status(201).json({
-                    message: 'Thread created',
-                })
-            }).catch(err => {
-                res.json({
-                    error: err
-                })
-            })
-        } else {
-            res.json({
-                message: 'Thread already exists'
-            })
-        }
-    })
-
+    }).then(() => {
+        res.status(201).json({
+            message: 'Thread created',
+        })
+    }).catch(err => {
+        res.json({
+            error: err
+        })
+    })      
 });
 
-
-//CLIENT SIDE METHOD USED LIKE ON THE ADMIN PAGE WITH APPROVING USERS
-// approveUser: function(userId) {
-//     return new Promise((resolve, reject) => {
-//         let data = {
-//             id: userId
+// router.post('/thread', function(req, res) {
+//     chat.thread.count({
+//         users: [
+//             jwt.verify(req.headers['authorization'], jwtkey).id,
+//             req.body.id
+//         ]
+//     }).then((count) => {
+//         if(count === 0) {
+//             chat.thread.create({
+//                 users: [
+//                     jwt.verify(req.headers['authorization'], jwtkey).id,
+//                     req.body.id
+//                 ]
+//             }).then(() => {
+//                 res.status(201).json({
+//                     message: 'Thread created',
+//                 })
+//             }).catch(err => {
+//                 res.json({
+//                     error: err
+//                 })
+//             })
+//         } else {       
+//             chat.message.find({
+//                 thread: thread._id
+//             }).then((messages) => {
+//                 res.json({
+//                     messages
+//                 })
+//             }).catch((err) => {
+//                 res.json({
+//                     error: err
+//                 })
+//             })
 //         }
-//         axios({method: 'POST', url: 'http://localhost:8000/api/chat/new_thread', data: data })
-//         .then(resp => {
-//             console.log(resp)
-//             resolve(resp);
-//         }).catch(err => {
-//             reject(err);
-//         })
 //     })
-// }
+
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-------------------------------------------------*\
+    6. - POST NEW MESSAGE
+\*-------------------------------------------------*/
+router.post('/message', function(req, res) {
+    chat.message.create({
+        text: req.body.text,
+        author: jwt.verify(req.headers['authorization'], jwtkey).id,
+        thread: req.body.threadId
+    }).then(() => {
+
+    }).catch((err) => {
+        res.json({
+            error: err
+        })
+    })
+});
+
 
 
 
 /*-------------------------------------------------*\
     4. - GET SPECIFIC THREAD
 \*-------------------------------------------------*/
-router.get('/thread', function(req, res) {
-    chat.thread.findOne({
-        _id: req.body.id
-    }).then((thread) => {
-        res.json({
-            thread
-        })
-    })
-});
+// router.get('/thread', function(req, res) {
+//     chat.thread.findOne({
+//         _id: req.body.id
+//     }).then((thread) => {
+//         res.json({
+//             thread
+//         })
+//     })
+// });
 
 
 /*-------------------------------------------------*\
@@ -99,21 +137,35 @@ router.get('/thread', function(req, res) {
 router.get('/threads', function(req, res) {
     let decodedToken = jwt.verify(req.headers['authorization'], jwtkey); 
     chat.thread.find({
-        'users._id': decodedToken.id
+        users: decodedToken.id
     }).then((threads) => {
-        res.json({
-            threads
+        let userIdArr = [];
+        for(let i = 0; i < threads.length; i++) { 
+            for(let j = 0; j < threads[i].users.length; j++) {
+                if(threads[i].users[j] != decodedToken.id) {
+                    userIdArr.push(threads[i].users[j])
+                }   
+            }  
+        }
+        user.find({
+            _id: { $in: [
+                userIdArr
+            ]}
+        }).then((test) => {
+            res.json({
+                test
+            })
         })
+
+
+
+        
+
     })
 });
 
 
-/*-------------------------------------------------*\
-    6. - POST NEW MESSAGE
-\*-------------------------------------------------*/
-router.post('/message', function(req, res) {
 
-});
 
 
 /*-------------------------------------------------*\
