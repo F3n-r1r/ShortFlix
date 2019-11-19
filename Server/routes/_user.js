@@ -87,6 +87,7 @@ router.post('/network/request', function(req, res) {
             req.body.id
         ]}
     }).then((users) => {
+        //console.log(users)
         let sortedUsers = users.sort(function(a,b) {
             if(a._id == decodedToken.id) {
                 return 1
@@ -95,16 +96,30 @@ router.post('/network/request', function(req, res) {
                 return -1
             }
         });
-        let queries = [{ $addToSet: { pending: [ decodedToken.id ] }}, { $addToSet: { requested: [ bodyId ] }}]
-        sortedUsers.forEach( function(user, index) {
-            //console.log(queries[index])
-            network.findOneAndUpdate(
-                { _id: user.network },
-                queries[index],
-                { upsert: true, new: true }
-            ).then((test) => {
-                //console.log('test1')
-            })
+        network.find({
+            _id: { $in: [users[0].network, users[1].network] },
+            $or: [
+                {requested: { $in: [bodyId, decodedToken.id] }},
+                {pending: { $in: [bodyId, decodedToken.id] }},
+                {accepted: { $in: [bodyId, decodedToken.id] }}
+            ]
+        }).then(data => {
+            let queries = [{ $addToSet: { pending: [ decodedToken.id ] }}, { $addToSet: { requested: [ bodyId ] }}]
+            
+            if(data.length == 0) {
+                sortedUsers.forEach( function(user, index) {
+                    //console.log(queries[index]) 
+                    network.findOneAndUpdate(
+                        { _id: user.network },
+                        queries[index],
+                        { upsert: true, new: true }
+                    ).then((test) => {
+                        //console.log(test)
+                    })
+                })
+            } else {
+                console.log('Request,Pending or Accepted is already set between the users')
+            }
         })
     }).catch((err) => {
         res.json({
