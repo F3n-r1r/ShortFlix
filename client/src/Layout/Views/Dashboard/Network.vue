@@ -46,8 +46,8 @@ export default {
                 }
                 axios({method: 'POST', url: 'http://localhost:8000/api/user/network/accept', data: data })
                 .then(resp => {
-                    console.log(resp)
-                    this.pendingUsers = this.pendingUsers.filter(x => x._id !== userId);
+                    this.network = this.network.concat(this.pendingRequests.filter(x => x._id == userId))
+                    this.pendingRequests = this.pendingRequests.filter(x => x._id !== userId)
                     resolve(resp);
                 }).catch(err => {
                     reject(err);
