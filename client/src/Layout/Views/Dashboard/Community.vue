@@ -30,12 +30,11 @@ export default {
         networkRequest: function(userId) {
             return new Promise((resolve, reject) => {
                 let data = {
-                    userA: this.$store.getters.user._id,
-                    userB: userId
+                    id: userId
                 }
                 axios({method: 'POST', url: 'http://localhost:8000/api/user/network/request', data: data })
                 .then(resp => {
-                    console.log(resp)
+                    //console.log(resp)
                     resolve(resp);
                 }).catch(err => {
                     reject(err);

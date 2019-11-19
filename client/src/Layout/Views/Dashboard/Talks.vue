@@ -63,7 +63,7 @@ export default {
         return new Promise((resolve, reject) => {
             axios({method: 'GET', url: 'http://localhost:8000/api/chat/threads'})
             .then(resp => {
-                console.log(resp.data)
+                //console.log(resp.data)
                 this.users = resp
                 resolve(resp);
             }).catch(err => {
