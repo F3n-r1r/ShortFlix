@@ -27,6 +27,9 @@ const { validateEmail } = require('../utilities/validate');
     3. - USER SCHEMA
 \*-------------------------------------------------*/
 const userSchema = new mongoose.Schema({
+    // _id: {
+    //     type: mongoose.Schema.Types.Mixed
+    // },
     email: {
         type: String,
         required: true,
@@ -55,10 +58,10 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
-    network: [{
+    network: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Network'
-    }],
+    },
     role: {
         type: String,
         enum: [
