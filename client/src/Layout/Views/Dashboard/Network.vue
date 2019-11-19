@@ -2,23 +2,25 @@
   <div class="view network-view">
 
 
+    <section class="network-view__pending-section" v-if="pendingRequests.length">
+        <h3>Pending Network Requests</h3>
+        <ul>
+            <li v-for="(user, index) in pendingRequests" :key="index">
+                {{ index }} - {{ user.firstname }} - {{ user.role }}
+                <button @click="acceptRequest(user._id)">Accept Request</button>
+            </li>
+        </ul>
+    </section>
 
-    <p>PENDING REQUESTS</p>
-    <ul>
-        <li v-for="(user, index) in pendingRequests" :key="index">
-            {{ index }} - {{ user.firstname }} - {{ user.role }}
-            <button @click="acceptRequest(user._id)">Accept Request</button>
-        </li>
-    </ul>
-
-
-    <br><br>
-    <p>MY NETWORK</p>
-    <ul>
-        <li v-for="(user, index) in network" :key="index">
-            {{ index }} - {{ user.firstname }} - {{ user.role }}
-        </li>
-    </ul>
+    <section class="network-view__network-section">
+        <h3>Your Network</h3>
+        <ul>
+            <li v-if="!network.length">You do not currently have a network, start building one <router-link class="item__link" to="/Dashboard/Community">here</router-link></li>
+            <li v-for="(user, index) in network" :key="index">
+                {{ index }} - {{ user.firstname }} - {{ user.role }}
+            </li>
+        </ul>
+    </section>
 
 
   </div>
@@ -46,6 +48,7 @@ export default {
                 }
                 axios({method: 'POST', url: 'http://localhost:8000/api/user/network/accept', data: data })
                 .then(resp => {
+                    //console.log(resp)
                     this.network = this.network.concat(this.pendingRequests.filter(x => x._id == userId))
                     this.pendingRequests = this.pendingRequests.filter(x => x._id !== userId)
                     resolve(resp);
@@ -59,7 +62,7 @@ export default {
         return new Promise((resolve, reject) => {
             axios({method: 'GET', url: 'http://localhost:8000/api/user/network/all'})
             .then(resp => {
-                //console.log(resp.data)
+                //console.log(resp)
                 this.pendingRequests = resp.data.user.network.pending;
                 this.network = resp.data.user.network.accepted;
                 resolve(resp);
@@ -74,6 +77,15 @@ export default {
 
 
 <style lang="scss">
+.network-view {
 
+    &__pending-section {
+        margin-bottom: 20px;
+    }
+
+    &__network-section {
+
+    }
+}
 
 </style>

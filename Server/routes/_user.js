@@ -175,6 +175,10 @@ router.post('/network/accept', function(req, res) {
                 })
             })
         })
+
+        res.status(200).json({
+            msg: 'User succescully added to network'
+        })
     }).catch((err) => {
         console.log(err)
     })
