@@ -10,10 +10,10 @@
 		<!-- ASIDE HEADER		   					    									  -->
 		<!-------------------------------------------------------------------------------------->
         <header class="aside__header">
-            <button v-if="searchNetwork" @click="returnToThreads"><i class="fas fa-arrow-left"></i></button>
+            <button class="header__return-btn" v-if="searchNetwork" @click="returnToThreads"><i class="fas fa-arrow-left"></i></button>
             <form class="header__form" action="">
                 <label class="form__search-label" for="network-search">Search</label>
-                <input v-model="query" @focus="onSearchFocus" class="form__search-input" type="search" autocomplete="off" id="network-search">
+                <input v-model="query" @focus="onSearchFocus" class="form__search-input" type="search" placeholder="Search..." autocomplete="off" id="network-search">
             </form>
         </header>
         
@@ -27,7 +27,7 @@
             <!-- ASIDE CONTENT THREAD LIST  									        		  -->
             <!-------------------------------------------------------------------------------------->
             <ul v-if="!searchNetwork" class="section__thread-list">
-                <li v-for="(thread, index) in threads" :key="index">
+                <li class="thread-list__item" v-for="(thread, index) in threads" :key="index">
                     {{ index }} - {{ thread.firstname }}
                     <button @click="startNewThread(thread._id)">Create new thread</button>
                 </li>
@@ -36,18 +36,20 @@
             <!-------------------------------------------------------------------------------------->
             <!-- ASIDE CONTENT SEARCH LIST (SHOWS NETWORK IF SEARCH INPUT = EMPTY)	   			  -->
             <!-------------------------------------------------------------------------------------->
-            <ul v-if="searchNetwork && !searchArr.length" class="seaction__network-list">
-                <li v-for="(user, index) in network" :key="index" v-on:click="openChat(user._id)">
-                    {{ index }} - {{ user.firstname }} {{ user.lastname }}
+            <ul v-if="searchNetwork && !searchArr.length" class="section__network-list">
+                <li class="network-list__item" v-for="(user, index) in network" :key="index" v-on:click="openChat(user._id)">
+                    <img class="item__avatar" src="@/assets/avatar.png">
+                    <p class="item__username">{{ user.firstname }} {{ user.lastname }}</p>
                 </li>
             </ul>
 
             <!-------------------------------------------------------------------------------------->
             <!-- ASIDE CONTENT SEARCH LIST (SHOWS FILTERED NETWORK ARRAY)						  -->
             <!-------------------------------------------------------------------------------------->
-            <ul v-if="searchNetwork && searchArr.length" class="seaction__network-list">
-                <li v-for="(user, index) in searchArr" :key="index" v-on:click="openChat(user._id)">
-                    {{ index }} - {{ user.firstname }} {{ user.lastname }}
+            <ul v-if="searchNetwork && searchArr.length" class="section__network-list">
+                <li class="network-list__item" v-for="(user, index) in searchArr" :key="index" v-on:click="openChat(user._id)">
+                    <img class="item__avatar" src="@/assets/avatar.png">
+                    <p class="item__username">{{ user.firstname }} {{ user.lastname }}</p>
                 </li>
             </ul>
         </section>
@@ -64,7 +66,7 @@
         <!-------------------------------------------------------------------------------------->
         <article class="chat__window">
             <ul class="window__messages-list">
-                <li class="messages-list__message" v-for="(message, index) in messages" :key="index">
+                <li  class="messages-list__message" v-for="(message, index) in messages" :key="index">
                     <p>{{message.username}}</p>
                     <p>{{message.msg}}</p>
                 </li>
@@ -75,8 +77,8 @@
         <!-- CHAT FORM 			             												  -->
         <!-------------------------------------------------------------------------------------->
         <form class="chat__form" v-on:submit.prevent="sendMessage(msg)">
-            <input type="text" v-model="msg">
-            <button type="submit">Send</button>
+            <input class="form__input" type="text" placeholder="Type your message here..." v-model="msg">
+            <button class="form__submit" type="submit"><i class="fab fa-telegram-plane"></i></button>
         </form>
     </section>
 
@@ -100,6 +102,8 @@ export default {
             threads: [],
             searchArr: [],
 
+// test below
+currentUser: 'Benjamin',
             // currentUser: [],
             msg: '',
             username: '',
@@ -237,7 +241,8 @@ export default {
             if(q) {
                 for(let i = 0; i < n.length; i++) {   
                     Object.entries(n[i]).forEach(([key, value]) => {
-                        if(value.toString().toLowerCase().startsWith(q.replace(/\s/g, ''))) {
+                        //.replace(/\s/g, '')
+                        if(value.toString().toLowerCase().startsWith(q)) {
                             newArr.indexOf(n[i]) === -1 ? newArr.push(n[i]) : console.log("already in the array");
                         } 
                     });
@@ -280,18 +285,117 @@ export default {
         height: 100%;
         grid-column: 1;
 
+        .aside__header {
+           display: flex;
+           height: 50px;
+
+            .header__return-btn {
+                @extend %icon-btn;
+                font-size: 18px;
+                color: #fff; // Move to theme
+                padding: 0px 20px;
+            }
+
+            .header__form {
+                position: relative;
+                height: 100%;
+                width: 100%;
+
+                .form__search-label {
+                    display: none;
+                }
+
+                .form__search-input {
+                    padding: 0px 10px;
+                    border: none;
+                    border-radius: 5px;
+                    height: 100%;
+                    width: 100%;
+                    font-size: 16px;
+                }
+            }
+        }
+
         .aside__section {
-
-
             .section__thread-list {
                 
+                .thread-list__item {
+
+                }
+            }
+
+            .section__network-list {
+                padding: 10px 0px;
+
+                .network-list__item{
+                    @include flexRow(center, null);
+                    padding: 10px 5px;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    background-color: getColor($accents, _white);
+
+
+                    .item__avatar {
+                        height: 40px;
+                        width: 40px;
+                    }
+                }
             }
         }
     }
 
+
     &__chat {
+        position: relative;
         grid-column: 2;
-        background: firebrick;
+        background-color: #fff;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+
+        .chat__window {
+            position: relative;
+            height: 100%;
+
+            .window__messages-list {
+                position: absolute;
+                padding: 10px;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                overflow-y: auto;
+            }
+        }
+
+        .chat__form {
+            display: flex;
+            height: 60px;
+            border: none;
+            overflow: hidden;
+  
+            .form__input {
+                height: 100%;
+                padding: 0px 10px;
+                width: 100%;
+                font-size: 16px;
+                border: none;
+            }
+
+            .form__submit {
+                position: relative;
+                @extend %icon-btn;
+                font-size: 26px;
+                padding: 0px 30px;
+                color: getColor($accents, primary);
+
+                &:hover {
+                    color: darken(getColor($accents, primary), 10%);
+                    transform: scale(1.2);
+                }
+            }
+        }
     }
 }
 
