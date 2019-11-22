@@ -4,17 +4,29 @@
 
 
     <aside class="talks-view__aside"> 
-        <!-- <header class="aside__header">
-            <ul class="header__tabs">
-                <li class="tabs_tab">Current talks</li>
-                <li class="tabs_tab">New talk</li>
-            </ul>
-        </header> -->
+        <header class="aside__header">
+            <button v-if="searchNetwork" @click="returnToThreads"><i class="fas fa-arrow-left"></i></button>
+            <form class="header__form" action="">
+                <label class="form__search-label" for="network-search">Search</label>
+                <input v-model="query" @focus="onSearchFocus" class="form__search-input" type="search" autocomplete="off" id="network-search">
+            </form>
+        </header>
+        
         <section class="aside__section">
-            <ul class="section__thread-list">
-                <li v-for="(user, index) in users" :key="index">
-                    {{ index }} - {{ user.firstname }}
-                    <button @click="startNewThread(user._id)">Create new thread</button>
+            <ul v-if="!searchNetwork" class="section__thread-list">
+                <li v-for="(thread, index) in threads" :key="index">
+                    {{ index }} - {{ thread.firstname }}
+                    <button @click="startNewThread(thread._id)">Create new thread</button>
+                </li>
+            </ul>
+            <ul v-if="searchNetwork && !searchArr.length" class="seaction__network-list">
+                <li v-for="(user, index) in network" :key="index">
+                    {{ index }} - {{ user.firstname }} {{ user.lastname }}
+                </li>
+            </ul>
+            <ul v-if="searchNetwork && searchArr.length" class="seaction__network-list">
+                <li v-for="(user, index) in searchArr" :key="index">
+                    {{ index }} - {{ user.firstname }} {{ user.lastname }}
                 </li>
             </ul>
         </section>
@@ -41,10 +53,22 @@ export default {
     },
     data() {
         return {
-            users: {}
+            query: '',
+            searchNetwork: false,
+            network: [],
+            threads: [],
+            searchArr: []
         }
     },
     methods: {
+        onSearchFocus: function(event) {
+            this.searchNetwork = true;
+        },
+        
+		returnToThreads: function(event) {
+            this.searchNetwork = false;
+        },
+        
         startNewThread: function(userId) {
             return new Promise((resolve, reject) => {
                 let data = {
@@ -57,21 +81,68 @@ export default {
                     reject(err);
                 })
             })
+        },
+
+        fetchThreads() {
+            return new Promise((resolve, reject) => {
+                axios({method: 'GET', url: 'http://localhost:8000/api/chat/threads'})
+                .then(resp => {
+                    //console.log(resp.data)
+                    this.threads = resp
+                    resolve(resp);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        },
+
+        fetchNetwork() {
+            return new Promise((resolve, reject) => {
+                axios({method: 'GET', url: 'http://localhost:8000/api/user/network/all'})
+                .then(resp => {
+                    //console.log(resp)
+                    this.network = resp.data.user.network.accepted;
+                    resolve(resp);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
         }
     },
+
+    computed: {
+        searchNetworkList() {
+            let q = this.query
+            let n = this.network
+            let newArr = []
+            //console.log(newArr)
+            if(q) {
+                for(let i = 0; i < n.length; i++) {   
+                    Object.entries(n[i]).forEach(([key, value]) => {
+                        if(value.toString().toLowerCase().startsWith(q.replace(/\s/g, ''))) {
+                            newArr.indexOf(n[i]) === -1 ? newArr.push(n[i]) : console.log("already in the array");
+                        } 
+                    });
+                }
+                this.searchArr = newArr;         
+            } else {
+                this.searchArr = []
+            }
+        }
+    },
+
+    watch: {
+        searchNetworkList: function() {
+            console.log(this.searchArr)
+        }
+    },
+
     created: function() {
-        return new Promise((resolve, reject) => {
-            axios({method: 'GET', url: 'http://localhost:8000/api/chat/threads'})
-            .then(resp => {
-                //console.log(resp.data)
-                this.users = resp
-                resolve(resp);
-            }).catch(err => {
-                reject(err);
-            })
-        })
+        this.fetchThreads();
+
+        this.fetchNetwork();
     }
-    }
+}
 </script>
 
 
