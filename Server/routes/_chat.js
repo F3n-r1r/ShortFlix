@@ -29,22 +29,22 @@ const { jwtkey } = require('../config/envConfig');
 /*-------------------------------------------------*\
     3. - CREATE NEW THREAD / OR GET MESSAGES OF THREAD
 \*-------------------------------------------------*/
-router.post('/thread', function(req, res) {
-    chat.thread.create({
-        users: [
-            jwt.verify(req.headers['authorization'], jwtkey).id,
-            req.body.id
-        ]
-    }).then(() => {
-        res.status(201).json({
-            message: 'Thread created',
-        })
-    }).catch(err => {
-        res.json({
-            error: err
-        })
-    })      
-});
+// router.post('/thread', function(req, res) {
+//     chat.thread.create({
+//         users: [
+//             jwt.verify(req.headers['authorization'], jwtkey).id,
+//             req.body.id
+//         ]
+//     }).then(() => {
+//         res.status(201).json({
+//             message: 'Thread created',
+//         })
+//     }).catch(err => {
+//         res.json({
+//             error: err
+//         })
+//     })      
+// });
 
 // router.post('/thread', function(req, res) {
 //     chat.thread.count({
@@ -156,15 +156,60 @@ router.get('/threads', function(req, res) {
                 test
             })
         })
-
-
-
-        
-
     })
 });
 
 
+
+/*
+    NOTE:
+    On start new thread search users array for the two users in question,
+    if found then dont start a new thread but return what it found.
+    else start new thread.
+*/
+router.post('/open_thread', function(req, res) {
+    chat.thread.find({
+        users: [
+            jwt.verify(req.headers['authorization'], jwtkey).id,
+            req.body.id
+        ]
+    }).then((data) => {     
+        if(!data.length) {
+            chat.thread.create({
+                users: [
+                    jwt.verify(req.headers['authorization'], jwtkey).id,
+                    req.body.id
+                ]
+            }).then((thread) => {
+                 res.json({
+                     thread
+                 })
+            }).catch((err) => {
+                res.json({
+                    err
+                })
+            })
+        } else {
+            //console.log(data)
+            chat.message.find({
+                thread: data._id
+            }).then((messages) => {
+                res.json({
+                    messages: messages,
+                    thread: data
+                })
+            }).catch((err) => {
+                res.json({
+                    err
+                })
+            })
+        }
+    }).catch((err) => {
+        res.json({
+            err
+        })
+    })     
+});
 
 
 
