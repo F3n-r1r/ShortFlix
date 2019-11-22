@@ -25,6 +25,7 @@ const morgan = require('morgan');
 
 
 
+
 /*-------------------------------------------------*\
     3. - SETUP MIDDLEWARE
 \*-------------------------------------------------*/
@@ -34,9 +35,61 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 app.use(morgan('combined'));
 
-// Socket IO
-//const server = require('http').Server(app)
-// const io = require('socket.io')(server);
+
+
+/*-------------------------------------------------*\
+    ?. - SOCKET IO TESTING
+\*-------------------------------------------------*/
+let users = []
+let messages = []
+let index = 0
+
+const http = require('http').Server(app)
+const io = require('socket.io')(http);
+
+io.on("connection", socket => {
+    socket.emit('loggedIn', {
+        users: users.map(s => s.username),
+        messages: messages
+    })
+
+
+    // Connected
+    socket.on('newuser', username => {
+        //console.log(`${username} has joined`)
+        socket.username = username;
+        users.push(socket)
+
+        io.emit('userOnline', socket.username);
+    })
+
+
+    socket.on('msg', msg => {
+        console.log(socket.username)
+        let message = {
+            index: index,
+            username: socket.username,
+            msg: msg
+        }
+        messages.push(message);
+        io.emit('msg', message);
+        index++;
+    })
+
+    
+    //Disconnect
+    socket.on("disconnect", () => {
+        console.log(`${socket.username} has disconnected`)
+        io.emit('userLeft', socket.username);
+        users.splice(users.indexOf(socket), 1);
+    })
+})
+
+http.listen(3000, () => {
+    console.log("listening on %s", 3000);
+})
+
+
 
 // Setup db connection
 require('./config/dbConfig');
