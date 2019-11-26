@@ -24,7 +24,7 @@ const mongoose = require('mongoose');
     3. - MESSAGE SCHEMA
 \*-------------------------------------------------*/
 const messageSchema = new mongoose.Schema({
-    text: {
+    msg: {
         type: String,
         required: true
     },

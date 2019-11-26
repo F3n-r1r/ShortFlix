@@ -27,9 +27,8 @@
             <!-- ASIDE CONTENT THREAD LIST  									        		  -->
             <!-------------------------------------------------------------------------------------->
             <ul v-if="!searchNetwork" class="section__thread-list">
-                <li class="thread-list__item" v-for="(thread, index) in threads" :key="index">
-                    {{ index }} - {{ thread.firstname }}
-                    <button @click="startNewThread(thread._id)">Create new thread</button>
+                <li class="thread-list__item" v-for="(thread, index) in threads" :key="index" v-on:click="activeThread = thread._id">
+                    {{ index }} - {{ thread.users[0].firstname }}
                 </li>
             </ul>
 
@@ -37,7 +36,7 @@
             <!-- ASIDE CONTENT SEARCH LIST (SHOWS NETWORK IF SEARCH INPUT = EMPTY)	   			  -->
             <!-------------------------------------------------------------------------------------->
             <ul v-if="searchNetwork && !searchArr.length" class="section__network-list">
-                <li class="network-list__item" v-for="(user, index) in network" :key="index" v-on:click="openChat(user._id)">
+                <li class="network-list__item" v-for="(user, index) in network" :key="index" v-on:click="openThread(user._id)">
                     <img class="item__avatar" src="@/assets/avatar.png">
                     <p class="item__username">{{ user.firstname }} {{ user.lastname }}</p>
                 </li>
@@ -47,7 +46,7 @@
             <!-- ASIDE CONTENT SEARCH LIST (SHOWS FILTERED NETWORK ARRAY)						  -->
             <!-------------------------------------------------------------------------------------->
             <ul v-if="searchNetwork && searchArr.length" class="section__network-list">
-                <li class="network-list__item" v-for="(user, index) in searchArr" :key="index" v-on:click="openChat(user._id)">
+                <li class="network-list__item" v-for="(user, index) in searchArr" :key="index" v-on:click="openThread(user._id)">
                     <img class="item__avatar" src="@/assets/avatar.png">
                     <p class="item__username">{{ user.firstname }} {{ user.lastname }}</p>
                 </li>
@@ -65,10 +64,12 @@
         <!-- CHAT WINDOW   			             											  -->
         <!-------------------------------------------------------------------------------------->
         <article class="chat__window">
-            <ul class="window__messages-list">
-                <li  class="messages-list__message" v-for="(message, index) in messages" :key="index">
-                    <p>{{message.username}}</p>
-                    <p>{{message.msg}}</p>
+            <ul v-if="messages.length" class="window__messages-list">
+                <li v-bind:class="messageClass(message.author._id)" v-for="(message, index) in messages" :key="index">
+                    <div class="message__content">
+                        <p class="content__author-name">{{message.author.firstname}} {{message.author.lastname}}</p>
+                        <p class="content__msg-text">{{message.msg}}</p> 
+                    </div>     
                 </li>
             </ul>
         </article>
@@ -102,72 +103,63 @@ export default {
             threads: [],
             searchArr: [],
 
-// test below
-currentUser: 'Benjamin',
-            // currentUser: [],
             msg: '',
-            username: '',
             socket: io('http://localhost:3000'),
             messages: [],
-            users: [],
 
+            activeThread: '',
+            sender: '',
+            receiver: ''
    
         }
     },
 
+    /*----------------------------------------------------------------------------------*\
+		METHODS
+	*\----------------------------------------------------------------------------------*/
     methods: {
-        joinServer: function() {       
-            this.socket.on('loggedIn', data => {
-                //console.log(data.messages)
-                this.messages = data.messages;
-                this.users = data.users;
-                this.socket.emit('newuser', 'Benjamin')
-            });
+
+        /* RESET MESSAGES/THREADS, INITIALIZE CHAT WITH CURRENT USER & CALL LISTEN FUNCTION*/
+        joinServer: function() {   
+            this.messages = []
+            this.threads = []
+            let user = this.$store.getters.user._id
+            this.socket.emit('initChat', user);
             this.listen();
         },
+
+        /* LISTEN FOR "msg" ON THE SOCKET*/
         listen: function() {
-            this.socket.on('userOnline', user => {
-                this.users.push(user)
-            });
-            this.socket.on('userLeft', user => {
-                this.users.splice(this.users.indexOf(user), 1)
-            });
-            this.socket.on('msg', message => {
-                this.messages.push(message)
+            this.socket.on('msg', data => {
+                this.messages.push(data)
             });
         },
+
+        /* IF MESSAGE NOT EMPTY EMIT "msg" FUNCTION TO SOCKET & RESET MSG VARIABLE*/
         sendMessage: function(message) {
            if(message) {
-               console.log(message)
-                this.socket.emit('msg', message);
+               let data = {
+                   msg: message,
+                   senderId: this.$store.getters.user._id,
+                   receiverId: this.receiver,
+                   thread: this.activeThread
+               }
+                this.socket.emit('msg', data);
                 this.msg = '';
            } else {
                return
            }
-            //console.log(this.messages)
         },
-        // sendMessage: function() {
-        //     if(!this.message) {
-        //         console.log('blank message');
-        //         return
-        //     } else {
-        //         this.$emit('sendMessage', this.msg);
-        //         this.msg = '';
-        //     }
-        // },
 
-
-
-        openChat: function(userId) {
-            //console.log(userId)
+        /*  */
+        openThread: function(userId) {
             return new Promise((resolve, reject) => {
                 let data = {
                     id: userId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/chat/open_thread', data: data})
+                axios({method: 'POST', url: 'http://localhost:8000/api/chat/openThread', data: data})
                 .then(resp => {
-                    console.log(resp)
-                    
+
                     resolve(resp);
                 }).catch(err => {
                     reject(err);
@@ -175,21 +167,36 @@ currentUser: 'Benjamin',
             })
         },
 
+        /*  */
+        messageClass(msgAuthor) {
+            let sender = 'messages-list__message messages-list__message--sender';
+            let receiver = 'messages-list__message messages-list__message--receiver';
+            if(msgAuthor === this.$store.getters.user._id) {
+                return sender
+            } else if (msgAuthor === this.receiver){
+                return receiver
+            }
+        },
+
+        /*  */
         onSearchFocus: function(event) {
             this.searchNetwork = true;
         },
         
+        /*  */
 		returnToThreads: function(event) {
             this.searchNetwork = false;
         },
-        
-        startNewThread: function(userId) {
+
+        /*  */
+        fetchThreadMessages(threadId) {
             return new Promise((resolve, reject) => {
                 let data = {
-                    id: userId
+                    id: threadId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/chat/thread', data: data })
+                axios({method: 'POST', url: 'http://localhost:8000/api/chat/threadMessages', data: data})
                 .then(resp => {
+                    this.messages = resp.data.messages;
                     resolve(resp);
                 }).catch(err => {
                     reject(err);
@@ -197,19 +204,22 @@ currentUser: 'Benjamin',
             })
         },
 
-        // fetchThreads() {
-        //     return new Promise((resolve, reject) => {
-        //         axios({method: 'GET', url: 'http://localhost:8000/api/chat/threads'})
-        //         .then(resp => {
-        //             //console.log(resp.data)
-        //             this.threads = resp
-        //             resolve(resp);
-        //         }).catch(err => {
-        //             reject(err);
-        //         })
-        //     })
-        // },
+        /*  */
+        fetchThreads() {
+            return new Promise((resolve, reject) => {
+                let user = this.$store.getters.user._id
+                axios({method: 'GET', url: 'http://localhost:8000/api/chat/threads', data: user})
+                .then(resp => {
+                    this.messages = resp.data.messages;
+                    this.threads = resp.data.threads;
+                    resolve(resp);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        },
 
+        /*  */
         fetchNetwork() {
             return new Promise((resolve, reject) => {
                 axios({method: 'GET', url: 'http://localhost:8000/api/user/network/all'})
@@ -223,21 +233,11 @@ currentUser: 'Benjamin',
             })
         },
 
-    },
-
-
-    mounted: function() {
-        this.joinServer();
-    },
-
-    computed: {
-
-
+        /*  */
         searchNetworkList() {
             let q = this.query
             let n = this.network
             let newArr = []
-            //console.log(newArr)
             if(q) {
                 for(let i = 0; i < n.length; i++) {   
                     Object.entries(n[i]).forEach(([key, value]) => {
@@ -247,26 +247,64 @@ currentUser: 'Benjamin',
                         } 
                     });
                 }
-                this.searchArr = newArr;
-                //return newArr;         
+                this.searchArr = newArr;      
             } else {
                 this.searchArr = []
             }
         }
     },
 
-    watch: {
 
-        searchNetworkList: function() {
-            //console.log(this.searchArr)
-            //this.searchArr = this.searchNetworkList
-        }
+    /*----------------------------------------------------------------------------------*\
+		MOUNTED
+	*\----------------------------------------------------------------------------------*/
+    mounted: function() {
+
+        /* CALL GET USER FUNCTION FROM STORE & THEN JOIN CHAT SERVER (SOCKET) */
+        this.$store.dispatch('getCurrentUser')
+        .then(res => {
+            this.joinServer();
+        });  
+
+        /* CALL FETCH ALL THREADS FUNCTION & THEN SET ACTIVE THREAD TO THE FIRST IN ARRAY */
+        this.fetchThreads()
+        .then(res => {
+            this.activeThread = res.data.threads[0]._id
+        }).catch(err => {
+            console.log(err)
+        });
+
+        /* CALL FUNCTION TO GET ALL USERS IN THE CURRENT USERS NETWORK */
+        this.fetchNetwork();
     },
 
-    created: function() {
-        // this.fetchThreads();
 
-        this.fetchNetwork();
+    /*----------------------------------------------------------------------------------*\
+		WATCH
+	*\----------------------------------------------------------------------------------*/
+    watch: {
+
+        /* DETERMINE CLASS FOR CHAT MESSAGE */
+        messages: function () {
+            this.$nextTick(function () {
+                let chat = document.querySelector('.window__messages-list');
+                if(chat) {
+                    chat.scrollTop = chat.scrollHeight;
+                }
+            });
+        },
+
+        /* SET NEW ACTIVE THREAD ID & CALL FUNCTION TO GET ASSOCIATED MESSAGES */
+        activeThread: function(newThread, oldThread) {
+            let thread = this.threads.filter(x => x._id === newThread);
+            this.receiver = thread[0].users[0]._id;
+            this.fetchThreadMessages(newThread);
+        },
+
+        /* WATCH SEARCH QUERY FOR INPUT AND TRIGGER SEARCH FUNCTION */
+        query: function() {
+            this.searchNetworkList();
+        }
     }
 }
 </script>
@@ -320,7 +358,10 @@ currentUser: 'Benjamin',
             .section__thread-list {
                 
                 .thread-list__item {
-
+                    background-color: #fff;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin-top: 10px;
                 }
             }
 
@@ -349,7 +390,6 @@ currentUser: 'Benjamin',
     &__chat {
         position: relative;
         grid-column: 2;
-        background-color: #fff;
         border-radius: 5px;
         display: flex;
         flex-direction: column;
@@ -360,12 +400,79 @@ currentUser: 'Benjamin',
 
             .window__messages-list {
                 position: absolute;
-                padding: 10px;
                 left: 0;
                 top: 0;
                 right: 0;
-                bottom: 0;
+                bottom: 10px;
                 overflow-y: auto;
+                overflow-x: hidden;
+          
+                .messages-list__message {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 10px;
+                    border-radius: 10px;
+
+                    .message__content {
+                        background-color: getColor($accents, _white);
+                        width: 75%;
+                        padding: 10px;
+                        border-radius: 10px;
+
+                        .content__author-name {
+                            text-transform: capitalize;
+                        }
+                    
+                        .content__msg-text {
+                            user-select: none;
+                            white-space: pre-wrap;
+                            word-wrap: break-word;
+                            word-break: break-all;
+                            white-space: normal;
+                        }
+                    }
+
+                    &--receiver {
+                        position: relative;
+                        align-items: flex-end;
+                        margin-right: 20px;
+                        
+                        .message__content {
+                            
+                        }
+                              
+                    }
+
+                    &--sender {
+                        position: relative;
+                        align-items: flex-start;
+                        margin-right: 20px;
+
+                        .message__content {
+                            
+                        }
+                    }
+                }
+
+
+                &::-webkit-scrollbar-track {
+                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                    border-radius: 10px;
+                    background-color: #F5F5F5;
+                }
+
+                &::-webkit-scrollbar {
+                    border-radius: 10px;
+                    width: 12px;
+                    background-color: #F5F5F5;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    border-radius: 10px;
+                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+                    background-color: getColor($accents, primary);
+                }
             }
         }
 
@@ -398,5 +505,7 @@ currentUser: 'Benjamin',
         }
     }
 }
+
+
 
 </style>
