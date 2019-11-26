@@ -27,8 +27,9 @@
             <!-- ASIDE CONTENT THREAD LIST  									        		  -->
             <!-------------------------------------------------------------------------------------->
             <ul v-if="!searchNetwork" class="section__thread-list">
-                <li class="thread-list__item" v-for="(thread, index) in threads" :key="index" v-on:click="activeThread = thread._id">
-                    {{ index }} - {{ thread.users[0].firstname }}
+                <li class="thread-list__title">Active Threads</li>
+                <li v-bind:class="threadClass(thread._id)" v-for="(thread, index) in threads" :key="index" v-on:click="activeThread = thread._id">
+                    <p class="item__username">{{ thread.users[0].firstname }} {{ thread.users[0].lastname }}</p>
                 </li>
             </ul>
 
@@ -178,6 +179,16 @@ export default {
             }
         },
 
+        threadClass(threadId) {
+            let active = 'thread-list__item thread-list__item--active';
+            let notActive = 'thread-list__item';
+            if(threadId === this.activeThread) {
+                return active
+            } else {
+                return notActive
+            }
+        },
+
         /*  */
         onSearchFocus: function(event) {
             this.searchNetwork = true;
@@ -316,7 +327,7 @@ export default {
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 300px 1fr;
-    grid-column-gap: 20px;
+    //grid-column-gap: 20px;
 
     &__aside {
         width: 300px;
@@ -325,7 +336,7 @@ export default {
 
         .aside__header {
            display: flex;
-           height: 50px;
+           padding: 20px;
 
             .header__return-btn {
                 @extend %icon-btn;
@@ -344,12 +355,14 @@ export default {
                 }
 
                 .form__search-input {
-                    padding: 0px 10px;
+                    padding: 10px 10px;
                     border: none;
                     border-radius: 5px;
                     height: 100%;
                     width: 100%;
                     font-size: 16px;
+                    background-color: getColor($darkTheme, secondary);
+                    color: getColor($accents, _white);
                 }
             }
         }
@@ -357,11 +370,35 @@ export default {
         .aside__section {
             .section__thread-list {
                 
+                .thread-list__title {         
+                    color: getColor($accents, primary);
+                    padding: 10px 20px;
+                    text-align: center;
+                    font-size: 20px;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
                 .thread-list__item {
-                    background-color: #fff;
-                    border-radius: 5px;
-                    padding: 10px;
-                    margin-top: 10px;
+                    position: relative;
+                    cursor: pointer;
+                    color: getColor($darkTheme, fontColor);
+                    padding: 20px 18px;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    border-left: 2px solid transparent;
+
+                    &:hover {
+                        background-color: getColor($darkTheme, secondary);
+                        color: getColot($accents, _white);
+                    }
+
+                    &--active {
+                        border-left-color: getColor($accents, primary);
+                    }
+
+                    .item__username {
+                        font-size: 18px;
+                        text-transform: capitalize;
+                    }
                 }
             }
 
@@ -397,6 +434,8 @@ export default {
         .chat__window {
             position: relative;
             height: 100%;
+            border-top-left-radius: 10px;
+            background-color: getColor($darkTheme, secondary);
 
             .window__messages-list {
                 position: absolute;
@@ -411,14 +450,14 @@ export default {
                     position: relative;
                     display: flex;
                     flex-direction: column;
-                    padding: 10px;
+                    padding: 15px 50px;
                     border-radius: 10px;
 
                     .message__content {
-                        background-color: getColor($accents, _white);
-                        width: 75%;
+                        width: 60%;
                         padding: 10px;
                         border-radius: 10px;
+                        color: getColor($accents, _white);
 
                         .content__author-name {
                             text-transform: capitalize;
@@ -436,10 +475,9 @@ export default {
                     &--receiver {
                         position: relative;
                         align-items: flex-end;
-                        margin-right: 20px;
                         
                         .message__content {
-                            
+                            background-color: getColor($darkTheme, primary);          
                         }
                               
                     }
@@ -447,10 +485,9 @@ export default {
                     &--sender {
                         position: relative;
                         align-items: flex-start;
-                        margin-right: 20px;
 
                         .message__content {
-                            
+                            background-color: lighten(getColor($darkTheme, primary), 15%);    
                         }
                     }
                 }
@@ -478,9 +515,11 @@ export default {
 
         .chat__form {
             display: flex;
-            height: 60px;
+            height: 100px;
             border: none;
             overflow: hidden;
+            background-color: getColor($darkTheme, secondary);
+            padding: 25px 50px;
   
             .form__input {
                 height: 100%;
@@ -488,18 +527,24 @@ export default {
                 width: 100%;
                 font-size: 16px;
                 border: none;
+                border-radius: 10px;
+                background-color: getColor($darkTheme, primary);
+                color: getColor($accents, _white);
             }
 
             .form__submit {
                 position: relative;
                 @extend %icon-btn;
                 font-size: 26px;
-                padding: 0px 30px;
-                color: getColor($accents, primary);
+                padding: 0px 20px;
+                margin-left: 20px;
+                background-color: getColor($accents, primary);
+                border-radius: 10px;
+                color: getColor($accents, _white);
+                transition: transform .5s, color .5s;
 
                 &:hover {
-                    color: darken(getColor($accents, primary), 10%);
-                    transform: scale(1.2);
+                    color: getColor($accents, primary);
                 }
             }
         }

@@ -147,7 +147,7 @@ export default {
 		.view {	// All dashboard related views needs this class
 			width: 100%;
 			height: 100%;
-			padding: 0px 20px;
+			// padding: 0px 20px;
 			transition: background-color $themeTransitionTime;
 		}
 
