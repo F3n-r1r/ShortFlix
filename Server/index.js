@@ -37,57 +37,86 @@ app.use(morgan('combined'));
 
 
 
+
+
 /*-------------------------------------------------*\
     ?. - SOCKET IO TESTING
 \*-------------------------------------------------*/
-let users = []
-let messages = []
-let index = 0
 
+const chat = require('./models/chat');
 const http = require('http').Server(app)
 const io = require('socket.io')(http);
 
+let connectedUsers = [];
+
 io.on("connection", socket => {
-    socket.emit('loggedIn', {
-        users: users.map(s => s.username),
-        messages: messages
+
+    socket.on('initChat', userId => {
+        socket.userId = userId;
+        connectedUsers.push(socket)
+        // io.emit('userOnline', socket.username);
     })
 
-
-    // Connected
-    socket.on('newuser', username => {
-        //console.log(`${username} has joined`)
-        socket.username = username;
-        users.push(socket)
-
-        io.emit('userOnline', socket.username);
-    })
-
-
-    socket.on('msg', msg => {
-        console.log(socket.username)
-        let message = {
-            index: index,
-            username: socket.username,
-            msg: msg
-        }
-        messages.push(message);
-        io.emit('msg', message);
-        index++;
-    })
-
-    
-    //Disconnect
     socket.on("disconnect", () => {
-        console.log(`${socket.username} has disconnected`)
-        io.emit('userLeft', socket.username);
-        users.splice(users.indexOf(socket), 1);
+        let socketIdx = connectedUsers.indexOf(socket)
+        if (socketIdx > -1) {
+            connectedUsers.splice(socketIdx, 1)
+        }
+    })
+
+
+    socket.on('msg', data => {
+        let receiverId = data.receiverId;
+        let senderId = data.senderId;
+        chat.message.create({
+            msg: data.msg,
+            author: data.senderId,
+            thread: data.thread
+        }).then((message) => {
+            chat.message.findOne({
+                author: message.author,
+                msg: message.msg,
+                thread: message.thread
+            }).populate({
+                path: 'author',
+                select: 'firstname lastname'
+            }).then(data => {
+                var usersMap = connectedUsers.map(function(elem) {
+                    return {
+                        userId: elem.userId,
+                        socketId: elem.id
+                    } 
+                  });
+                let receiver = usersMap.find(x => x.userId === receiverId)
+                let sender = usersMap.find(x => x.userId === senderId)
+                if(receiver) {
+                    io.to(`${receiver.socketId}`).to(`${sender.socketId}`).emit('msg', data);
+                } else {
+                   io.to(`${sender.socketId}`).emit('msg', data);
+                }
+            })
+        }).catch((err) => {
+            // res.json({
+            //     error: err
+            // })
+        })
     })
 })
 
 http.listen(3000, () => {
     console.log("listening on %s", 3000);
 })
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -100,6 +129,7 @@ require('./routes/index')(app);
 app.use(history({
     verbose: true
 }));
+
 
 
 /*-------------------------------------------------*\
