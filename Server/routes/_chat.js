@@ -79,9 +79,10 @@ router.post('/threadMessages', function(req, res) {
     else start new thread.
 */
 router.post('/openThread', function(req, res) {
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey).id
     chat.thread.find({
         users: [
-            jwt.verify(req.headers['authorization'], jwtkey).id,
+            decodedToken,
             req.body.id
         ]
     }).then((data) => {     
@@ -91,17 +92,28 @@ router.post('/openThread', function(req, res) {
                     jwt.verify(req.headers['authorization'], jwtkey).id,
                     req.body.id
                 ]
-            }).then((thread) => {
-                 res.json({
-                     thread
-                 })
+            }).then((result) => {
+                chat.thread.find({
+                    _id: result._id
+                }).populate({
+                    path: 'users',
+                    match: { _id: { $ne: decodedToken }},
+                    select: 'firstname lastname'
+                }).then((thread) => {
+                    res.json({
+                        thread
+                    })
+                }).catch((err) => {
+                    res.json({
+                        err
+                    })
+                })
             }).catch((err) => {
                 res.json({
                     err
                 })
             })
         } else {
-            //console.log(data[0]._id)
             chat.message.find({
                 thread: data[0]._id
             }).then((messages) => {
