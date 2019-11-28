@@ -18,6 +18,9 @@
             <nav class="content-nav">
                 <ul class="content-nav__list">
                     <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/DashboardHome"><i class="link__icon fas fa-film"></i>Home</router-link>
+                    </li>
+                    <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                     </li>
                     <li class="list__item">

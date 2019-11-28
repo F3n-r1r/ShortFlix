@@ -7,6 +7,7 @@ import Dashboard from './Layout/Dashboard.vue';
 import Home from './Layout/Home.vue';
 
 /* Import views */
+import DashboardHome from './Layout/Views/Dashboard/Home.vue';
 import Movies from './Layout/Views/Dashboard/Movies.vue';
 import Talks from './Layout/Views/Dashboard/Talks.vue';
 import Profile from './Layout/Views/Dashboard/Profile.vue';
@@ -24,6 +25,11 @@ const routes = [
 		name: '',
 		component: Dashboard,
 		children: [
+			{
+				name: 'DashboardHome',
+				path: 'DashboardHome',
+				component: DashboardHome
+			},
 			{
 				name: 'Profile',
 				path: 'Profile',
