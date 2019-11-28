@@ -160,7 +160,12 @@ export default {
                 }
                 axios({method: 'POST', url: 'http://localhost:8000/api/chat/openThread', data: data})
                 .then(resp => {
-
+                    let threadsFilter = this.threads.filter(x => x._id === resp.data.thread[0]._id);
+                    if(!threadsFilter.length > 0) {
+                        this.threads.push(resp.data.thread[0])
+                    }
+                    this.activeThread = resp.data.thread[0]._id;
+                    this.returnToThreads();
                     resolve(resp);
                 }).catch(err => {
                     reject(err);
@@ -327,7 +332,7 @@ export default {
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 300px 1fr;
-    //grid-column-gap: 20px;
+    grid-column-gap: 20px;
 
     &__aside {
         width: 300px;
@@ -371,11 +376,11 @@ export default {
             .section__thread-list {
                 
                 .thread-list__title {         
-                    color: getColor($accents, primary);
-                    padding: 10px 20px;
-                    text-align: center;
-                    font-size: 20px;
+                    color: getColor($darkTheme, fontColor);
+                    padding: 10px 0px;
+                    font-size: 18px;
                     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    
                 }
 
                 .thread-list__item {
@@ -383,16 +388,18 @@ export default {
                     cursor: pointer;
                     color: getColor($darkTheme, fontColor);
                     padding: 20px 18px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                    border-left: 2px solid transparent;
+                    background-color: getColor($darkTheme, secondary);
+                    border-radius: 10px;
+                    margin-top: 15px;
+                    // border-left: 2px solid transparent;
 
                     &:hover {
-                        background-color: getColor($darkTheme, secondary);
-                        color: getColot($accents, _white);
+                        color: getColor($accents, _white);
                     }
 
                     &--active {
-                        border-left-color: getColor($accents, primary);
+                        background-color: getColor($accents, primary);
+                        color: getColor($accents, _white);
                     }
 
                     .item__username {
@@ -427,15 +434,16 @@ export default {
     &__chat {
         position: relative;
         grid-column: 2;
-        border-radius: 5px;
+        border-radius: 10px;
         display: flex;
         flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         .chat__window {
             position: relative;
             height: 100%;
             border-top-left-radius: 10px;
-            background-color: getColor($darkTheme, secondary);
+            
 
             .window__messages-list {
                 position: absolute;
@@ -474,20 +482,20 @@ export default {
 
                     &--receiver {
                         position: relative;
-                        align-items: flex-end;
+                        align-items: flex-start;
                         
                         .message__content {
-                            background-color: getColor($darkTheme, primary);          
+                            background-color: getColor($accents, primary);       
                         }
                               
                     }
 
                     &--sender {
                         position: relative;
-                        align-items: flex-start;
+                        align-items: flex-end;
 
                         .message__content {
-                            background-color: lighten(getColor($darkTheme, primary), 15%);    
+                            background-color: lighten(getColor($darkTheme, primary), 7%);  
                         }
                     }
                 }
@@ -518,7 +526,8 @@ export default {
             height: 100px;
             border: none;
             overflow: hidden;
-            background-color: getColor($darkTheme, secondary);
+            border-bottom-left-radius: 10px;
+         
             padding: 25px 50px;
   
             .form__input {
@@ -528,7 +537,7 @@ export default {
                 font-size: 16px;
                 border: none;
                 border-radius: 10px;
-                background-color: getColor($darkTheme, primary);
+                background-color: getColor($darkTheme, secondary);
                 color: getColor($accents, _white);
             }
 
