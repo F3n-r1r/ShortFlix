@@ -32,7 +32,7 @@ export default {
                 let data = {
                     id: userId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/user/network/request', data: data })
+                axios({method: 'POST', url: '/api/user/network/request', data: data })
                 .then(resp => {
                     //console.log(resp)
                     resolve(resp);
@@ -44,7 +44,7 @@ export default {
     },
     created: function() {
         return new Promise((resolve, reject) => {
-            axios({method: 'GET', url: 'http://localhost:8000/api/user/all', data: this.$store.getters.user})
+            axios({method: 'GET', url: '/api/user/all', data: this.$store.getters.user})
             .then(resp => {
                 this.users = resp.data.users;
                 resolve(resp);

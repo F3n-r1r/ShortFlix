@@ -32,7 +32,7 @@ export default {
                 let data = {
                     id: userId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/auth/approve', data: data })
+                axios({method: 'POST', url: '/api/auth/approve', data: data })
                 .then(resp => {
                     this.pendingUsers = this.pendingUsers.filter(x => x._id !== userId);
                     resolve(resp);
@@ -47,7 +47,7 @@ export default {
             let data = {
                 id: this.$store.getters.user
             }
-            axios({method: 'GET', url: 'http://localhost:8000/api/auth/pending', data: data})
+            axios({method: 'GET', url: '/api/auth/pending', data: data})
             .then(resp => {
                 console.log(resp.data.user)
                 this.pendingUsers = resp.data.user;

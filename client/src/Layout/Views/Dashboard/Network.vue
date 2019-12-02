@@ -46,7 +46,7 @@ export default {
                 let data = {
                     id: userId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/user/network/accept', data: data })
+                axios({method: 'POST', url: '/api/user/network/accept', data: data })
                 .then(resp => {
                     //console.log(resp)
                     this.network = this.network.concat(this.pendingRequests.filter(x => x._id == userId))
@@ -60,7 +60,7 @@ export default {
     },
     created: function() {
         return new Promise((resolve, reject) => {
-            axios({method: 'GET', url: 'http://localhost:8000/api/user/network/all'})
+            axios({method: 'GET', url: '/api/user/network/all'})
             .then(resp => {
                 //console.log(resp)
                 this.pendingRequests = resp.data.user.network.pending;

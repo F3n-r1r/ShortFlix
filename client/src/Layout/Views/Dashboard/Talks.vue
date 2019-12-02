@@ -158,7 +158,7 @@ export default {
                 let data = {
                     id: userId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/chat/openThread', data: data})
+                axios({method: 'POST', url: '/api/chat/openThread', data: data})
                 .then(resp => {
                     let threadsFilter = this.threads.filter(x => x._id === resp.data.thread[0]._id);
                     if(!threadsFilter.length > 0) {
@@ -210,7 +210,7 @@ export default {
                 let data = {
                     id: threadId
                 }
-                axios({method: 'POST', url: 'http://localhost:8000/api/chat/threadMessages', data: data})
+                axios({method: 'POST', url: '/api/chat/threadMessages', data: data})
                 .then(resp => {
                     this.messages = resp.data.messages;
                     resolve(resp);
@@ -224,7 +224,7 @@ export default {
         fetchThreads() {
             return new Promise((resolve, reject) => {
                 let user = this.$store.getters.user._id
-                axios({method: 'GET', url: 'http://localhost:8000/api/chat/threads', data: user})
+                axios({method: 'GET', url: '/api/chat/threads', data: user})
                 .then(resp => {
                     this.messages = resp.data.messages;
                     this.threads = resp.data.threads;
@@ -238,7 +238,7 @@ export default {
         /*  */
         fetchNetwork() {
             return new Promise((resolve, reject) => {
-                axios({method: 'GET', url: 'http://localhost:8000/api/user/network/all'})
+                axios({method: 'GET', url: '/api/user/network/all'})
                 .then(resp => {
                     //console.log(resp)
                     this.network = resp.data.user.network.accepted;
