@@ -7,8 +7,11 @@
             <!-------------------------------------------------------------------------------------->
             <header class="content-header">
                 <button class="content-header__burger-btn" @click="closeMenu"></button>
-                <i class="content-header__icon fas fa-camera"></i>
-                <h1 class="content-header__headline">ShortFlix</h1>
+                <figure class="content-header__logo">
+                    <router-link to="/Dashboard/DashboardHome">
+                        <img src="../../../Assets/logo.png">
+                    </router-link>
+                </figure>
             </header>
 
 
@@ -184,6 +187,11 @@ export default {
                 @include media(min, md) {
                     display: block;
                 }
+            }
+
+            &__logo img {
+                width: 60%;
+                height: auto;
             }
         }
 
