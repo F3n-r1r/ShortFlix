@@ -32,6 +32,7 @@
             <button class="message__close-btn" type="button" @click="toggleUploadModal">
                 Ok
             </button>
+            <upload />
         </div>
     </modal>
 
@@ -45,6 +46,7 @@
 	IMPORTS
 *\----------------------------------------------------------------------------------*/
 import modal from '../../Components/Shared/Modal.vue';
+import upload from '../../Components/Dashboard/Upload.vue'
 import { Carousel, Slide } from 'vue-carousel';
 
 
@@ -55,6 +57,7 @@ export default {
     name: 'DashboardHome',
     components: {
         modal,
+        upload,
         Carousel,
         Slide
     },
@@ -87,5 +90,10 @@ export default {
 
 
 <style lang="scss">
+.home-view {
 
+    .modal-content {
+        padding: 20px;
+    }
+}
 </style>
