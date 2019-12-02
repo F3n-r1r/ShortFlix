@@ -4,29 +4,38 @@
             <!-------------------------------------------------------------------------------------->
             <!-- ??      															  -->
             <!-------------------------------------------------------------------------------------->
-            
-            <form @submit.prevent="sendFile" class="upload__form" enctype="multipart/form-data">
-                <div class="form__dropzone">
-                    <input ref="file" @change="selectFile" type="file" class="dropzone__input">
-                    <p v-if="!uploading" class="dropzone__cta">Drag files here</p>
-                    
-                </div>
-                <button type="submit">Upload</button>
+     
 
-            </form>
+            
+                <form v-if="!uploading && !uploadComplete" @submit.prevent="sendFile" class="upload__form" enctype="multipart/form-data">
+                    <div class="form__field">
+                        <input v-model="title" type="text" placeholder="Movie title..." required>
+                    </div>
+                    <div class="form__field">
+                        <textarea v-model="description" name="" required/>
+                    </div>
+                    <div class="form__dropzone">
+                        <input ref="file" @change="selectFile" type="file" class="dropzone__input">
+                        <p v-if="!file" class="dropzone__cta">Drag files here</p>
+                        <p v-if="file">{{file.name}}</p>
+                    </div>
+                    <div v-if="message" :class="`message-${error ? 'error' : 'succes'}`">
+                        {{message}}
+                    </div>
+                    <button type="submit">Upload</button>
+                </form>
 
           
-            <progress v-if="uploading" class="dropzone__progress" :value="progress" max="100">
-                {{progress}}
-            </progress>
+                <progress v-if="uploading" class="dropzone__progress" :value="progress" max="100">
+                    {{progress}}
+                </progress>
                 
            
-            
-            <div if="file">{{file.name}}</div>
+                <div v-if="uploadComplete">
+                    YOUR UPLOAD IS COMPLETE
+                </div>
 
-            <div v-if="message" :class="`message-${error ? 'error' : 'succes'}`">
-                {{message}}
-            </div>
+
 
     </div>
 </template>
@@ -49,17 +58,18 @@ export default {
     name: 'upload',
     data() {
         return {
+            title: '',
+            description: '',
             file: '',
             message: '',
             error: false,
             uploading: false,
-            uploadedFiles: [],
-            progress: 0
+            uploadComplete: false,
+            progress: 0,    
         }
     },
     methods: {
         selectFile() {
-
             const file = this.$refs.file.files[0];
             console.log(file.type)
             const allowedTypes = ["video/quicktime"]; // "image/jpeg", "image/png", "image/gif", 
@@ -77,25 +87,30 @@ export default {
         },
         async sendFile() {
             const formData = new FormData();
+            formData.append('title', this.title);
+            formData.append('description', this.description);
+            formData.append('creator', this.$store.getters.user._id);
             formData.append('file', this.file);
 
             try {
                 this.uploading = true;
-               const res = await axios.post('/api/video/upload', formData, {
-                   onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total)
-               })
-               this.uploadedFiles.push(res.data.file)
+                const res = await axios.post('/api/video/upload', formData, {
+                    onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total)
+                })
+               console.log(res)
                 this.message = "File has been uploaded"
                 this.file = "";
                 this.error = false;
                 this.uploading = false;
+                this.uploadComplete = true;
             } catch(err) {
                 this.message = err.response.data.error;
                 this.error = true;
                 this.uploading = false;
+                this.uploadComplete = false;
             }
         }
-    },
+    }
 };
 </script>
 
