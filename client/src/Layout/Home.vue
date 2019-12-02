@@ -7,7 +7,9 @@
 		<!-------------------------------------------------------------------------------------->
 		<header class="header">
 			<div class="header__center">
-				<h1 class="center__logo">ShortFlix</h1>
+				<figure class="center__logo">
+                    <img src="../Assets/logo.png">
+                </figure>
 			</div>
 			<div class="header__right">
 				<button class="right__login" @click="toggleAuthModal"><i class="fas fa-user-lock"></i></button>
