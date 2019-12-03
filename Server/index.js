@@ -35,8 +35,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 app.use(morgan('combined'));
 
-
-
+// Allow for folders to be reached in the url
+app.use('/uploads', express.static('uploads'))
 
 
 /*-------------------------------------------------*\

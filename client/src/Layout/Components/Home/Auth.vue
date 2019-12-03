@@ -147,7 +147,7 @@ export default {
                 if(res == 'Incorrect password' || res == 'Incorrect email') {
                     this.login_error = res;
                 } else {
-                    this.$router.push('/Dashboard/Movies')
+                    this.$router.push('/Dashboard/DashboardHome')
                 }
             })
             .catch(err => console.log(err))
