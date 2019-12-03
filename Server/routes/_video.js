@@ -93,7 +93,6 @@ var fileCheck = function (err, req, res, next) {
     6. - UPLOAD VIDEO
 \*-------------------------------------------------*/
 router.post('/upload', upload.array('files'), fileCheck, function(req, res) {
-    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey).id
     const filesArr = req.files.sort(function(a, b) {
         return a.mimetype > b.mimetype ? 1 : -1;
     })
@@ -103,10 +102,20 @@ router.post('/upload', upload.array('files'), fileCheck, function(req, res) {
         description: req.body.description,
         thumbnail: filesArr[0].path,
         video: filesArr[1].path
-    }).then(video => {
-        res.json({
-            thumbnail: req.protocol + '://' + req.get('host') + '/' + video.thumbnail,
-            video: req.protocol + '://' + req.get('host') + '/' + video.video
+    }).then(data => {
+        video.find({
+            user: req.body.creator,
+            title: req.body.title,
+            description: req.body.description,
+            thumbnail: filesArr[0].path,
+            video: filesArr[1].path
+        }).populate({
+            path: 'user',
+            select: 'firstname lastname'
+        }).then(videos => {
+            res.json({
+                videos
+            })
         })
     }).catch(err => {
         res.json(err)
