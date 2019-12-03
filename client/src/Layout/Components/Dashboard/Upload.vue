@@ -65,8 +65,9 @@ import _ from 'lodash';
 *\----------------------------------------------------------------------------------*/
 export default {
     props: {
-        resetUpload: Boolean
-},
+        resetUpload: Boolean,
+        value: Array
+    },
     data() {
         return {
             title: '',
@@ -82,6 +83,9 @@ export default {
         }
     },
     methods: {
+        pushToParent(movie) {
+            this.$emit("input", [movie, ...this.value])
+        },
         selectFile() {
             const files = this.$refs.files.files;
             this.uploadFiles = [...this.uploadFiles, ...files];
@@ -127,7 +131,8 @@ export default {
                 const res = await axios.post('/api/video/upload', formData, {
                     onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total)
                 })
-                console.log(res)
+                //console.log(res)
+                this.pushToParent(res.data.videos[0])
                 this.message = "Files has been uploaded"
                 this.file = "";
                 this.error = false;

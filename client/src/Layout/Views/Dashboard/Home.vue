@@ -5,21 +5,37 @@
     <!-- MOVIES SECTION				             										  -->
     <!-------------------------------------------------------------------------------------->
     <section class="home-view__movie-section">
-        <h2>Your Movies</h2>
-        <carousel :perPageCustom="[[768, 3], [1024, 4]]">
-            <slide>
-              <i class="fas fa-plus" @click="toggleUploadModal"></i>
-            </slide>
-            <slide>
-                2
-            </slide>
-            <slide>
-                3
-            </slide>
-            <slide>
-                4
-            </slide>
-        </carousel>
+        <h2 class="movie-section__headline">Your Movies</h2>
+
+
+        <div class="movie-section__row">
+            <!-------------------------------------------------------------------------------------->
+            <!-- ADD MOVIE (DESKTOP)      				             							  -->
+            <!-------------------------------------------------------------------------------------->
+            <div class="row__add-movie" @click="toggleUploadModal">
+                <i class="add-movie__icon fas fa-plus"></i>
+            </div>
+        
+            <!-------------------------------------------------------------------------------------->
+            <!-- MOVIES CAROUSEL				             									  -->
+            <!-------------------------------------------------------------------------------------->
+            <carousel class="row__carousel" 
+            :perPageCustom="[[0, 1], [576, 3], [992, 3], [1300, 4], [1600, 5]]"
+            :scrollPerPage="true"
+            :paginationEnabled="false"
+            >
+                <slide class="carousel__slide" v-for="(movie, index) in myMovies" :key="index">
+                    <a href="#" class="slide__content">
+                        <div class="content__img-container">
+                            <img class="img-container__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt="">
+                            <div class="img-container__title-container">
+                                <h4 class="title-container__title">{{movie.title}}</h4>
+                            </div> 
+                        </div>
+                    </a>       
+                </slide>
+            </carousel>
+        </div>
            
     </section>
     
@@ -32,7 +48,7 @@
             <button class="content__close-btn" type="button" @click="toggleUploadModal">
                 <i class="close-btn__icon fas fa-times"></i>
             </button>
-            <upload :resetUpload="resetUpload"/>
+            <upload v-model="myMovies" :resetUpload="resetUpload"/>
         </div>
     </modal>
 
@@ -48,6 +64,7 @@
 import modal from '../../Components/Shared/Modal.vue';
 import upload from '../../Components/Dashboard/Upload.vue'
 import { Carousel, Slide } from 'vue-carousel';
+import axios from 'axios';
 
 
 /*----------------------------------------------------------------------------------*\
@@ -68,7 +85,8 @@ export default {
     data() {
         return {
             uploadModal: false,
-            resetUpload: false
+            resetUpload: false,
+            myMovies: []
         }
   },
 
@@ -86,8 +104,36 @@ export default {
                 this.resetUpload = true;
 				document.body.removeAttribute("style");
 			}
+        },
+        fetchMyMovies() {
+            return new Promise((resolve, reject) => {
+                axios({method: 'GET', url: '/api/video/myVideos'})
+                .then(resp => {
+                    //console.log(resp)
+                    this.myMovies = resp.data.videos;
+
+                    // Trigger resize event in order to fix carousel bug, and render it.
+                    let resizeEvent = window.document.createEvent('UIEvents');
+                    resizeEvent.initUIEvent('resize', true, false, window, 0);
+                    window.dispatchEvent(resizeEvent);
+
+                    resolve(resp);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
         }
-    }
+    },
+
+
+
+
+     /*----------------------------------------------------------------------------------*\
+		MOUNTED
+	*\----------------------------------------------------------------------------------*/
+	mounted() {
+        this.fetchMyMovies();
+	}
 }
 </script>
 
@@ -95,9 +141,105 @@ export default {
 <style lang="scss">
 .home-view {
 
-    .home-view__modal {
+    .home-view__movie-section {
+        padding: 0px 20px;
 
+        .movie-section__headline {
+            color: getColor($accents, _white);
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .movie-section__row {
+            @include flexRow(null, null);
+
+            .row__add-movie {
+                display: none;
+                width: 200px;
+                min-width: 200px;
+                margin-right: 15px;
+                border: 3px solid getColor($accents, _white);
+                cursor: pointer;
+
+                @include media(min, xs) {
+                    @include flexRow(center, center);
+                }
+
+                &:hover > .add-movie__icon {
+                    transform: scale(1.5);
+                    color: getColor($accents, tertiary);
+                }
+
+                .add-movie__icon {
+                    font-size: 30px;
+                    transition: transform .5s ease, color .5s ease;
+                    color: getColor($accents, _white);
+                }
+            }
+
+            .row__carousel {
+                
+
+                .carousel__slide {
+                    
+
+                    .slide__content {
+                        position: relative; 
+                        display:flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                        max-height: 250px;
+
+                        @include media(min, xs) {
+                            padding: 0px 15px;
+                        }
+
+                        .content__img-container {
+                            position: relative;
+                            
+
+                            &:hover > .img-container__title-container {
+                                opacity: 1;
+                            }
+
+                            .img-container__img {
+                                position: relative;
+                                object-fit: contain;
+                                height: 100%;
+                                width:100%;
+                            }
+
+                            .img-container__title-container {
+                                position: absolute;
+                                @include flexRow(center, center);
+                                top: 0;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                background-color: rgba(0,0,0,0.5);
+                                opacity: 0;
+                                padding: 20px;
+
+                                .title-container__title {
+                                    position: relative;
+                                    color: getColor($accents, _white);
+                                    word-wrap: break-word;
+                                    word-break: break-all;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &__modal {
+        
         .modal__content {
+            background-color: getColor($darkTheme, primary);
             padding: 30px;
 
             .content__close-btn {
@@ -109,6 +251,5 @@ export default {
             }
         }
     }
-
 }
 </style>
