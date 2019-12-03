@@ -64,7 +64,9 @@ import _ from 'lodash';
 	EXPORTS
 *\----------------------------------------------------------------------------------*/
 export default {
-    name: 'upload',
+    props: {
+        resetUpload: Boolean
+},
     data() {
         return {
             title: '',
@@ -125,7 +127,7 @@ export default {
                 const res = await axios.post('/api/video/upload', formData, {
                     onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total)
                 })
-                //console.log(res)
+                console.log(res)
                 this.message = "Files has been uploaded"
                 this.file = "";
                 this.error = false;
@@ -166,6 +168,21 @@ export default {
                 this.uploadRdy = true;
             }
             this.message = "";
+        },
+
+        resetUpload() {
+            if(this.resetUpload) {
+                this.title = ''
+                this.description = ''
+                this.files = []
+                this.uploadFiles = []
+                this.message = ''
+                this.error = false
+                this.uploading = false
+                this.uploadComplete = false
+                this.progress = 0,
+                this.uploadRdy = false  
+            }
         }
     }
 };

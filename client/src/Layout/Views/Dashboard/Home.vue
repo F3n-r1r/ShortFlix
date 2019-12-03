@@ -27,12 +27,12 @@
     <!-------------------------------------------------------------------------------------->
     <!-- (REGISTERED MESSAGE) MODAL COMPONENT											  -->
     <!-------------------------------------------------------------------------------------->
-    <modal v-show="uploadModal"> 
-        <div class="modal-content">
-            <button class="message__close-btn" type="button" @click="toggleUploadModal">
-                Ok
+    <modal class="home-view__modal" v-show="uploadModal"> 
+        <div class="modal__content">
+            <button class="content__close-btn" type="button" @click="toggleUploadModal">
+                <i class="close-btn__icon fas fa-times"></i>
             </button>
-            <upload />
+            <upload :resetUpload="resetUpload"/>
         </div>
     </modal>
 
@@ -68,6 +68,7 @@ export default {
     data() {
         return {
             uploadModal: false,
+            resetUpload: false
         }
   },
 
@@ -77,10 +78,12 @@ export default {
     methods: {
         toggleUploadModal() {
 			if(!this.uploadModal) {
-				this.uploadModal = true;
+                this.uploadModal = true;
+                this.resetUpload = false;
 				document.body.style.overflow = "hidden";
 			} else {
-				this.uploadModal = false;
+                this.uploadModal = false;
+                this.resetUpload = true;
 				document.body.removeAttribute("style");
 			}
         }
@@ -92,8 +95,20 @@ export default {
 <style lang="scss">
 .home-view {
 
-    .modal-content {
-        padding: 20px;
+    .home-view__modal {
+
+        .modal__content {
+            padding: 30px;
+
+            .content__close-btn {
+                @extend %icon-btn;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                font-size: 18px;
+            }
+        }
     }
+
 }
 </style>
