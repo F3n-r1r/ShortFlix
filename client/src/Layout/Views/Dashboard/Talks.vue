@@ -312,6 +312,7 @@ export default {
 
         /* SET NEW ACTIVE THREAD ID & CALL FUNCTION TO GET ASSOCIATED MESSAGES */
         activeThread: function(newThread, oldThread) {
+            this.messages = '';
             let thread = this.threads.filter(x => x._id === newThread);
             this.receiver = thread[0].users[0]._id;
             this.fetchThreadMessages(newThread);
