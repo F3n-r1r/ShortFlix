@@ -25,25 +25,38 @@
             :paginationEnabled="false"
             >
                 <slide class="carousel__slide" v-for="(movie, index) in myMovies" :key="index">
-                    <a href="#" class="slide__content">
-                        <div class="content__img-container">
+                    <div class="slide__content">
+                        <div @click="toggleMovieInfo(index)" class="content__img-container">
                             <img class="img-container__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt="">
                             <div class="img-container__title-container">
                                 <h4 class="title-container__title">{{movie.title}}</h4>
                             </div> 
                         </div>
-                    </a>       
+                    </div>       
                 </slide>
             </carousel>
         </div>
            
     </section>
-    
+
 
     <!-------------------------------------------------------------------------------------->
-    <!-- (REGISTERED MESSAGE) MODAL COMPONENT											  -->
+    <!-- (SEE VIDEO DETAILS) MODAL COMPONENT					        				  -->
     <!-------------------------------------------------------------------------------------->
-    <modal class="home-view__modal" v-show="uploadModal"> 
+    <modal class="home-view__modal-details" v-show="detailsModal">
+        <div v-if="Object.keys(selectedMovie).length != 0" class="modal__content">
+            <button class="content__close-btn" type="button" @click="toggleMovieInfo()">
+                <i class="close-btn__icon fas fa-times"></i>
+            </button>
+            <img style="height: 200px;" :src="`http://localhost:8000/${selectedMovie.thumbnail}`" alt="">
+        </div>
+    </modal>
+
+
+    <!-------------------------------------------------------------------------------------->
+    <!-- (UPLOAD VIDEO) MODAL COMPONENT					        						  -->
+    <!-------------------------------------------------------------------------------------->
+    <modal class="home-view__modal-upload" v-show="uploadModal"> 
         <div class="modal__content">
             <button class="content__close-btn" type="button" @click="toggleUploadModal">
                 <i class="close-btn__icon fas fa-times"></i>
@@ -85,8 +98,10 @@ export default {
     data() {
         return {
             uploadModal: false,
+            detailsModal: false,
             resetUpload: false,
-            myMovies: []
+            myMovies: [],
+            selectedMovie: {}
         }
   },
 
@@ -102,6 +117,19 @@ export default {
 			} else {
                 this.uploadModal = false;
                 this.resetUpload = true;
+				document.body.removeAttribute("style");
+			}
+        },
+        toggleMovieInfo(index) {
+            let movie = this.myMovies[index];
+            
+            if(!this.detailsModal) {
+                this.detailsModal = true;
+                this.selectedMovie = movie;
+				document.body.style.overflow = "hidden";
+			} else {
+                this.detailsModal = false;
+                this.selectedMovie = {};
 				document.body.removeAttribute("style");
 			}
         },
@@ -198,7 +226,7 @@ export default {
 
                         .content__img-container {
                             position: relative;
-                            
+                            cursor: pointer;
 
                             &:hover > .img-container__title-container {
                                 opacity: 1;
@@ -236,7 +264,7 @@ export default {
         }
     }
 
-    &__modal {
+    &__modal-upload {
         
         .modal__content {
             background-color: getColor($darkTheme, primary);
