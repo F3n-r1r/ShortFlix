@@ -18,8 +18,11 @@
 \*-------------------------------------------------*/
 const express = require('express');
 const router = express.Router();
+const video = require('../models/video');
 const multer = require('multer');
 var path = require('path')
+const jwt = require('jsonwebtoken');
+const { jwtkey } = require('../config/envConfig');
 
 const allowedTypes = ["video/quicktime", "image/jpeg", "image/png"];
 
@@ -90,14 +93,45 @@ var fileCheck = function (err, req, res, next) {
     6. - UPLOAD VIDEO
 \*-------------------------------------------------*/
 router.post('/upload', upload.array('files'), fileCheck, function(req, res) {
-
-    res.json({
-       file: req.files,
-       test: req.body
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey).id
+    const filesArr = req.files.sort(function(a, b) {
+        return a.mimetype > b.mimetype ? 1 : -1;
     })
-
+    video.create({
+        user: req.body.creator,
+        title: req.body.title,
+        description: req.body.description,
+        thumbnail: filesArr[0].path,
+        video: filesArr[1].path
+    }).then(video => {
+        res.json({
+            thumbnail: req.protocol + '://' + req.get('host') + '/' + video.thumbnail,
+            video: req.protocol + '://' + req.get('host') + '/' + video.video
+        })
+    }).catch(err => {
+        res.json(err)
+    })
 })
 
+
+/*-------------------------------------------------*\
+    7. - GET PERSONAL VIDEOS
+\*-------------------------------------------------*/
+router.get('/myVideos', function(req, res) {
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey).id
+    video.find({
+        user: decodedToken
+    }).populate({
+        path: 'user',
+        select: 'firstname lastname'
+    }).then(videos => {
+        res.json({
+            videos
+        })
+    }).catch(err => {
+        res.json(err);
+    })
+})
 
 /*
     NOTES: FOR GETTING DATA

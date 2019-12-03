@@ -27,6 +27,14 @@ const videoSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
     thumbnail: {
         type: String,
         required: true,
