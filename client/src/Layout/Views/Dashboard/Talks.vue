@@ -256,12 +256,16 @@ export default {
             let newArr = []
             if(q) {
                 for(let i = 0; i < n.length; i++) {   
-                    Object.entries(n[i]).forEach(([key, value]) => {
-                        //.replace(/\s/g, '')
-                        if(value.toString().toLowerCase().startsWith(q)) {
-                            newArr.indexOf(n[i]) === -1 ? newArr.push(n[i]) : console.log("already in the array");
-                        } 
-                    });
+                    let username = n[i].firstname + ' ' + n[i].lastname;
+                    if(username.toLowerCase().includes(q.toLowerCase())) {
+                         newArr.indexOf(n[i]) === -1 ? newArr.push(n[i]) : console.log("already in the array");
+                    } 
+                    // Object.entries(n[i]).forEach(([key, value]) => {
+                    //     //.replace(/\s/g, '')
+                    //     if(value.toString().toLowerCase().startsWith(q)) {
+                    //         newArr.indexOf(n[i]) === -1 ? newArr.push(n[i]) : console.log("already in the array");
+                    //     } 
+                    // });
                 }
                 this.searchArr = newArr;      
             } else {
