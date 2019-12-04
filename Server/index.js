@@ -22,6 +22,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const morgan = require('morgan');
+var path = require('path')
 
 
 
@@ -35,8 +36,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 app.use(morgan('combined'));
 
-// Allow for folders to be reached in the url
-app.use('/uploads', express.static('uploads'))
+
+// Allow for folders to be reached in the url (NEEDS AUTH IN THE FUTURE)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 
 /*-------------------------------------------------*\
@@ -96,9 +98,9 @@ io.on("connection", socket => {
                 }
             })
         }).catch((err) => {
-            // res.json({
-            //     error: err
-            // })
+            res.json({
+                error: err
+            })
         })
     })
 })
