@@ -88,7 +88,7 @@ const routes = [
 		async beforeEnter(to, from, next) {
 			try {
 				if(store.getters.isLoggedIn) {
-					next('/Dashboard/Movies');
+					next('/Dashboard/DashboardHome');
 				} else {
 					next();
 				}
