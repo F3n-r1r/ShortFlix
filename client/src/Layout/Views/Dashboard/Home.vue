@@ -49,6 +49,7 @@
                 <i class="close-btn__icon fas fa-times"></i>
             </button>
             <img style="height: 200px;" :src="`http://localhost:8000/${selectedMovie.thumbnail}`" alt="">
+            <button @click="playMovie(selectedMovie.video)">PLAY</button>
         </div>
     </modal>
 
@@ -65,6 +66,15 @@
         </div>
     </modal>
 
+
+    <!-------------------------------------------------------------------------------------->
+    <!-- VIDEO PLAYER                   				        						  -->
+    <!-------------------------------------------------------------------------------------->
+    <player v-if="playVideo" @click="closeMovie()"/>
+
+
+
+
   </div>
 </template>
 
@@ -75,7 +85,8 @@
 	IMPORTS
 *\----------------------------------------------------------------------------------*/
 import modal from '../../Components/Shared/Modal.vue';
-import upload from '../../Components/Dashboard/Upload.vue'
+import upload from '../../Components/Dashboard/Upload.vue';
+import player from '../../Components/Dashboard/Player.vue';
 import { Carousel, Slide } from 'vue-carousel';
 import axios from 'axios';
 
@@ -89,7 +100,8 @@ export default {
         modal,
         upload,
         Carousel,
-        Slide
+        Slide,
+        player
     },
 
   	/*----------------------------------------------------------------------------------*\
@@ -101,7 +113,8 @@ export default {
             detailsModal: false,
             resetUpload: false,
             myMovies: [],
-            selectedMovie: {}
+            selectedMovie: {},
+            playVideo: false
         }
   },
 
@@ -150,18 +163,40 @@ export default {
                     reject(err);
                 })
             })
+        },
+
+
+
+
+        playMovie(movie) {
+            let path = movie.split('\\').pop().split('\\')[0];
+            this.$router.push({path: '', query: {video: path}})
+            this.toggleMovieInfo();
+            this.playVideo = true;
+        },
+        closeMovie() {
+            // this.$router.back(-1);
+            this.$router.push({path: ''})
+            this.playVideo = false;
+        },
+        movieRefreshHandler() {
+            //console.log(this.$route.query)
+            if(this.$route.query.video) {
+                this.playVideo = true;
+            }
         }
     },
-
-
-
 
      /*----------------------------------------------------------------------------------*\
 		MOUNTED
 	*\----------------------------------------------------------------------------------*/
 	mounted() {
         this.fetchMyMovies();
-	}
+
+        this.movieRefreshHandler();
+    },
+    
+
 }
 </script>
 
@@ -260,6 +295,21 @@ export default {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    &__modal-details {
+        .modal__content {
+            background-color: getColor($darkTheme, primary);
+            padding: 30px;
+
+            .content__close-btn {
+                @extend %icon-btn;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                font-size: 18px;
             }
         }
     }
