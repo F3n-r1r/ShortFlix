@@ -20,7 +20,7 @@
 					<ul class="item__list">
 						<li class="list__header">Profile<li>
 						<li class="list__item"><router-link class="item__link" to="#">Edit Profile<i class="link__icon far fa-edit"></i></router-link></li>
-						<li class="list__item"><router-link class="item__link" to="#">View Profile<i class="link__icon far fa-user"></i></router-link></li>
+						<li class="list__item"><router-link class="item__link" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">View Profile<i class="link__icon far fa-user"></i></router-link></li>
 					</ul>
 				</li>
 				<li class="content__item">
