@@ -63,8 +63,22 @@ router.get('/current', function(req, res) {
 });
 
 
+/*-------------------------------------------------*\
+    5. - GET USER PROFILE
+\*-------------------------------------------------*/
+router.get('/profile/:id', async (req, res) => {
+    let id = req.params.id;
 
+    let profile = await user.findOne({
+        _id: id
+    }).then(data => {
+        return data
+    }).catch(err => {
+        throw(err)
+    })
 
+    res.json(profile)
+})
 
 
 
