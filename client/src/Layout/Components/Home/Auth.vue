@@ -147,7 +147,7 @@ export default {
                 if(res == 'Incorrect password' || res == 'Incorrect email') {
                     this.login_error = res;
                 } else {
-                    this.$router.push('/Dashboard/DashboardHome')
+                    this.$router.push('/Dashboard/Home')
                 }
             })
             .catch(err => console.log(err))
@@ -253,6 +253,7 @@ export default {
                     padding: 8px 10px;
                     border-radius: 5px;
                     outline: 0;
+                    background: getColor($accents, _white);
                     border: 1px solid getColor($accents, primary);
                 }
             }

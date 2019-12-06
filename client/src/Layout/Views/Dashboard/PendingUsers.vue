@@ -1,5 +1,5 @@
 <template>
-  <div class="view admin-view">
+  <div class="view pendingUsers-view">
     <p>Admin panel</p>
 
     <ul>
@@ -17,7 +17,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'Admin',
+    name: 'PendingUsers',
     components: {
 
     },

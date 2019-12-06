@@ -8,12 +8,15 @@ import Home from './Layout/Home.vue';
 
 /* Import views */
 import DashboardHome from './Layout/Views/Dashboard/Home.vue';
+import Showcases from './Layout/Views/Dashboard/Showcases.vue';
 import Movies from './Layout/Views/Dashboard/Movies.vue';
 import Talks from './Layout/Views/Dashboard/Talks.vue';
 import Profile from './Layout/Views/Dashboard/Profile.vue';
-import Admin from './Layout/Views/Dashboard/Admin.vue';
+import PendingUsers from './Layout/Views/Dashboard/PendingUsers.vue';
 import Community from './Layout/Views/Dashboard/Community.vue';
 import Network from './Layout/Views/Dashboard/Network.vue';
+import Cinema from './Layout/Views/Dashboard/Cinema.vue';
+import News from './Layout/Views/Dashboard/News.vue';
 
 
 
@@ -27,7 +30,7 @@ const routes = [
 		children: [
 			{
 				name: 'DashboardHome',
-				path: 'DashboardHome',
+				path: 'Home',
 				component: DashboardHome
 			},
 			{
@@ -36,14 +39,29 @@ const routes = [
 				component: Profile
 			},
 			{
+				name: 'Showcases',
+				path: 'Showcases',
+				component: Showcases
+			},
+			{
 				name: 'Movies',
 				path: 'Movies',
 				component: Movies
 			},
 			{
+				name: 'News',
+				path: 'News',
+				component: News
+			},
+			{
 				name: 'Talks',
 				path: 'Talks',
 				component: Talks
+			},
+			{
+				name: 'Cinema',
+				path: 'Cinema',
+				component: Cinema
 			},
 			{
 				name: 'Network',
@@ -56,9 +74,25 @@ const routes = [
 				component: Community
 			},
 			{
-				name: 'Admin',
-				path: 'Admin',
-				component: Admin,
+				name: 'PendingUsers',
+				path: 'PendingUsers',
+				component: PendingUsers,
+				async beforeEnter(to, from, next) {
+					try {
+						if(store.getters.user.role === 'Admin') {
+							next();		
+						} else {
+							next('Dashboard/Home')
+						}
+					} catch(e) {
+						next({
+							name: '/',
+							query: {
+								redirectFrom: to.fullPath
+							}
+						})
+					}
+				}
 			}
 		],
 		async beforeEnter(to, from, next) {
@@ -88,9 +122,9 @@ const routes = [
 		async beforeEnter(to, from, next) {
 			try {
 				if(store.getters.isLoggedIn) {
-					next('/Dashboard/DashboardHome');
+					next('/Dashboard/Home');
 				} else {
-					next();
+					next('/');
 				}
 			} catch(e) {
 				next();

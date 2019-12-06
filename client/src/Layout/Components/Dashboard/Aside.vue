@@ -9,7 +9,7 @@
                 <button class="content-header__burger-btn" @click="closeMenu"></button>
                 <figure class="content-header__logo">
                     <router-link to="/Dashboard/DashboardHome">
-                        <img src="../../../Assets/logo.png">
+                        <img src="../../../Assets/logo.png"> 
                     </router-link>
                 </figure>
             </header>
@@ -19,24 +19,52 @@
             <!-- ASIDE NAVIGATION   															  -->
             <!-------------------------------------------------------------------------------------->
             <nav class="content-nav">
-                <ul class="content-nav__list">
+
+                <!-------------------------------------------------------------------------------------->
+                <!-- PERSONAL LIST            														  -->
+                <!-------------------------------------------------------------------------------------->
+                <ul class="content-nav__list content-nav__list--personal">
+                    <li class="list__header">PERSONAL</li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/DashboardHome"><i class="link__icon fas fa-film"></i>Home</router-link>
+                        <router-link class="item__link" to="/Dashboard/Home"><i class="link__icon fas fa-film"></i>Home</router-link>
                     </li>
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                     </li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/Talks"><i class="link__icon far fa-comment-dots"></i>Talks</router-link>
+                        <router-link class="item__link" to="/Dashboard/Showcases"><i class="link__icon fas fa-film"></i>Showcases</router-link>
                     </li>
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Network"><i class="link__icon fas fa-users"></i>Network</router-link>
                     </li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/Community"><i class="link__icon fas fa-users"></i>Community</router-link>
+                        <router-link class="item__link" to="/Dashboard/Talks"><i class="link__icon far fa-comment-dots"></i>Talks</router-link>
                     </li>
-                    <li class="list__item" v-if="user.role === 'Admin'">
-                        <router-link class="item__link" to="/Dashboard/Admin"><i class="link__icon fas fa-tools"></i>Admin</router-link>
+                </ul>
+
+                <!-------------------------------------------------------------------------------------->
+                <!-- PUBLIC LIST            														  -->
+                <!-------------------------------------------------------------------------------------->
+                <ul class="content-nav__list content-nav__list--public">
+                    <li class="list__header">PUBLIC</li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/Cinema"><i class="link__icon fas fa-users"></i>Cinema</router-link>
+                    </li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/Community"><i class="link__icon fas fa-users"></i>Shortflix Community</router-link>
+                    </li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/News"><i class="link__icon fas fa-users"></i>News</router-link>
+                    </li>
+                </ul>
+
+                <!-------------------------------------------------------------------------------------->
+                <!-- ADMIN LIST            															  -->
+                <!-------------------------------------------------------------------------------------->
+                <ul class="content-nav__list content-nav__list--admin" v-if="user.role === 'Admin'">
+                    <li class="list__header">ADMIN</li>
+                    <li class="list__item">
+                        <router-link class="item__link" to="/Dashboard/PendingUsers"><i class="link__icon fas fa-tools"></i>Pending users</router-link>
                     </li>
                 </ul>
             </nav>
@@ -94,7 +122,7 @@ export default {
     bottom: 0;
     transition-delay: .5s;
     transform: translateX(-100%);
-    z-index: 9999;
+    z-index: 10;
 
     @include media(min, md) {
         position: relative;
@@ -203,6 +231,11 @@ export default {
             grid-row: 2;
 
             &__list {
+                .list__header {
+                    padding: 15px 30px 5px 30px;
+                    font-size: 18px;
+                }
+
                 .list__item {
                     .item__link {
                         @include flexRow(center, null);
@@ -259,6 +292,10 @@ export default {
 
             .content-nav {
                 &__list {
+                    .list__header {
+                        color: getColor($darkTheme, fontColor);
+                    }
+
                     .list__item {
                         color: getColor($darkTheme, fontColor);
 
@@ -306,6 +343,10 @@ export default {
 
             .content-nav {
                 &__list {
+                    .list__header {
+                        color: getColor($darkTheme, fontColor);
+                    }
+
                     .list__item {
                         color: getColor($lightTheme, fontColor);
 
