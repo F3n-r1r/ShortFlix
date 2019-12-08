@@ -7,9 +7,6 @@
 		<!-------------------------------------------------------------------------------------->
 		<header class="header">
 			<div class="header__center">
-				<figure class="center__logo">
-                    <!-- <img src="../Assets/logo.png"> -->
-                </figure>
 			</div>
 			<div class="header__right">
 				<button class="right__login" @click="toggleAuthModal"><i class="fas fa-user-lock"></i></button>
@@ -22,13 +19,15 @@
 		<!-------------------------------------------------------------------------------------->
 		<main class="home-main">
 			<section class="home-main__slider">
-
+				<figure class="center__logo">
+                    <img src="/images/logo.png">
+                </figure>
+				<h3 class="home-main__slider--subtext">
+					Curating the newest work from Short Film Students
+				</h3>
 			</section>
 			<section class="home-main__featured-content">
-				<div class="test1"></div>
-				<div class="test2"></div>
-				<div class="test3"></div>
-				<div class="test4"></div>
+				<teaser />
 			</section>
 		</main>
 
@@ -71,7 +70,7 @@
 *\----------------------------------------------------------------------------------*/
 import auth from './Components/Home/Auth.vue';
 import modal from './Components/Shared/Modal.vue';
-
+import teaser from './Components/Limited/Teaser.vue';
 
 /*----------------------------------------------------------------------------------*\
 	EXPORTS
@@ -80,7 +79,9 @@ export default {
   name: 'Home',
   components: {
     modal,
-	auth
+	auth,
+	teaser
+	
   },
 
 
@@ -128,103 +129,100 @@ export default {
 /*----------------------------------------------------------------------------------*\
     HOME LAYOUT
 *\----------------------------------------------------------------------------------*/
-.home-container {
-	padding: 0px 15px;
-	margin: 0 auto;
-	max-width: 1140px;
+.home {
+	background-color: getColor($darkTheme, secondary);
 
-	@include media(min, xs) {
-		max-width: 100%;
-	}
+	.home-container {
+		margin: 0 auto;
 
-	@include media(min, sm) {
-		max-width: 720px;
-	}
-
-	@include media(min, md) {
-		max-width: 960px;
-	}
-
-	@include media(min, lg) {
-		max-width: 1140px;
-	}
-
-	@include media(min, xl) {
-		max-width: 1400px
-	}
-
-
-	/*----------------------------------------------------------------------------------*\
-		HEADER
-	*\----------------------------------------------------------------------------------*/
-	.header { 
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		justify-items: center;
-		padding: 20px 0px;
-		
-		&__center {
-			grid-column: 2 / 3;
-
-			.center__logo {
-				font-size: 36px;
-			}
+		@include media(min, xs) {
+			max-width: 100%;
 		}
 
-		&__right {
-			@include flexRow(center, flex-end);
-			width: 100%;
-			grid-column: 3 / -1;
-
-			.right__login {
-				font-size: 18px;
-				@extend %icon-btn;
-			}
-		} 
-	}
-
-	/*----------------------------------------------------------------------------------*\
-		MAIN CONTENT
-	*\----------------------------------------------------------------------------------*/
-	.home-main {
-		display: grid;
-		grid-auto-rows: auto;;
-		grid-gap: 20px;
-
-		&__slider {
-			height: 500px;
-			background-color: getColor($lightTheme, primary);
+		@include media(min, sm) {
+			// max-width: 720px;
 		}
 
-		&__featured-content {
-			display: grid;
-			grid-auto-rows: 250px;
-			grid-template-columns: repeat(6, 1fr);
-			grid-gap: 20px;
+		@include media(min, md) {
+			// max-width: 960px;
+		}
 
-			@include media(min, sm) {
-				grid-template-columns: repeat(12, 1fr);
+		@include media(min, lg) {
+			// max-width: 1140px;
+		}
+
+		@include media(min, xl) {
+			// max-width: 1400px
+		}
+
+
+		/*----------------------------------------------------------------------------------*\
+			HEADER
+		*\----------------------------------------------------------------------------------*/
+		.header { 
+			padding: 20px 20px 0;
+
+			&__right {
+				@include flexRow(center, flex-end);
+				width: 100%;
+
+				.right__login {
+					font-size: 18px;
+					@extend %icon-btn;
+					color: white;
+				}
+			} 
+		}
+
+		/*----------------------------------------------------------------------------------*\
+			MAIN CONTENT
+		*\----------------------------------------------------------------------------------*/
+		.home-main {
+			
+			&__slider {
+
+				// mobile first
+				&--subtext {
+					text-align: center;
+					font-size: 10px;
+					color: getColor($accents, primary);
+					
+					@include media(min, xs) {
+						font-size: 14px;
+					}
+				}
+
+				.center__logo {
+					display: flex;
+					justify-content: center;
+					padding-top: 20%;
+					
+					// the logo image
+					img {
+						width: 80%;
+						height: auto;
+					}
+
+					@include media(min, xs) {
+						padding-top: 4%;
+						
+						// the logo image
+						img {
+							width: 40%;
+						}
+					}
+				}
+
 			}
 
-			.test1 {
-				grid-column: span 6;
-				grid-row: 1 / 3;
-				background-color: getColor($lightTheme, primary);
-			}
-			.test2 {
-				grid-column: span 6;
-				background-color: getColor($accents, secondary);
-			}
-			.test3 {
-				grid-column: span 3;
-				background-color: getColor($lightTheme, primary);
-			}
-			.test4 {
-				grid-column: span 3;
-				background-color: getColor($lightTheme, primary);
+			&__featured-content {
+				margin: 20px 20px;
+			
+				@include media(min, xs) {
+					margin: 10px 100px;
+				}
 			}
 		}
-	}
 
 
 	/*----------------------------------------------------------------------------------*\
@@ -273,6 +271,7 @@ export default {
 				margin-top: 20px;
 			}
 		}
+	}
 	}
 }
 </style>

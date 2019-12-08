@@ -9,7 +9,7 @@
                 <button class="content-header__burger-btn" @click="closeMenu"></button>
                 <figure class="content-header__logo">
                     <router-link to="/Dashboard/DashboardHome">
-                        <!-- <img src="../../../Assets/logo.png">  -->
+                        <img src="/images/logo.png"> 
                     </router-link>
                 </figure>
             </header>
