@@ -22,6 +22,9 @@ const user = require('../models/user');
 const network = require('../models/network');
 const { jwtkey } = require('../config/envConfig');
 const mongoose = require('mongoose');
+const multer = require('multer');
+var path = require('path')
+const fs = require('fs')
 
 
 /*-------------------------------------------------*\
@@ -69,15 +72,88 @@ router.get('/current', function(req, res) {
 router.get('/profile/:id', async (req, res) => {
     let id = req.params.id;
 
-    let profile = await user.findOne({
-        _id: id
-    }).then(data => {
+    let profile = await user.findOne(
+        { _id: id },
+        { password: 0, __v: 0, approved: 0 }
+    ).then(data => {
         return data
     }).catch(err => {
         throw(err)
     })
 
     res.json(profile)
+})
+
+
+/*-------------------------------------------------*\
+    5. - MULTER ETC
+\*-------------------------------------------------*/
+const allowedTypes = ["image/jpeg", "image/png"];
+const fileFilter = function(req, file, cb) {
+
+    if(!allowedTypes.includes(file.mimetype)) {
+        const error = new Error("Wrong file type");
+        error.code = "LIMIT_FILE_TYPES";
+        return cb(error, false);
+    }
+    cb(null, true);
+}
+
+const MAX_SIZE = 2000000000000;
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/images')
+    },
+    filename: function (req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+})
+
+const upload = multer({
+    storage: storage,
+    fileFilter,
+    limits: {
+        fileSize: MAX_SIZE
+    }
+})
+
+var fileCheck = function (err, req, res, next) {
+    if(err.code === "LIMIT_FILE_TYPES") {
+        res.status(422).json({
+            error: "Not the right format type"
+        });
+        return;
+    }
+
+    if(err.code === "LIMIT_FILE_SIZE") {
+        res.status(422).json({
+            error: `Too large. Max size is ${MAX_SIZE/1024}Kb`
+        });
+        return;
+    }
+    next()
+}
+
+function test() {
+    console.log(req.file)
+}
+
+
+/*-------------------------------------------------*\
+    6. - EDIT USER PROFILE
+\*-------------------------------------------------*/
+router.post('/profile/edit/:id', upload.single('file'), fileCheck, async (req, res) => {
+    let id = req.params.id;
+    console.log(req.body)
+    console.log(req.file)
+
+    // let edit = await user.findOneAndUpdate(
+    //     { _id: id },
+    //     { $set: 
+    //         {}
+    //     }
+    // )
 })
 
 

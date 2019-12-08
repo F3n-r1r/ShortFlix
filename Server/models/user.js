@@ -58,6 +58,10 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    avatar: {
+        type: String,
+        default: 'uploads/images/avatar.png'
+    },
     network: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Network'
