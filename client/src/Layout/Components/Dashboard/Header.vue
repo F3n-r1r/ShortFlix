@@ -11,7 +11,7 @@
 					<span class="username__firstname">{{ user.firstname }}</span>&nbsp;
 					<span class="username__lastname">{{ user.lastname }}</span>
 				</p>
-				<img class="btn__img" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50.jpg">
+				<!-- <img v-if="user.avatar" class="btn__img" :src="`http://localhost:8000/${user.avatar}`"> -->
 			</button>
 
 			<!-- DROPDOWN CONTENT -->
@@ -19,7 +19,7 @@
 				<li class="content__item">
 					<ul class="item__list">
 						<li class="list__header">Profile<li>
-						<li class="list__item"><router-link class="item__link" to="#">Edit Profile<i class="link__icon far fa-edit"></i></router-link></li>
+						<li class="list__item"><router-link class="item__link" :to="{ path: '/Dashboard/EditProfile', query: { id: user._id }}">Edit Profile<i class="link__icon far fa-edit"></i></router-link></li>
 						<li class="list__item"><router-link class="item__link" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">View Profile<i class="link__icon far fa-user"></i></router-link></li>
 					</ul>
 				</li>
