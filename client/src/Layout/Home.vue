@@ -8,7 +8,7 @@
 		<header class="header">
 			<div class="header__center">
 				<figure class="center__logo">
-                    <img src="../Assets/logo.png">
+                    <!-- <img src="../Assets/logo.png"> -->
                 </figure>
 			</div>
 			<div class="header__right">

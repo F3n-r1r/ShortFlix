@@ -38,7 +38,7 @@
             <!-------------------------------------------------------------------------------------->
             <ul v-if="searchNetwork && !searchArr.length" class="section__network-list">
                 <li class="network-list__item" v-for="(user, index) in network" :key="index" v-on:click="openThread(user._id)">
-                    <img class="item__avatar" src="@/assets/avatar.png">
+                    <!-- <img class="item__avatar" src="@/assets/avatar.png"> -->
                     <p class="item__username">{{ user.firstname }} {{ user.lastname }}</p>
                 </li>
             </ul>
@@ -48,7 +48,7 @@
             <!-------------------------------------------------------------------------------------->
             <ul v-if="searchNetwork && searchArr.length" class="section__network-list">
                 <li class="network-list__item" v-for="(user, index) in searchArr" :key="index" v-on:click="openThread(user._id)">
-                    <img class="item__avatar" src="@/assets/avatar.png">
+                    <!-- <img class="item__avatar" src="@/assets/avatar.png"> -->
                     <p class="item__username">{{ user.firstname }} {{ user.lastname }}</p>
                 </li>
             </ul>

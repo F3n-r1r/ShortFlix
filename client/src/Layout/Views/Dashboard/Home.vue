@@ -95,7 +95,7 @@ import axios from 'axios';
 	EXPORTS
 *\----------------------------------------------------------------------------------*/
 export default {
-    name: 'DashboardHome',
+    name: 'Home',
     components: {
         modal,
         upload,

@@ -12,6 +12,7 @@ import Showcases from './Layout/Views/Dashboard/Showcases.vue';
 import Movies from './Layout/Views/Dashboard/Movies.vue';
 import Talks from './Layout/Views/Dashboard/Talks.vue';
 import Profile from './Layout/Views/Dashboard/Profile.vue';
+import EditProfile from './Layout/Views/Dashboard/EditProfile.vue';
 import PendingUsers from './Layout/Views/Dashboard/PendingUsers.vue';
 import Community from './Layout/Views/Dashboard/Community.vue';
 import Network from './Layout/Views/Dashboard/Network.vue';
@@ -37,6 +38,11 @@ const routes = [
 				name: 'Profile',
 				path: 'Profile',
 				component: Profile
+			},
+			{
+				name: 'EditProfile',
+				path: 'EditProfile',
+				component: EditProfile
 			},
 			{
 				name: 'Showcases',
@@ -124,7 +130,7 @@ const routes = [
 				if(store.getters.isLoggedIn) {
 					next('/Dashboard/Home');
 				} else {
-					next('/');
+					next()
 				}
 			} catch(e) {
 				next();

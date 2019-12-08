@@ -1,7 +1,7 @@
 <template>
   <div class="view profile-view">
     <p>Profile</p>
-	{{user.firstname}}
+	
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 	},
 	data() {
         return {
-            user: []
+            user: {}
         }
   	},
 	methods: {
