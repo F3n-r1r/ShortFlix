@@ -143,17 +143,9 @@ function test() {
 /*-------------------------------------------------*\
     6. - EDIT USER PROFILE
 \*-------------------------------------------------*/
-router.post('/profile/edit/:id', upload.single('file'), fileCheck, async (req, res) => {
-    let id = req.params.id;
-    console.log(req.body)
-    console.log(req.file)
-
-    // let edit = await user.findOneAndUpdate(
-    //     { _id: id },
-    //     { $set: 
-    //         {}
-    //     }
-    // )
+router.post('/profile/edit/:id', async (req, res) => {
+   let id = req.params.id;
+   res.json(id);
 })
 
 
