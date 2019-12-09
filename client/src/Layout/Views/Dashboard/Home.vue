@@ -1,10 +1,14 @@
 <template>
-  <div class="view home-view">
-
+    <div class="view home-view">
+        <header class="home-view__banner">
+            <banner />
+        </header>
     <!-------------------------------------------------------------------------------------->
     <!-- MOVIES SECTION				             										  -->
     <!-------------------------------------------------------------------------------------->
     <section class="home-view__movie-section">
+
+
         <h2 class="movie-section__headline">Your Movies</h2>
 
 
@@ -89,6 +93,7 @@ import upload from '../../Components/Dashboard/Upload.vue';
 import player from '../../Components/Dashboard/Player.vue';
 import { Carousel, Slide } from 'vue-carousel';
 import axios from 'axios';
+import banner from '../../Components/Limited/Banner.vue';
 
 
 /*----------------------------------------------------------------------------------*\
@@ -101,7 +106,8 @@ export default {
         upload,
         Carousel,
         Slide,
-        player
+        player,
+        banner
     },
 
   	/*----------------------------------------------------------------------------------*\

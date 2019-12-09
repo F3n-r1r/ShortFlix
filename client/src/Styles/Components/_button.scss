@@ -24,13 +24,13 @@
     color: #ffffff;
     font-size: 16px;
     font-weight: bold;
-    background-color: #ff9966;
+    background-color: #993366;
     cursor: pointer;
     outline: none;
     transition: background-color .3s;
 
     &:hover {
-        background-color: darken(#ff9966, 10%);
+        background-color: darken(#993366, 10%);
     }
 }
 
