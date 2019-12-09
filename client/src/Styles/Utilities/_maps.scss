@@ -15,9 +15,9 @@
     1 - Color Maps
 \*-----------------------------------------------------------------*/
 $accents: (
-    primary: #ff5e62,
-    secondary: #ff9966,
-    tertiary: #3caea3,
+    primary: #663333,
+    secondary: #C9C3C3,
+    tertiary: #E4F30D,
     _white: #ffffff,
     _black: #000000
 );
@@ -29,8 +29,9 @@ $darkTheme: (
 );
 
 $lightTheme: (
-    primary: #F6F6F8,
-    secondary: #DADADA,
+    primary: #F1F9FF,
+    secondary: white,
+    tertiary: #070812,
     fontColor: rgba(0, 0, 0, .75)
 );
 
