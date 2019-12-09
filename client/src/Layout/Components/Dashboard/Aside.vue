@@ -26,13 +26,13 @@
                 <ul class="content-nav__list content-nav__list--personal">
                     <li class="list__header">PERSONAL</li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/Home"><i class="link__icon fas fa-film"></i>Home</router-link>
+                        <router-link class="item__link" to="/Dashboard/Home"><i class="link__icon fas fa-home"></i>Home</router-link>
                     </li>
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                     </li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/Showcases"><i class="link__icon fas fa-film"></i>Showcases</router-link>
+                        <router-link class="item__link" to="/Dashboard/Showcases"><i class="link__icon fas fa-photo-video"></i>Showcases</router-link>
                     </li>
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Network"><i class="link__icon fas fa-users"></i>Network</router-link>
@@ -48,13 +48,13 @@
                 <ul class="content-nav__list content-nav__list--public">
                     <li class="list__header">PUBLIC</li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/Cinema"><i class="link__icon fas fa-users"></i>Cinema</router-link>
+                        <router-link class="item__link" to="/Dashboard/Cinema"><i class="link__icon fas fa-play"></i>Cinema</router-link>
                     </li>
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Community"><i class="link__icon fas fa-users"></i>Shortflix Community</router-link>
                     </li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/News"><i class="link__icon fas fa-users"></i>News</router-link>
+                        <router-link class="item__link" to="/Dashboard/News"><i class="link__icon fas fa-broadcast-tower"></i>News</router-link>
                     </li>
                 </ul>
 
@@ -344,7 +344,7 @@ export default {
             .content-nav {
                 &__list {
                     .list__header {
-                        color: getColor($darkTheme, fontColor);
+                        color: getColor($lightTheme, fontColor);
                     }
 
                     .list__item {
