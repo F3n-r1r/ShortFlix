@@ -1,5 +1,8 @@
 <template>
   <div class="view community-view">
+        <header class="community-view__banner">
+            <banner />
+        </header>
     <p>community panel</p>
 
     <ul>
@@ -15,11 +18,12 @@
 
 <script>
 import axios from 'axios';
+import banner from '../../Components/Limited/Banner.vue';
 
 export default {
     name: 'Community',
     components: {
-
+        banner
     },
     data() {
         return {

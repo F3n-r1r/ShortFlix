@@ -1,6 +1,8 @@
 <template>
   <div class="view network-view">
-
+        <header class="network-view__banner">
+            <banner />
+        </header>
 
     <section class="network-view__pending-section" v-if="pendingRequests.length">
         <h3>Pending Network Requests</h3>
@@ -27,12 +29,13 @@
 </template>
 
 <script>
+import banner from '../../Components/Limited/Banner.vue';
 import axios from 'axios';
 
 export default {
     name: 'Network',
     components: {
-
+        banner
     },
     data() {
         return {
