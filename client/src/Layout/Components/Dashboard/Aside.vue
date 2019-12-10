@@ -69,12 +69,14 @@
                 </ul>
             </nav>
 
-
             <!-------------------------------------------------------------------------------------->
             <!-- ASIDE FOOTER       															  -->
             <!-------------------------------------------------------------------------------------->
             <footer class="content-footer">
+                <h4 class="content-footer__headline">Made in Denmark</h4>
+                <p class="content-footer__subtext">- Home of the happy</p>
             </footer>
+
 
         </div>
     </aside>
@@ -123,7 +125,6 @@ export default {
     transition-delay: .5s;
     transform: translateX(-100%);
     z-index: 10;
-
     @include media(min, md) {
         position: relative;
         width: auto;
@@ -132,8 +133,6 @@ export default {
         transform: translateX(0);         
         transition-delay: 0s;
     }
-
-
     /*----------------------------------------------------------------------------------*\
         ASIDE ACTIVE CLASS (MOBILE)
     *\----------------------------------------------------------------------------------*/
@@ -142,14 +141,11 @@ export default {
         background-color: rgba(0, 0, 0, 0.3);
         transform: translateX(0);
         transition: background-color .5s linear 0s;
-
         .aside__content {
             transform: translateX(0);
             transition: transform .5s ease;
         }
     }
-
-
     /*----------------------------------------------------------------------------------*\
         ASIDE CONTENT
     *\----------------------------------------------------------------------------------*/
@@ -162,14 +158,11 @@ export default {
 		z-index: 999;
 		transform: translateX(-300px);
 		transition: transform .5s ease, background-color $themeTransitionTime;
-
         @include media(min, md) {
 			position: relative;
 			width: auto;
 			transform: translateX(0);
 		}
-
-
         /*----------------------------------------------------------------------------------*\
             CONTENT HEADER
         *\----------------------------------------------------------------------------------*/
@@ -177,21 +170,17 @@ export default {
             @include flexRow(center, flex-end);
             padding: 0px 20px;
             grid-row: 1;
-
             @include media(min, md) {
                 @include flexRow(center, center);
             }
-
             &__burger-btn {
                 @extend %burger-btn;
                 margin-top: 8px;
                 opacity: 0;
-
                 &--active {
                     @extend %burger-btn--active;
                     opacity: 1;
                 }
-
                 @include media(min, md) {
                     display: none;
                 }
@@ -202,40 +191,34 @@ export default {
                 font-size: 26px;
                 margin-right: 20px;
                 color: getColor($accents, primary);
-
                 @include media(min, md) {
                     display: block;
                 }
             }
-
             &__headline {
                 display: none;
                 font-size: 26px;
-
                 @include media(min, md) {
                     display: block;
                 }
             }
-
+            
             &__logo img {
                 width: 60%;
                 height: auto;
             }
         }
-
-
         /*----------------------------------------------------------------------------------*\
             CONTENT NAVIGATION
         *\----------------------------------------------------------------------------------*/
         .content-nav {
             grid-row: 2;
-
             &__list {
+                padding-bottom: 30px;
                 .list__header {
                     padding: 15px 30px 5px 30px;
                     font-size: 18px;
                 }
-
                 .list__item {
                     .item__link {
                         @include flexRow(center, null);
@@ -246,7 +229,6 @@ export default {
                         &:hover {
                             transition: color $hoverTransitionTime;
                         }
-
                         .link__icon {
                             margin-right: 20px;
                             font-size: 22px;
@@ -256,15 +238,14 @@ export default {
                 }
             }
         }
-
-
         /*----------------------------------------------------------------------------------*\
             CONTENT FOOTER
         *\----------------------------------------------------------------------------------*/
         .content-footer {
-            position: relative;
-            padding: 0px 30px;
-            grid-row: 3;   
+            position: absolute;
+            bottom: 3%;
+            padding-left: 30px;
+            color: getColor($accents, secondary);
         }
     }
 }
@@ -332,6 +313,7 @@ export default {
             background-color: getColor($lightTheme, primary);
 
             .content-header { 
+                
                 &__headline {
                     color: getColor($accents, _black);
                 }
@@ -354,7 +336,7 @@ export default {
                             color: getColor($lightTheme, fontColor);
 
                             &:hover {
-                                color: getColor($accents, _black);
+                                color: getColor($accents, primary);
                             }
                         }
 

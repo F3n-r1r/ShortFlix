@@ -6,13 +6,15 @@
 		<!-------------------------------------------------------------------------------------->
 		<dashboardheader :user="currentUser" class="dashboard__header"/>
 
-
 		<!-------------------------------------------------------------------------------------->
 		<!-- DASHBOARD ASIDE																  -->
 		<!-------------------------------------------------------------------------------------->
-		<dashboardaside :user="currentUser"/>
+		<dashboardaside :user="currentUser" />
 
-
+		<!-------------------------------------------------------------------------------------->
+		<!-- DASHBOARD FOOTER																  -->
+		<!-------------------------------------------------------------------------------------->
+		<dashboardfooter class="dashboard__footer"/>
 
 		<!-------------------------------------------------------------------------------------->
 		<!-- DASHBOARD MAIN	ROUTE															  -->
@@ -36,6 +38,7 @@
 *\----------------------------------------------------------------------------------*/
 import dashboardheader from '../Layout/Components/Dashboard/Header.vue';
 import dashboardaside from '../Layout/Components/Dashboard/Aside.vue';
+import dashboardfooter from '../Layout/Components/Dashboard/Footer.vue';
 
 
 /*----------------------------------------------------------------------------------*\
@@ -45,7 +48,8 @@ export default {
   	name: 'Dashboard',
     components: {
 		dashboardheader,
-		dashboardaside
+		dashboardaside,
+		dashboardfooter
 	},
 	  
 	/*----------------------------------------------------------------------------------*\
@@ -103,32 +107,25 @@ export default {
 	position: relative;
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 100px 1fr;
+	grid-template-rows: 100px auto 150px;
 
-	@include media(min, md) {
-		grid-template-columns: 300px 1fr;
-	}
-
-
+		@include media(min, md) {
+			grid-template-columns: 300px 1fr;
+		}
 	/*----------------------------------------------------------------------------------*\
 		DASHBOARD HEADER
 	*\----------------------------------------------------------------------------------*/
 	&__header {
 		position: relative;
 		grid-row: 1;
-
 		@include media(min, md) {
 			grid-column: 2;
 		}
 	}
-
-
 	/*----------------------------------------------------------------------------------*\
 		DASHBOARD ASIDE
 	*\----------------------------------------------------------------------------------*/
-
-
-
+	
 	/*----------------------------------------------------------------------------------*\
 		DASHBOARD MAIN
 	*\----------------------------------------------------------------------------------*/
@@ -136,11 +133,9 @@ export default {
 		position: relative;
 		grid-row: 2;
 		transition: background-color $themeTransitionTime;
-
 		@include media(min, md) {
 			grid-column: 2;
 		}
-
 		/*----------------------------------------------------------------------------------*\
 			VIEW CLASS
 		*\----------------------------------------------------------------------------------*/
@@ -150,8 +145,6 @@ export default {
 			// padding: 0px 20px;
 			transition: background-color $themeTransitionTime;
 		}
-
-
 		/*----------------------------------------------------------------------------------*\
 			PAGE TRANSITION
 		*\----------------------------------------------------------------------------------*/
@@ -160,18 +153,29 @@ export default {
 			transition-property: opacity, transform;
 			transition-timing-function: ease;
 		}
-
 		.scale-fade-enter-active {
 			transform: scale(1);
 			opacity: 1;
 		}
-
 		.scale-fade-enter, .scale-fade-leave-active {
 			opacity: 0;
 			transform: scale(.5);
 		}
 	}	
+	
+	/*----------------------------------------------------------------------------------*\
+		DASHBOARD FOOTER
+	*\----------------------------------------------------------------------------------*/
+	&__footer {
+		grid-row: 3;
+		grid-column-start: 2;
+		grid-column-end: 3;
+	}
 }
+	
+	
+
+
 
 
 /*----------------------------------------------------------------------------------*\
@@ -179,6 +183,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .dark-theme { 
 	background-color: getColor($darkTheme, primary);
+	
 	.dashboard {
 		background-color: getColor($darkTheme, primary);
 
@@ -186,6 +191,10 @@ export default {
 			.view {
 				background-color: getColor($darkTheme, primary);
 			}
+		}
+
+		&__footer {
+			background-color: getColor($darkTheme, secondary);
 		}
 	}
 }
@@ -196,6 +205,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .light-theme { 
 	background-color: getColor($lightTheme, secondary);
+
 	.dashboard {
 		&__main {
 			background-color: getColor($lightTheme, secondary);
@@ -203,6 +213,10 @@ export default {
 			.view {
 				background-color: getColor($lightTheme, secondary);
 			}
+		}
+
+		&__footer {
+			background-color: getColor($lightTheme, tertiary);
 		}
 	}
 }

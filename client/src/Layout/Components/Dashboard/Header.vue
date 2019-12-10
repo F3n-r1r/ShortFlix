@@ -561,7 +561,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .light-theme {
 	.header {
-		background-color: getColor($lightTheme, secondary);
+		background-color: getColor($lightTheme, tertiary);
 
 		&__burger-btn {
 			color: getColor($accents, _black);
