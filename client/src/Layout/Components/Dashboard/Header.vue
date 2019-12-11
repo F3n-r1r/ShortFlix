@@ -11,8 +11,7 @@
 					<span class="username__firstname">{{ user.firstname }}</span>&nbsp;
 					<span class="username__lastname">{{ user.lastname }}</span>
 				</p>
-				<i class="fas fa-user-circle"></i>
-				<!-- <img v-if="user.avatar" class="btn__img" :src="`http://localhost:8000/${user.avatar}`"> -->
+				<img v-if="user.avatar" class="btn__img" :src="`http://localhost:8000/${user.avatar}`">
 			</button>
 
 			<!-- DROPDOWN CONTENT -->

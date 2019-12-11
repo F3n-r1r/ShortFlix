@@ -118,6 +118,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .aside {
     position: fixed;
+    height: 100%;
     right: 0;
     left: 0;
     top: 0;
@@ -150,9 +151,8 @@ export default {
         ASIDE CONTENT
     *\----------------------------------------------------------------------------------*/
     &__content {
-        display: grid;
-        grid-template-rows: 100px auto 100px;
-        position: fixed;
+        @include flexColumn(flex-start, space-evenly);
+        // position: fixed;
 		width: 300px;
 		height: 100%;
 		z-index: 999;
@@ -169,14 +169,14 @@ export default {
         .content-header {
             @include flexRow(center, flex-end);
             padding: 0px 20px;
-            grid-row: 1;
             @include media(min, md) {
                 @include flexRow(center, center);
             }
             &__burger-btn {
                 @extend %burger-btn;
-                margin-top: 8px;
                 opacity: 0;
+                position: absolute;
+                right: 5%;
                 &--active {
                     @extend %burger-btn--active;
                     opacity: 1;
@@ -204,7 +204,7 @@ export default {
             }
             
             &__logo img {
-                width: 60%;
+                width: 70%;
                 height: auto;
             }
         }
@@ -212,17 +212,18 @@ export default {
             CONTENT NAVIGATION
         *\----------------------------------------------------------------------------------*/
         .content-nav {
-            grid-row: 2;
+            @include flexColumn(flex-start, null);
+
             &__list {
-                padding-bottom: 30px;
+                padding-bottom: 20px;
+
                 .list__header {
-                    padding: 15px 30px 5px 30px;
-                    font-size: 18px;
+                    padding: 0 30px;
                 }
                 .list__item {
                     .item__link {
                         @include flexRow(center, null);
-                        padding: 15px 30px;
+                        padding: 10px 30px;
                         border-left: 3px solid transparent;
                         transition: border-left-color $themeTransitionTime, color $themeTransitionTime;
     
@@ -231,8 +232,8 @@ export default {
                         }
                         .link__icon {
                             margin-right: 20px;
-                            font-size: 22px;
-                            width: 30px;   
+                            font-size: 18px;
+                            width: 20px;   
                         }
                     }
                 }
@@ -242,10 +243,8 @@ export default {
             CONTENT FOOTER
         *\----------------------------------------------------------------------------------*/
         .content-footer {
-            position: absolute;
-            bottom: 3%;
-            padding-left: 30px;
             color: getColor($accents, secondary);
+            padding: 0px 30px;
         }
     }
 }
