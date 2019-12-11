@@ -51,7 +51,7 @@ export default {
     &__content {
         display: block;
 
-            @include media(min, md) {
+            @include media(min, xs) {
                 padding-left: 30%;
                 padding-top: 20px;
         

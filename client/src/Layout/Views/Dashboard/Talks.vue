@@ -330,14 +330,13 @@ export default {
 }
 </script>
 
-
-
 <style lang="scss">
 .talks-view {
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 300px 1fr;
     grid-column-gap: 20px;
+    
 
     &__aside {
         width: 300px;

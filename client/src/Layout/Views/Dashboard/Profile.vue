@@ -1,7 +1,7 @@
 <template>
   <div class="view profile-view">
     <p>Profile</p>
-	
+	{{ user }}
   </div>
 </template>
 
