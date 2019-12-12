@@ -1,5 +1,5 @@
 <template>
-    <section class="banner">
+    <section class="banner" v-if="$route.name != 'Talks' ">
         <router-link to="/Dashboard/News">
             <div class="banner__content">
                 <h3 class="banner__content--headline">See what´s new in Animation!</h3>

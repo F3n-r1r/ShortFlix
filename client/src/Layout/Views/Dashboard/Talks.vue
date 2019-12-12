@@ -1,6 +1,5 @@
 <template>
   <div class="view talks-view">
-
     <!-------------------------------------------------------------------------------------->
     <!-- ASIDE				             												  -->
     <!-------------------------------------------------------------------------------------->
@@ -94,8 +93,8 @@ import axios from 'axios';
 export default {
     name: 'Talks',
     components: {
-
     },
+
     data() {
         return {
             query: '',
@@ -110,7 +109,9 @@ export default {
 
             activeThread: '',
             sender: '',
-            receiver: ''
+            receiver: '',
+
+            bannerVisible: false,
    
         }
     },
@@ -332,15 +333,17 @@ export default {
 
 <style lang="scss">
 .talks-view {
+    position: absolute;
+    top: -150px;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 300px 1fr;
     grid-column-gap: 20px;
     
-
     &__aside {
         width: 300px;
         height: 100%;
+        grid-row: 1;
         grid-column: 1;
 
         .aside__header {
