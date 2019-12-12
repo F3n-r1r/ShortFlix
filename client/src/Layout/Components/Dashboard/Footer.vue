@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer">
+    <footer class="footer" v-if="$route.name != 'Talks' ">
         <div class="footer__content">
             <div class="content-nav">
                 <ul class="content-nav__list content-nav__list--left">

@@ -16,14 +16,14 @@
 		<!-- DASHBOARD MAIN	ROUTE															  -->
 		<!-------------------------------------------------------------------------------------->
 		<main class="dashboard__main">
-			<dashboardbanner class="dashboard__banner" />
+			<dashboardbanner class="dashboard__banner"/>
 			<transition name="scale-fade" mode="out-in">
 				<router-view></router-view>
 			</transition>
 		<!-------------------------------------------------------------------------------------->
 		<!-- MAIN FOOTER																  -->
 		<!-------------------------------------------------------------------------------------->
-			<dashboardmainfooter class="main__footer"/>
+			<dashboardfooter class="main__footer"/>
 		</main>
 		
 	</div>
@@ -40,7 +40,7 @@
 import dashboardheader from '../Layout/Components/Dashboard/Header.vue';
 import dashboardbanner from '../Layout/Components/Dashboard/Banner.vue';
 import dashboardaside from '../Layout/Components/Dashboard/Aside.vue';
-import dashboardmainfooter from '../Layout/Components/Dashboard/Footer.vue';
+import dashboardfooter from '../Layout/Components/Dashboard/Footer.vue';
 
 
 /*----------------------------------------------------------------------------------*\
@@ -52,7 +52,7 @@ export default {
 		dashboardheader,
 		dashboardbanner,
 		dashboardaside,
-		dashboardmainfooter
+		dashboardfooter
 	},
 	  
 	/*----------------------------------------------------------------------------------*\
@@ -61,10 +61,10 @@ export default {
 	data() {
 		return {
 			theme: this.$store.getters.theme,
-			currentUser: []
+			currentUser: [],
 		}
 	},
-
+	
 	/*----------------------------------------------------------------------------------*\
 		COMPUTED
 	*\----------------------------------------------------------------------------------*/
@@ -126,30 +126,29 @@ export default {
 		}
 	}
 	/*----------------------------------------------------------------------------------*\
-		DASHBOARD ASIDE
-	*\----------------------------------------------------------------------------------*/
-	
-	/*----------------------------------------------------------------------------------*\
 		DASHBOARD MAIN
 	*\----------------------------------------------------------------------------------*/
 	&__main {
 		position: relative;
 		overflow-y: scroll;
-		grid-row: 2;
 		display: grid;
-		grid-template-rows: 150px auto 150px;
+		grid-row: 2;
+		grid-template-rows: 150px min(500px) 150px;
 		transition: background-color $themeTransitionTime;
 							
 		.dashboard__banner {
 			grid-row: 1;
 		}
+		
 		@include media(min, md) {
 			grid-column: 2;
 			/*----------------------------------------------------------------------------------*\
 				MAIN FOOTER
 			*\----------------------------------------------------------------------------------*/
 			&.main__footer {
-				grid-row: 3;
+				// grid-row: 3;
+				// position: absolute;
+				// bottom: 0;
 			}
 		}
 		/*----------------------------------------------------------------------------------*\
@@ -158,7 +157,8 @@ export default {
 		.view {	// All dashboard related views needs this class
 			width: 100%;
 			height: 100%;
-			// padding: 0px 20px;
+			grid-row: 2;
+			padding: 0px 20px;
 			transition: background-color $themeTransitionTime;
 		}
 		/*----------------------------------------------------------------------------------*\
