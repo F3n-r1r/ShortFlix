@@ -19,10 +19,15 @@ export default {
     width: 100%;
     height: 150px;
     background-color: getColor($accents, secondary);
-    background-image: url('/images/animation.svg');
-    background-size: contain;
-    background-position-x: 125%;
+    background-image: url('/images/animation-mobile.svg');
+    background-size: cover;
     background-repeat: no-repeat;
+        
+        @include media(min, md) {
+            background-image: url('/images/animation.svg');
+            background-size: contain;
+            background-position-x: 125%;
+        }
 
     &__content {
 

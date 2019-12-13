@@ -49,17 +49,45 @@ export default {
     width: 100%;
 
     &__content {
+        padding-left: 20%;
+        padding-top: 50px;
         display: block;
 
-            @include media(min, xs) {
-                padding-left: 30%;
-                padding-top: 20px;
+        .list__header {
+            padding-bottom: 10px;
+            font-size: 18px;
+            color: getColor($accents, secondary);
+        }
+
+        .list__item {
+            padding-bottom: 8px;
+            font-size: 12px;
+            color: getColor($accents, secondary);
+
+            .item__link {
+                @include flexRow(center, null);
+                transition: border-left-color $themeTransitionTime, color $themeTransitionTime;
+                
+                &:hover {
+                    transition: color $hoverTransitionTime;
+                }
+            }
+        }
+        .content-nav {
+            &__list{
+                padding-bottom: 40px;
+            }
+        }
+    
+        @include media(min, xs) {
+            padding-left: 20%;
+            padding-top: 20px;
         
-                .content-nav {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
+            .content-nav {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
                     
-                    &__list {
+                &__list {
 
                         &.content-nav__list--left {
                             grid-column: 1;
@@ -72,30 +100,9 @@ export default {
                         &.content-nav__list--right {
                             grid-column: 3;
                         }
-
-                        .list__header {
-                            padding-bottom: 10px;
-                            font-size: 18px;
-                            color: getColor($accents, secondary);
-                        }
-
-                        .list__item {
-                            padding-bottom: 8px;
-                            font-size: 12px;
-                            color: getColor($accents, secondary);
-
-                            .item__link {
-                                @include flexRow(center, null);
-                                transition: border-left-color $themeTransitionTime, color $themeTransitionTime;
-            
-                                &:hover {
-                                    transition: color $hoverTransitionTime;
-                                }
-                            }
-                        }
-                    }
                 }
             }
+        }
     }
 }    
 

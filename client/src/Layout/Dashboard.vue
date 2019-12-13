@@ -133,23 +133,21 @@ export default {
 		overflow-y: scroll;
 		display: grid;
 		grid-row: 2;
-		grid-template-rows: 150px min(500px) 150px;
+		grid-template-rows: 150px min(500px) auto;
 		transition: background-color $themeTransitionTime;
 							
 		.dashboard__banner {
 			grid-row: 1;
 		}
-		
+		/*----------------------------------------------------------------------------------*\
+			MAIN FOOTER
+		*\----------------------------------------------------------------------------------*/
+		&.main__footer {
+			min-height: 500px;
+		}
+
 		@include media(min, md) {
 			grid-column: 2;
-			/*----------------------------------------------------------------------------------*\
-				MAIN FOOTER
-			*\----------------------------------------------------------------------------------*/
-			&.main__footer {
-				// grid-row: 3;
-				// position: absolute;
-				// bottom: 0;
-			}
 		}
 		/*----------------------------------------------------------------------------------*\
 			VIEW CLASS
