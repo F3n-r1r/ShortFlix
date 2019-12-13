@@ -449,7 +449,7 @@ export default {
 *\----------------------------------------------------------------------------------*/
 .dark-theme {
     .header {
-		background-color: getColor($darkTheme, primary);
+		background-color: getColor($darkTheme, tertiary);
 
 		&__burger-btn {
 			color: getColor($accents, _white);
@@ -563,17 +563,17 @@ export default {
 		background-color: getColor($lightTheme, tertiary);
 
 		&__burger-btn {
-			color: getColor($accents, _black);
+			color: getColor($accents, _white);
 		}
 
 		&__dropdown {
 			.dropdown__btn {
 				&:hover > .btn__username {
-					color: getColor($accents, _black);
+					color: getColor($accents, _white);
 				}
 
 				.btn__username {
-					color: getColor($lightTheme, fontColor);
+					color: getColor($lightTheme, fontColorSec);
 
 					&:after {
 						background-color: getColor($accents, primary);
@@ -582,10 +582,10 @@ export default {
 			}
 		
 			.dropdown__content {
-				color: getColor($accents, _black);
+				color: getColor($accents, _white);
 
 				&:after {
-					border-bottom-color: getColor($lightTheme, primary)
+					border-bottom-color: getColor($lightTheme, secondary)
 				}
 
 				.content__item {
@@ -629,7 +629,7 @@ export default {
 			&--active {
 				.dropdown__btn {
 					.btn__username {
-						color: getColor($accents, _black);
+						color: getColor($accents, _white);
 					}
 				}
     		}

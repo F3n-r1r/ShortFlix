@@ -201,7 +201,7 @@ export default {
 			}
 
 			.main__footer {
-				background-color: getColor($darkTheme, secondary);
+				background-color: getColor($darkTheme, tertiary);
 				color: getColor($darkTheme, fontColor);
 			}
 		}

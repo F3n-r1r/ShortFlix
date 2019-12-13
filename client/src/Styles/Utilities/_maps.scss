@@ -25,6 +25,7 @@ $accents: (
 $darkTheme: (
     primary: #1f2023,
     secondary: #121212,
+    tertiary: #070812,
     fontColor: rgba(255, 255, 255, .75)
 );
 
@@ -32,7 +33,8 @@ $lightTheme: (
     primary: #F1F9FF,
     secondary: white,
     tertiary: #070812,
-    fontColor: rgba(7, 8, 18, .75)
+    fontColor: rgba(7, 8, 18, .75),
+    fontColorSec: rgba(255, 255, 255, .75)
 );
 
 
