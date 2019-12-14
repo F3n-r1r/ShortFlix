@@ -272,7 +272,6 @@ export default {
             CONTENT FOOTER
         *\----------------------------------------------------------------------------------*/
         .content-footer {
-            color: getColor($accents, secondary);
             padding: 0px 30px;
         }
     }
@@ -334,6 +333,10 @@ export default {
                     }
                 }
             }
+
+            .content-footer {
+                color: getColor($accents, secondary);
+            }
         }
     }
 }
@@ -391,6 +394,10 @@ export default {
                         }
                     }
                 }
+            }
+
+            .content-footer {
+                color: getColor($accents, secondary);
             }
         }
     }
