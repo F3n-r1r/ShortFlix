@@ -1,5 +1,6 @@
 <template>
   <div class="view network-view">
+      <banner class="dashboard__banner" bannerText="Adventure is more than backpacking" bannerImg="/images/adventure.svg" />
     <section class="network-view__pending-section" v-if="pendingRequests.length">
         <h3>Pending Network Requests</h3>
         <ul>
@@ -26,9 +27,15 @@
 
 <script>
 import axios from 'axios';
+import banner from '../../Components/Dashboard/Banner.vue';
 
 export default {
     name: 'Network',
+
+    components: {
+        banner
+    },
+
     data() {
         return {
             network: [],
