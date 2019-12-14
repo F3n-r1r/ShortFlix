@@ -7,11 +7,14 @@
 
 <script>
 import axios from 'axios';
+import banner from '../../Components/Dashboard/Banner.vue';
+
 export default {
 	name: 'Profile',
 	components: {
-
+		banner
 	},
+	
 	data() {
         return {
             user: {}

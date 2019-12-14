@@ -1,0 +1,27 @@
+[{
+    "id" : "001",
+    "umg_url": "/images/animating.svg",
+    "link_to": "/Dashboard/News",
+    "bannertext": "Check out the latest feed on animation"
+},
+
+{
+    "id" : "002",
+    "umg_url": "/images/adventure.svg",
+    "link_to": "/Dashboard/News",
+    "bannertext": "Adventure is more than backpacking"
+},
+
+{
+    "id" : "003",
+    "umg_url": "/images/movie-night.svg",
+    "link_to": "/Dashboard/Cinema",
+    "bannertext": "Thursday night is movie night"
+},
+{
+    "id" : "004",
+    "umg_url": "/images/videographer.svg",
+    "link_to": "/Dashboard/Cinema",
+    "bannertext": "Behind the scenes of a videographer"
+}
+]

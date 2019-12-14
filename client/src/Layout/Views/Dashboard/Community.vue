@@ -1,5 +1,6 @@
 <template>
   <div class="view community-view">
+      <banner class="dashboard__banner" bannerText="Thursday night is movie night" bannerImg="/images/movie_night.svg" />
     <p>community panel</p>
 
     <ul>
@@ -15,9 +16,15 @@
 
 <script>
 import axios from 'axios';
+import banner from '../../Components/Dashboard/Banner.vue';
 
 export default {
     name: 'Community',
+
+    components: {
+        banner
+    },
+
     data() {
         return {
             users: {}

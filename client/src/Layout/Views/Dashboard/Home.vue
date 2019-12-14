@@ -1,13 +1,11 @@
 <template>
     <div class="view home-view">
+        <banner class="dashboard__banner" bannerText="Get behind the scenes of a director´s cut" bannerImg="/images/videographer.svg" />
     <!-------------------------------------------------------------------------------------->
     <!-- MOVIES SECTION				             										  -->
     <!-------------------------------------------------------------------------------------->
     <section class="home-view__movie-section">
-
-
         <h2 class="movie-section__headline">Your Movies</h2>
-
 
         <div class="movie-section__row">
             <!-------------------------------------------------------------------------------------->
@@ -88,6 +86,7 @@
 import modal from '../../Components/Shared/Modal.vue';
 import upload from '../../Components/Dashboard/Upload.vue';
 import player from '../../Components/Dashboard/Player.vue';
+import banner from '../../Components/Dashboard/Banner.vue';
 import { Carousel, Slide } from 'vue-carousel';
 import axios from 'axios';
 
@@ -102,7 +101,8 @@ export default {
         upload,
         Carousel,
         Slide,
-        player
+        player,
+        banner
     },
 
   	/*----------------------------------------------------------------------------------*\
@@ -115,9 +115,11 @@ export default {
             resetUpload: false,
             myMovies: [],
             selectedMovie: {},
-            playVideo: false
+            playVideo: false,
         }
-  },
+    },
+
+  
 
     /*----------------------------------------------------------------------------------*\
 		METHODS
@@ -204,8 +206,15 @@ export default {
 
 <style lang="scss">
 .home-view {
+    display: grid;
+    grid-template-rows: 150px auto;
+
+    .dashboard__banner {
+        grid-row: 1;
+    }
 
     .home-view__movie-section {
+        grid-row: 2;
         padding: 0px 20px;
 
         .movie-section__headline {

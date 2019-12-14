@@ -16,7 +16,6 @@
 		<!-- DASHBOARD MAIN	ROUTE															  -->
 		<!-------------------------------------------------------------------------------------->
 		<main class="dashboard__main">
-			<dashboardbanner class="dashboard__banner"/>
 			<transition name="scale-fade" mode="out-in">
 				<router-view></router-view>
 			</transition>
@@ -38,7 +37,7 @@
 	IMPORTS
 *\----------------------------------------------------------------------------------*/
 import dashboardheader from '../Layout/Components/Dashboard/Header.vue';
-import dashboardbanner from '../Layout/Components/Dashboard/Banner.vue';
+// import dashboardbanner from '../Layout/Components/Dashboard/Banner.vue';
 import dashboardaside from '../Layout/Components/Dashboard/Aside.vue';
 import dashboardfooter from '../Layout/Components/Dashboard/Footer.vue';
 
@@ -50,7 +49,7 @@ export default {
   	name: 'Dashboard',
     components: {
 		dashboardheader,
-		dashboardbanner,
+		// dashboardbanner,
 		dashboardaside,
 		dashboardfooter
 	},
@@ -74,7 +73,7 @@ export default {
 		},
 		getUser() {
 			return this.$store.getters.user
-		},
+		}
 	},
 
 	/*----------------------------------------------------------------------------------*\
@@ -129,16 +128,14 @@ export default {
 		DASHBOARD MAIN
 	*\----------------------------------------------------------------------------------*/
 	&__main {
+		width: 100%;
 		position: relative;
 		overflow-y: scroll;
 		display: grid;
 		grid-row: 2;
-		grid-template-rows: 150px min(500px) auto;
+		grid-template-rows: min(500px) auto;
 		transition: background-color $themeTransitionTime;
 							
-		.dashboard__banner {
-			grid-row: 1;
-		}
 		/*----------------------------------------------------------------------------------*\
 			MAIN FOOTER
 		*\----------------------------------------------------------------------------------*/
@@ -155,8 +152,7 @@ export default {
 		.view {	// All dashboard related views needs this class
 			width: 100%;
 			height: 100%;
-			grid-row: 2;
-			padding: 0px 20px;
+			grid-row: 1;
 			transition: background-color $themeTransitionTime;
 		}
 		/*----------------------------------------------------------------------------------*\

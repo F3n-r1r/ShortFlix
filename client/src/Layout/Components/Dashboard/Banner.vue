@@ -1,8 +1,9 @@
 <template>
-    <section class="banner" v-if="$route.name != 'Talks' ">
+    <section class="banner">
         <router-link to="/Dashboard/News">
             <div class="banner__content">
-                <h3 class="banner__content--headline">See what´s new in Animation!</h3>
+                <h3 class="banner__content--headline">{{ bannerText }}</h3>
+                <img :src="bannerImg">
             </div>
         </router-link>
     </section>
@@ -10,7 +11,17 @@
 
 <script>
 export default {
-    name: 'banner'
+    name: 'banner',
+
+    props: {
+        bannerText: {
+            type: String,
+        },
+        bannerImg: {
+            type: String,
+        }
+    }
+    
 }
 </script>
 
@@ -19,22 +30,41 @@ export default {
     width: 100%;
     height: 150px;
     background-color: getColor($accents, secondary);
-    background-image: url('/images/animation-mobile.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-        
+    @include flexRow(center, center);
+
         @include media(min, md) {
-            background-image: url('/images/animation.svg');
-            background-size: contain;
-            background-position-x: 125%;
+            height: 150px;
+            @include flexRow(center, flex-start);
         }
 
     &__content {
+        @include flexRow(center, center);
+        
+        @include media(min, md) {
+            // @include flexRow(center, flex-start);
+        }
 
         &--headline  {
-            line-height: 150px;
-            position: absolute;
-            left: 10%;
+            width: 40%;
+            font-size: 16px;
+
+            @include media(min, md) {
+                width: auto;
+                font-size: 18px;
+                position: absolute;
+                left: 10%;
+            }
+        }
+
+        img {
+            width: 50%;
+            height: auto;
+
+            @include media(min, md) {
+                width: 20%;
+                position: absolute;
+                right: 15%;
+            }
         }
     }
 }
