@@ -5,14 +5,15 @@
     <!-- MOVIES SECTION				             										  -->
     <!-------------------------------------------------------------------------------------->
     <section class="home-view__movie-section">
-        <h2 class="movie-section__headline">Your Movies</h2>
+        <h2 class="movie-section__headline">Your recent movies</h2>
 
         <div class="movie-section__row">
             <!-------------------------------------------------------------------------------------->
             <!-- ADD MOVIE (DESKTOP)      				             							  -->
             <!-------------------------------------------------------------------------------------->
             <div class="row__add-movie" @click="toggleUploadModal">
-                <i class="add-movie__icon fas fa-plus"></i>
+                <i class="add-movie__icon fas fa-plus-circle"></i>
+                <p class="add-movie__subtext">Add new movie</p>
             </div>
         
             <!-------------------------------------------------------------------------------------->
@@ -35,8 +36,21 @@
                 </slide>
             </carousel>
         </div>
-           
     </section>
+    
+    <section class="home-view__showcase-section">
+        <h2 class="showcase-section__headline">Your recent showcases</h2>
+
+        <div class="showcase-section__row">
+            <!-------------------------------------------------------------------------------------->
+            <!-- ADD SHOWCASE (ONLY MOBILE?)      				             							  -->
+            <!-------------------------------------------------------------------------------------->
+            <div class="row__add-showcase">
+                <i class="add-showcase__icon fas fa-plus-circle"></i>
+                <p class="add-movie__subtext">Add new showcase</p>
+            </div>
+        </div>
+        </section>
 
 
     <!-------------------------------------------------------------------------------------->
@@ -207,7 +221,7 @@ export default {
 <style lang="scss">
 .home-view {
     display: grid;
-    grid-template-rows: 150px auto;
+    grid-template-rows: 150px auto auto;
 
     .dashboard__banner {
         grid-row: 1;
@@ -218,35 +232,35 @@ export default {
         padding: 0px 20px;
 
         .movie-section__headline {
-            color: getColor($accents, _white);
-            font-size: 26px;
-            margin-bottom: 10px;
+            color: getColor($accents, primary);
+            font-size: 18px;
+            margin: 30px 0 10px 0;
         }
 
         .movie-section__row {
             @include flexRow(null, null);
 
-            .row__add-movie {
+            .row__add-movie  {
                 display: none;
                 width: 200px;
-                min-width: 200px;
                 margin-right: 15px;
-                border: 3px solid getColor($accents, _white);
+                background-color: getColor($lightTheme, primary);
                 cursor: pointer;
 
                 @include media(min, xs) {
-                    @include flexRow(center, center);
+                    @include flexColumn(center, center);
+                    padding: 40px 0;
                 }
 
                 &:hover > .add-movie__icon {
-                    transform: scale(1.5);
+                    transform: scale(1.3);
                     color: getColor($accents, tertiary);
                 }
 
                 .add-movie__icon {
                     font-size: 30px;
                     transition: transform .5s ease, color .5s ease;
-                    color: getColor($accents, _white);
+                    color: getColor($lightTheme, tertiary);
                 }
             }
 
@@ -304,6 +318,45 @@ export default {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    .home-view__showcase-section {
+        grid-row: 3;
+        padding: 20px 20px;
+
+        .showcase-section__headline {
+            color: getColor($accents, primary);
+            font-size: 18px;
+            margin: 30px 0 10px 0;
+        }
+
+        .showcase-section__row {
+            @include flexRow(null, null);
+
+            .row__add-showcase {
+                display: none;
+                width: 200px;
+                margin-right: 15px;
+                background-color: getColor($lightTheme, primary);
+                cursor: pointer;
+
+                @include media(min, xs) {
+                    @include flexColumn(center, center);
+                    padding: 40px 0;
+                }
+
+                &:hover > .add-showcase__icon {
+                    transform: scale(1.3);
+                    color: getColor($accents, tertiary);
+                }
+
+                .add-showcase__icon {
+                    font-size: 30px;
+                    transition: transform .5s ease, color .5s ease;
+                    color: getColor($lightTheme, tertiary);
                 }
             }
         }

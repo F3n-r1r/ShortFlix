@@ -49,7 +49,6 @@ export default {
   	name: 'Dashboard',
     components: {
 		dashboardheader,
-		// dashboardbanner,
 		dashboardaside,
 		dashboardfooter
 	},
@@ -133,7 +132,7 @@ export default {
 		overflow-y: scroll;
 		display: grid;
 		grid-row: 2;
-		grid-template-rows: min(500px) auto;
+		// grid-template-rows: min(500px) auto;
 		transition: background-color $themeTransitionTime;
 							
 		/*----------------------------------------------------------------------------------*\
@@ -141,6 +140,7 @@ export default {
 		*\----------------------------------------------------------------------------------*/
 		&.main__footer {
 			min-height: 500px;
+			grid-row: 2;
 		}
 
 		@include media(min, md) {
