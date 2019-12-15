@@ -6,6 +6,25 @@
 		<button class="header__burger-btn" @click="openMenu"></button>
 
 		<!-------------------------------------------------------------------------------------->
+        <!-- ADD MOVIE (DESKTOP)      				             							  -->
+        <!-------------------------------------------------------------------------------------->
+		<div class="row__add-movie" @click="toggleUploadModal">
+            <p class="add-movie__btn">Upload movie</p>
+        </div>
+
+		<!-------------------------------------------------------------------------------------->
+		<!-- (UPLOAD VIDEO) MODAL COMPONENT					        						  -->
+		<!-------------------------------------------------------------------------------------->
+		<modal class="home-view__modal-upload" v-show="uploadModal"> 
+			<div class="modal__content">
+				<button class="content__close-btn" type="button" @click="toggleUploadModal">
+					<i class="close-btn__icon fas fa-times"></i>
+				</button>
+				<upload v-model="myMovies" :resetUpload="resetUpload"/>
+			</div>
+		</modal>	
+
+		<!-------------------------------------------------------------------------------------->
 		<!-- DROPDOWN CONTAINER																  -->
 		<!-------------------------------------------------------------------------------------->
 		<div class="header__dropdown">
@@ -77,6 +96,7 @@
 	IMPORTS
 *\----------------------------------------------------------------------------------*/
 import modal from '../Shared/Modal.vue';
+import upload from '../../Components/Dashboard/Upload.vue';
 
 /*----------------------------------------------------------------------------------*\
 	EXPORTS
@@ -90,7 +110,8 @@ export default {
 		}
 	},
 	components: {
-		modal
+		modal,
+		upload
 	},
 
 	/*----------------------------------------------------------------------------------*\
@@ -99,6 +120,7 @@ export default {
 	data() {
 		return {
 			isModalVisible: false,
+			uploadModal: false,
 		}
 	},
 
@@ -106,6 +128,17 @@ export default {
 		METHODS
 	*\----------------------------------------------------------------------------------*/
 	methods: {
+		toggleUploadModal() {
+			if(!this.uploadModal) {
+                this.uploadModal = true;
+                this.resetUpload = false;
+				document.body.style.overflow = "hidden";
+			} else {
+                this.uploadModal = false;
+                this.resetUpload = true;
+				document.body.removeAttribute("style");
+			}
+        },
 		openMenu: function() {
 			document.querySelector('.header .header__burger-btn').classList.add('header__burger-btn--active');
 			document.querySelector('.aside .content-header__burger-btn').classList.add('content-header__burger-btn--active');
@@ -190,6 +223,32 @@ export default {
 	padding: 0px 20px;
 	transition: background-color $themeTransitionTime;
 
+	/*----------------------------------------------------------------------------------*\
+    	ADD MOVIE BUTTON
+	*\----------------------------------------------------------------------------------*/
+	.row__add-movie {
+        display: none; // should not be visible for the pro´s
+        margin-right: 25px;
+        cursor: pointer;
+
+        @include media(min, xs) {
+            @include flexRow(center, center);
+        }
+
+        &:hover > .add-movie__btn {
+            transform: scale(1.1);
+            font-weight: bold;
+        }
+
+        .add-movie__btn {
+			@extend %secondary-btn;
+			font-style: normal;
+			border: none;
+			background-color: getColor($accents, secondary);
+            transition: transform .5s ease, color .5s ease;
+            color: getColor($accents, primary);
+        }
+    }
 
 	/*----------------------------------------------------------------------------------*\
 		BURGER BUTTON
