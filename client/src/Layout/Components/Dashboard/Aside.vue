@@ -67,7 +67,7 @@
                         <router-link class="item__link" to="/Dashboard/Showcases"><i class="link__icon fas fa-photo-video"></i>Showcases</router-link>
                     </li>
                     <li class="list__item">
-                        <router-link class="item__link" to="/Dashboard/Network"><i class="link__icon fas fa-users"></i>Network</router-link>
+                        <router-link class="item__link" to="/Dashboard/Network"><i class="link__icon fas fa-font"></i>A-List</router-link>
                     </li>
                     <li class="list__item">
                         <router-link class="item__link" to="/Dashboard/Talks"><i class="link__icon far fa-comment-dots"></i>Talks</router-link>

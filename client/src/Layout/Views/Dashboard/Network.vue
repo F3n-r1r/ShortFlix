@@ -1,6 +1,6 @@
 <template>
   <div class="view network-view">
-      <banner class="dashboard__banner" bannerText="Adventure is more than backpacking" bannerImg="/images/adventure.svg" />
+    <banner class="dashboard__banner" bannerText="Adventure is more than backpacking" bannerImg="/images/adventure.svg" />
     <section class="network-view__pending-section" v-if="pendingRequests.length">
         <h3>Pending Network Requests</h3>
         <ul>
@@ -12,12 +12,18 @@
     </section>
 
     <section class="network-view__network-section">
-        <h3>Your Network</h3>
-        <ul>
+        <h3 class="network-section__headline">This is your A-List</h3>
+        <p class="network-section__subtext">The persons you have communicated with will appear here</p>
+        <ul class="network-section__listing">
             <li v-if="!network.length">You do not currently have a network, start building one <router-link class="item__link" to="/Dashboard/Community">here</router-link></li>
+            <section class="listing__profiles">
             <li v-for="(user, index) in network" :key="index">
-                {{ index }} - {{ user.firstname }} - {{ user.role }}
+            <img v-if="user.avatar" class="btn__img" :src="`http://localhost:8000/${user.avatar}`">
+                <router-link class="listing__profiles--firstname" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
+                   {{ user.firstname + "," }}</router-link>
+                <div class="listing__profiles--role">{{ user.role }}</div> 
             </li>
+            </section>
         </ul>
     </section>
 
@@ -86,6 +92,45 @@ export default {
     }
 
     &__network-section {
+        margin: 30px;
+        
+        .network-section__headline {
+            color: getColor($accents, primary);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .network-section__subtext {
+            font-size: 14px;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .network-section__listing {
+
+            .listing__profiles {
+                li {
+                    @include flexRow(center, flex-start);
+                    padding: 10px;
+
+                    .btn__img {
+                        width: 60px;
+                    }
+                }
+
+                &--firstname {
+                    font-size: 14px;
+                    padding-left: 10px;
+                    font-weight: bold;
+                    text-transform: capitalize;
+                }
+
+                &--role {
+                    font-size: 14px;
+                    padding-left: 2px;
+                    text-transform: lowercase;
+                }
+            }
+        }
 
     }
 }
