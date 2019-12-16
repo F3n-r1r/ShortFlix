@@ -59,7 +59,7 @@
     <modal class="movies-view__modal-upload" v-show="uploadModal"> 
         <div class="modal__content">
             <button class="content__close-btn" type="button" @click="toggleUploadModal">
-                <i class="close-btn__icon fas fa-times"></i>
+                <i class="close-btn__icon far fa-times"></i>
             </button>
             <upload v-model="myMovies" :resetUpload="resetUpload"/>
         </div>
