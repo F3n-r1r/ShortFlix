@@ -37,7 +37,6 @@
 	IMPORTS
 *\----------------------------------------------------------------------------------*/
 import dashboardheader from '../Layout/Components/Dashboard/Header.vue';
-// import dashboardbanner from '../Layout/Components/Dashboard/Banner.vue';
 import dashboardaside from '../Layout/Components/Dashboard/Aside.vue';
 import dashboardfooter from '../Layout/Components/Dashboard/Footer.vue';
 
