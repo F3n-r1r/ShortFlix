@@ -47,6 +47,9 @@ export default {
         &--headline  {
             width: 40%;
             font-size: 16px;
+            font-family: courier-std, monospace;
+            font-style: normal;
+            font-weight: 400;
 
             @include media(min, md) {
                 width: auto;
