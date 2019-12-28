@@ -1,34 +1,27 @@
 <template>
   <div class="view editProfile-view">
-    <p>Edit Profile</p>
-
 
 
     <form class="editProfile__form" @submit.prevent="submitEdit" enctype="multipart/form-data">
 
-        <div class="form__field">
-            <input type="email" v-model="email">
+        <div class="form__row">
+            <img class="row__avatar" v-if="avatar" :src="`http://localhost:8000/${avatar}`" alt="">
+            <div class="form__field form__field--dropzone">
+                <input class="field__dropzone-input" multiple ref="file" @change="validateFile" type="file">
+                <p class="dropzone__cta">Drag new avatar here...</p>
+            </div>
+            <p v-if="file.length" class="row__file-name">{{file.name}}</p>
         </div>
 
-        <div class="form__field">
-            <input type="text" v-model="firstname">
-            <input type="text" v-model="lastname">
+
+        <div class="form__field form__field--email">
+            <input class="field__input" type="email" v-model="email">
         </div>
 
-        <img v-if="avatar" :src="`http://localhost:8000/${avatar}`" alt="">
-        <div class="form__field form__field--dropzone">
-            <input class="field__dropzone-input" multiple ref="file" @change="validateFile" type="file">
-            <p class="dropzone__cta">Drag files here</p>
+        <div class="form__field form__field--password">
+            <input class="field__input" type="password" v-model="password" placeholder="New password">
+            <input class="field__input" type="password" v-model="repeatPassword" placeholder="Repeat new password">
         </div>
-
-        {{file.name}}
-
-        <div class="form__field">
-            <input type="password" v-model="password" placeholder="New password">
-            <input type="password" v-model="repeatPassword" placeholder="Repeat new password">
-        </div>
-
-        <!-- {{img.name}} -->
 
         <button class="form__submit" type="submit">Submit Changes</button>
     </form>
@@ -50,8 +43,6 @@ export default {
         return {
             user: {},
             email: '',
-            firstname: '',
-            lastname: '',
             avatar: '',
             password: '',
             repeatPassword: '',
@@ -66,8 +57,6 @@ export default {
                 let user = resp.data;
         
                 this.email = user.email;
-                this.firstname = user.firstname;
-                this.lastname = user.lastname;
                 this.avatar = user.avatar;
                
                 
@@ -97,8 +86,6 @@ export default {
             let id = this.$route.query.id;
             const formData = new FormData();
             formData.append('email', this.email);
-            formData.append('firstname', this.firstname);
-            formData.append('lastname', this.lastname);
 
             
             if(this.file.size > 0 && this.file != undefined) {
@@ -131,21 +118,70 @@ export default {
 
 
 <style lang="scss">
+.editProfile-view {
+    padding: 20px;
+}
 
     .editProfile__form {
+        @include flexColumn(null, center);
+
+        .form__row {
+            @include flexColumn(center, null);
+            
+            @include media(min, xs) {
+                @include flexRow(center, null);
+                flex-wrap: wrap;
+            }
+
+            .row__avatar {
+                width: 100px;
+                height: 100px;
+                border-radius: 50px;
+                margin-right: 0px;
+
+                @include media(min, xs) {
+                    margin-right: 50px;
+                }
+            }
+
+            .row__file-name {
+                margin: 15px 0px 15px 0px;
+                width: 100%;
+                background: getColor($accents, tertiary);
+                padding: 5px;
+                color: getColor($accents, _black);
+            }
+        }
   
         .form__field {
+            width: 100%;
+
+            .field__input {
+                width: 100%;
+
+                @include media(min, xs) {
+                    width: auto;
+                }
+            }
+
             &--dropzone {
                 width: 100%;
                 position: relative;
                 @include flexRow(center, center);
-                min-height: 200px;
+                min-height: 100px;
+                margin-top: 20px;
                 padding: 10px 10px;
                 cursor: pointer;
                 outline: 2px dashed getColor($darkTheme, fontColor);
                 background-color: getColor($accents, tertiary); 
                 color: getColor($darkTheme, fontColor);
                 outline-offset: -10px;
+
+                @include media(min, xs) {
+                    width: calc(100% - 150px);
+                    min-height: 150px;
+                    margin-top: 0px;
+                }
 
                 &:hover {
                     background-color: lighten(getColor($accents, tertiary), 5%);
@@ -159,6 +195,49 @@ export default {
                     cursor: pointer;
                 }
             }
+
+            &--email {
+                margin-top: 15px;
+
+                .field__input {
+                    width: 100%;
+                    padding: 8px 12px;
+
+                    @include media(min, xs) {
+                        width: 100%;
+                    }
+                }
+            }
+
+            &--password {
+                margin-top: 15px;
+
+                .field__input {
+                    width: 100%; 
+                    padding: 8px 12px;
+
+                    @include media(min, xs) {
+                        width: calc(50% - 5px);
+                    }
+
+                    &:last-child {
+                        margin-top: 15px;
+
+                        @include media(min, xs) {
+                            margin-top: 0px;
+                        }
+                    }
+
+                    &:first-child {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+
+        .form__submit {
+            margin-top: 15px;
+            @extend %primary-btn;
         }
     }
 </style>

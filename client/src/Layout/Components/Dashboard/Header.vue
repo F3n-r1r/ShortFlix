@@ -121,6 +121,8 @@ export default {
 		return {
 			isModalVisible: false,
 			uploadModal: false,
+			resetUpload: false,
+			myMovies: [],
 		}
 	},
 

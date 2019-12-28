@@ -41,6 +41,7 @@
 
   @mixin flexRow($arg1, $arg2) {
     display: flex;
+    flex-direction: row;
     align-items: $arg1;
     justify-content: $arg2;
   }

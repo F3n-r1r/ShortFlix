@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import modal from '../../Components/Shared/Modal.vue';
 import banner from '../../Components/Dashboard/Banner.vue';
 import upload from '../../Components/Dashboard/Upload.vue';

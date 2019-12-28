@@ -128,7 +128,7 @@ export default {
 	&__main {
 		width: 100%;
 		position: relative;
-		overflow-y: scroll;
+		overflow-y: auto;
 		display: grid;
 		grid-row: 2;
 		// grid-template-rows: min(500px) auto;

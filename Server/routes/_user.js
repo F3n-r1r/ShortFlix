@@ -135,25 +135,29 @@ var fileCheck = function (err, req, res, next) {
     next()
 }
 
-function test() {
-    console.log(req.file)
-}
 
 
 /*-------------------------------------------------*\
     6. - EDIT USER PROFILE
 \*-------------------------------------------------*/
-router.post('/profile/edit/:id', upload.single('file'), fileCheck, async (req, res) => {
+router.post('/profile/edit/:id', upload.single('file'), fileCheck, (req, res) => {
     let id = req.params.id;
-    console.log(req.body)
-    console.log(req.file)
 
-    // let edit = await user.findOneAndUpdate(
-    //     { _id: id },
-    //     { $set: 
-    //         {}
-    //     }
-    // )
+    user.findOneAndUpdate(
+        { _id: id },
+        { $set: 
+            { 
+                email: req.body.email,
+                password: req.body.password, // Password not hashed
+                avatar: req.file.path
+            }
+            
+        }
+    ).then(user => {
+        console.log(user)
+    }).catch(err => {
+        console.log(err)
+    })
 })
 
 
