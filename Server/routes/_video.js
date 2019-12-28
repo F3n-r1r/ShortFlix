@@ -101,6 +101,7 @@ router.post('/upload', upload.array('files'), fileCheck, function(req, res) {
         user: req.body.creator,
         title: req.body.title,
         description: req.body.description,
+        category: req.body.category,
         thumbnail: filesArr[0].path,
         video: filesArr[1].path
     }).then(data => {
@@ -187,6 +188,38 @@ router.get('/playVideo/:id', function(req, res) {
 });
 
 
+
+/*-------------------------------------------------*\
+    7. - GET VIDEO BY CATEGORY
+\*-------------------------------------------------*/
+router.post('/videocat', function(req, res) {
+    if(req.body.category === 'All') {
+        video.find({
+        }).populate({
+            path: 'user',
+            select: 'firstname lastname'
+        }).then(videos => {
+            res.json({
+                videos
+            })
+        }).catch(err => {
+            res.json(err);
+        })
+    } else {
+        video.find({
+            category: req.body.category
+        }).populate({
+            path: 'user',
+            select: 'firstname lastname'
+        }).then(videos => {
+            res.json({
+                videos
+            })
+        }).catch(err => {
+            res.json(err);
+        })
+    }
+})
 
 
 /*-------------------------------------------------*\

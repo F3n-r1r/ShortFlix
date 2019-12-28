@@ -80,6 +80,7 @@ import modal from '../../Components/Shared/Modal.vue';
 import banner from '../../Components/Dashboard/Banner.vue';
 import upload from '../../Components/Dashboard/Upload.vue';
 import player from '../../Components/Dashboard/Player.vue';
+import { Carousel, Slide } from 'vue-carousel';
 
 export default {
   name: 'Movies',
@@ -88,7 +89,9 @@ export default {
     modal,
     banner,
     upload,
-    player
+    player,
+    Carousel,
+    Slide
   },
 
   /*----------------------------------------------------------------------------------*\

@@ -3,16 +3,52 @@
     <banner class="dashboard__banner" bannerText="Get behind the scenes of a director´s cut" bannerImg="/images/videographer.svg" />
 
     <!-------------------------------------------------------------------------------------->
-    <!-- MOVIES SECTION				             									                          	  -->
+    <!-- MOVIES SECTION				             									      -->
     <!-------------------------------------------------------------------------------------->
     <section class="cinema-view__movie-section">
         <h2 class="movie-section__headline">Cinema</h2>
     </section>
 
+
+    <!-------------------------------------------------------------------------------------->
+    <!-- MOVIE CATEGORY SELECTION			             								  -->
+    <!-------------------------------------------------------------------------------------->
+    <section class="cinema-view__category-select">
+        <ul v-if="!category" class="category-select__list">
+            <li @click="chooseCategory('All')" class="list__item">All</li>
+            <li @click="chooseCategory('Horror')" class="list__item">Horror</li>
+            <li @click="chooseCategory('Comedy')" class="list__item">Comedy</li>
+            <li @click="chooseCategory('Drama')" class="list__item">Drama</li>
+            <li @click="chooseCategory('Action')" class="list__item">Action</li>
+            <li @click="chooseCategory('Sci-fi')" class="list__item">Sci-fi</li>
+            <li @click="chooseCategory('Adventure')" class="list__item">Adventure</li>
+            <li @click="chooseCategory('Romance')" class="list__item">Romance</li>
+            <li @click="chooseCategory('Animation')" class="list__item">Animation</li>
+        </ul>
+    </section>
+
+
+    <!-------------------------------------------------------------------------------------->
+    <!-- MOVIES                     		             								  -->
+    <!-------------------------------------------------------------------------------------->
+    <section v-if="movies.length" class="cinema-view__movies">
+        <button @click="goBack()">Back</button>
+        <ul class="movies__list">
+            <li class="list__item" v-for="(movie, index) in movies" :key="index">
+                <div @click="toggleMovieInfo(index)">
+                    {{movie.title}}
+                    <img class="img-container__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt=""> 
+                </div>
+            </li>
+        </ul>
+    </section>
+
+
+
     <!-------------------------------------------------------------------------------------->
     <!-- MOVIES CAROUSEL				             									  -->
     <!-------------------------------------------------------------------------------------->
-    <carousel class="row__carousel" 
+    <!-- <carousel class="row__carousel" 
     :perPageCustom="[[0, 1], [576, 3], [992, 3], [1300, 4], [1600, 5]]"
     :scrollPerPage="true"
     :paginationEnabled="false"
@@ -27,7 +63,7 @@
               </div>
           </div>       
       </slide>
-  </carousel>
+  </carousel> -->
 
   <!-------------------------------------------------------------------------------------->
     <!-- (SEE VIDEO DETAILS) MODAL COMPONENT					        				  -->
@@ -54,6 +90,7 @@ import modal from '../../Components/Shared/Modal.vue';
 import banner from '../../Components/Dashboard/Banner.vue';
 import upload from '../../Components/Dashboard/Upload.vue';
 import player from '../../Components/Dashboard/Player.vue';
+import axios from 'axios';
 
 export default {
   name: 'Cinema',
@@ -73,6 +110,8 @@ export default {
             myMovies: [],
             selectedMovie: {},
             playVideo: false,
+            category: '',
+            movies: []
         }
     },
 
@@ -80,8 +119,11 @@ export default {
 		METHODS
 	*\----------------------------------------------------------------------------------*/
     methods: {
+    chooseCategory(cat) {
+        this.category = cat;
+    },
       toggleMovieInfo(index) {
-            let movie = this.myMovies[index];
+            let movie = this.movies[index];
             
             if(!this.detailsModal) {
                 this.detailsModal = true;
@@ -93,24 +135,7 @@ export default {
 				document.body.removeAttribute("style");
 			}
         },
-        fetchMyMovies() {
-            return new Promise((resolve, reject) => {
-                axios({method: 'GET', url: '/api/video/myVideos'})
-                .then(resp => {
-                    //console.log(resp)
-                    this.myMovies = resp.data.videos;
 
-                    // Trigger resize event in order to fix carousel bug, and render it.
-                    let resizeEvent = window.document.createEvent('UIEvents');
-                    resizeEvent.initUIEvent('resize', true, false, window, 0);
-                    window.dispatchEvent(resizeEvent);
-
-                    resolve(resp);
-                }).catch(err => {
-                    reject(err);
-                })
-            })
-        },
 
         playMovie(movie) {
             let path = movie.split('\\').pop().split('\\')[0];
@@ -128,17 +153,43 @@ export default {
             if(this.$route.query.video) {
                 this.playVideo = true;
             }
+        },
+        goBack() {
+            this.category = '';
+            this.movies = [];
         }
     },
 
-  /*----------------------------------------------------------------------------------*\
+    /*----------------------------------------------------------------------------------*\
 		MOUNTED
 	*\----------------------------------------------------------------------------------*/
 	mounted() {
-        this.fetchMyMovies();
+        // this.fetchMyMovies();
 
         this.movieRefreshHandler();
     },
+
+
+    /*----------------------------------------------------------------------------------*\
+		WATCH
+	*\----------------------------------------------------------------------------------*/
+    watch: {
+        category: function(cat) {
+            let data = {
+                category: cat
+            }      
+            axios({method: 'POST', url: '/api/video/videocat', data: data})
+            .then(resp => {
+                //console.log(resp)
+                this.movies = resp.data.videos;
+            }).catch(err => {
+                console.log(err)
+            })
+          
+        },
+
+
+    }
 
 }
 </script>
@@ -155,6 +206,37 @@ export default {
             color: getColor($accents, primary);
             font-size: 18px;
             margin: 30px 0 10px 0;
+        }
+    }
+
+    .cinema-view__category-select {
+        padding: 0px 20px;
+
+        .category-select__list {
+            @include flexRow(center, space-between);
+            flex-wrap: wrap;
+
+            .list__item {
+                margin-top: 10px;
+                background-color: getColor($accents, secondary);
+                @include flexRow(center, center);
+                width: calc(50% - 10px);
+                height: 50px;
+                cursor: pointer;
+                transition: background-color .3s;
+
+                &:hover {
+                    background-color: getColor($accents, primary);
+                }
+   
+                @include media(min, xs) {
+                    width: calc(33% - 10px);
+                }
+
+                @include media(min, sm) {
+                    width: calc(25% - 10px);
+                }
+            }
         }
     }
 }

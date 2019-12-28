@@ -333,8 +333,8 @@ export default {
 
 <style lang="scss">
 .talks-view {
-    position: absolute;
-    top: -150px;
+    // position: absolute;
+    // //top: -150px;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 300px 1fr;

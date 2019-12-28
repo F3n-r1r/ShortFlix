@@ -11,6 +11,19 @@
                 <div class="form__field">
                     <textarea class="field__textarea" v-model="description" name="" placeholder="Movie description..." required/>
                 </div>
+                <div class="form__field">
+                    <select v-model="category">
+                        <option value="" disabled selected>Select movie category</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Action">Action</option>
+                        <option value="Sci-fi">Sci-fi</option>
+                        <option value="Adcenture">Adcenture</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Animation">Animation</option>
+                    </select>
+                </div>
                 <p class="form__info">
                     * Upload your movie along with the related movie poster below. The poster is a requirement.
                 </p>
@@ -72,6 +85,7 @@ export default {
         return {
             title: '',
             description: '',
+            category: '',
             files: [],
             uploadFiles: [],
             message: '',
@@ -120,6 +134,7 @@ export default {
             formData.append('title', this.title);
             formData.append('description', this.description);
             formData.append('creator', this.$store.getters.user._id);
+            formData.append('category', this.category);
             _.forEach(this.uploadFiles, file => {
                 if(this.validate(file) === "") {
                     formData.append('files', file);
