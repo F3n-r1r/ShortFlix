@@ -3,11 +3,13 @@
     <banner class="dashboard__banner" bannerText="Get behind the scenes of a director´s cut" bannerImg="/images/videographer.svg" />
 
     <!-------------------------------------------------------------------------------------->
-    <!-- MOVIES SECTION				             									      -->
+    <!-- MOVIES HEADER				             									      -->
     <!-------------------------------------------------------------------------------------->
-    <section class="cinema-view__movie-section">
-        <h2 class="movie-section__headline">Cinema</h2>
-    </section>
+    <header class="cinema-view__movie-header">
+        <h2 v-if="!category" class="movie-header__headline">Cinema</h2>
+        <button v-if="category" class="movie-header__btn" @click="goBack()"><i class="fas fa-arrow-left"></i></button>
+        <h2 v-if="category" class="movie-header__headline">{{category}} movies</h2>
+    </header>
 
 
     <!-------------------------------------------------------------------------------------->
@@ -32,40 +34,22 @@
     <!-- MOVIES                     		             								  -->
     <!-------------------------------------------------------------------------------------->
     <section v-if="movies.length" class="cinema-view__movies">
-        <button @click="goBack()">Back</button>
         <ul class="movies__list">
             <li class="list__item" v-for="(movie, index) in movies" :key="index">
-                <div @click="toggleMovieInfo(index)">
-                    {{movie.title}}
-                    <img class="img-container__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt=""> 
+                <div class="item__wrapper" @click="toggleMovieInfo(index)">
+                    <div class="wrapper__img-wrapper">
+                        <img class="img-wrapper__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt=""> 
+                    </div>
+                    <div class="wrapper__title-wrapper">
+                        <h3 class="title-wrapper__title">{{movie.title}}</h3>
+                    </div>
                 </div>
             </li>
         </ul>
     </section>
 
 
-
     <!-------------------------------------------------------------------------------------->
-    <!-- MOVIES CAROUSEL				             									  -->
-    <!-------------------------------------------------------------------------------------->
-    <!-- <carousel class="row__carousel" 
-    :perPageCustom="[[0, 1], [576, 3], [992, 3], [1300, 4], [1600, 5]]"
-    :scrollPerPage="true"
-    :paginationEnabled="false"
-    >
-      <slide class="carousel__slide" v-for="(movie, index) in myMovies" :key="index">
-          <div class="slide__content">
-              <div @click="toggleMovieInfo(index)" class="content__img-container">
-                  <img class="img-container__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt="">
-                   <div class="img-container__title-container">
-                      <h4 class="title-container__title">{{movie.title}}</h4>
-                  </div> 
-              </div>
-          </div>       
-      </slide>
-  </carousel> -->
-
-  <!-------------------------------------------------------------------------------------->
     <!-- (SEE VIDEO DETAILS) MODAL COMPONENT					        				  -->
     <!-------------------------------------------------------------------------------------->
     <modal class="movies-view__modal-details" v-show="detailsModal">
@@ -73,8 +57,14 @@
             <button class="content__close-btn" type="button" @click="toggleMovieInfo()">
                 <i class="close-btn__icon fas fa-times"></i>
             </button>
-            <img style="height: 200px;" :src="`http://localhost:8000/${selectedMovie.thumbnail}`" alt="">
-            <button @click="playMovie(selectedMovie.video)">PLAY</button>
+            <img :src="`http://localhost:8000/${selectedMovie.thumbnail}`" alt="">
+            <div class="content__description-wrapper">
+                <h3 class="description-wrapper__creator">Creator: <router-link class="creator__link" :to="{ path: '/Dashboard/Profile', query: { id: selectedMovie.user._id }}">{{selectedMovie.user.firstname}} {{selectedMovie.user.lastname}}</router-link></h3>
+                <h4>Title: {{selectedMovie.title}}</h4>
+                <h5>Description:</h5>
+                <p>{{selectedMovie.description}}</p>
+            </div>
+            <button class="content__play-btn" @click="playMovie(selectedMovie.video)">PLAY</button>
         </div>
     </modal>
 
@@ -82,6 +72,8 @@
     <!-- VIDEO PLAYER                   				        						  -->
     <!-------------------------------------------------------------------------------------->
     <player v-if="playVideo" @click="closeMovie()"/>
+
+
   </div>
 </template>
 
@@ -119,15 +111,17 @@ export default {
 		METHODS
 	*\----------------------------------------------------------------------------------*/
     methods: {
-    chooseCategory(cat) {
-        this.category = cat;
-    },
+        chooseCategory(cat) {
+            this.category = cat;
+        },
+
       toggleMovieInfo(index) {
             let movie = this.movies[index];
             
             if(!this.detailsModal) {
                 this.detailsModal = true;
                 this.selectedMovie = movie;
+                console.log(this.selectedMovie)
 				document.body.style.overflow = "hidden";
 			} else {
                 this.detailsModal = false;
@@ -152,11 +146,14 @@ export default {
             //console.log(this.$route.query)
             if(this.$route.query.video) {
                 this.playVideo = true;
+            } else if (this.$route.query.category) {
+                this.category = this.$route.query.category
             }
         },
         goBack() {
             this.category = '';
             this.movies = [];
+            this.$router.push({path: ''})
         }
     },
 
@@ -175,17 +172,21 @@ export default {
 	*\----------------------------------------------------------------------------------*/
     watch: {
         category: function(cat) {
-            let data = {
-                category: cat
-            }      
-            axios({method: 'POST', url: '/api/video/videocat', data: data})
-            .then(resp => {
-                //console.log(resp)
-                this.movies = resp.data.videos;
-            }).catch(err => {
-                console.log(err)
-            })
-          
+            if(cat) {
+                let data = {
+                    category: cat
+                }      
+                axios({method: 'POST', url: '/api/video/videocat', data: data})
+                .then(resp => {
+                    //console.log(resp)
+                    this.movies = resp.data.videos;
+                    if (!this.$route.query.category) {
+                        this.$router.push({path: '', query: {category: cat}})
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            } 
         },
 
 
@@ -199,13 +200,20 @@ export default {
 <style lang="scss">
 .cinema-view {
 
-    .cinema-view__movie-section {
-      padding: 0px 20px;
+    .cinema-view__movie-header {
+        @include flexRow(center, flex-start);
+        padding: 30px 20px 20px 20px;
 
-        .movie-section__headline {
+        .movie-header__headline {
             color: getColor($accents, primary);
             font-size: 18px;
-            margin: 30px 0 10px 0;
+        }
+
+        .movie-header__btn {
+            @extend %icon-btn;
+            color: getColor($accents, _white);
+            font-size: 18px;
+            margin-right: 15px;
         }
     }
 
@@ -236,6 +244,79 @@ export default {
                 @include media(min, sm) {
                     width: calc(25% - 10px);
                 }
+            }
+        }
+    }
+
+
+    .cinema-view__movies {
+        padding: 0px 20px 20px;
+
+        .movies__list {
+            display: grid;
+            grid-gap: 50px 20px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-rows: minmax(300px, auto);
+
+            .list__item {
+                @include flexColumn(center, flex-start);
+                overflow: hidden;
+                cursor: pointer;
+
+                .item__wrapper {
+                    @include flexColumn(center, space-between);
+                    position: relative;
+                    overflow: hidden;
+                    height: 100%;
+                    width: 100%;
+
+                    .wrapper__img-wrapper {
+                        @include flexRow(center, center);
+                        position: relative;
+                        height: 100%;
+                        width: 100%;
+                        
+                        .img-wrapper__img {
+                            object-fit: contain;
+                            width: 100%;
+                        }
+                    }
+
+                    .wrapper__title-wrapper {
+                        position: relative;
+                        color: getColor($darkTheme, fontColor);
+
+                        .title-wrapper__title {
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    .movies-view__modal-details {
+        .modal__content {
+            @include flexColumn(center, center);
+            user-select: none;
+
+            .content__description-wrapper {
+                margin-top: 15px;
+                .description-wrapper__creator {
+                    text-transform: capitalize;
+                    .creator__link {
+                        &:hover {
+                            color: getColor($accents, _white);
+                        }
+                    }
+                }
+            }
+
+            .content__play-btn {
+                margin-top: 15px;
+                @extend %secondary-btn;
             }
         }
     }

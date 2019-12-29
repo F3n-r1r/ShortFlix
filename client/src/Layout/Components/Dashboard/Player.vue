@@ -2,7 +2,7 @@
 	<div class="player">
 
 		<modal>
-			<button @click="close()"><i class="fas fa-times"></i></button>
+			<button class="player__close-btn" @click="close()"><i class="fas fa-times"></i></button>
 				<video class="player__video" type="video/mp4" controls>
 			</video>
 		</modal>
@@ -60,5 +60,15 @@ export default {
 /*----------------------------------------------------------------------------------*\
     PLAYER LAYOUT
 *\----------------------------------------------------------------------------------*/
-
+.player {
+	&__close-btn {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		@extend %icon-btn;
+		font-size: 26px;
+		cursor: pointer;
+		z-index: 99999;
+	}
+}
 </style>
