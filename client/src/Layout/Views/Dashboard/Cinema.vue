@@ -38,7 +38,7 @@
             <li class="list__item" v-for="(movie, index) in movies" :key="index">
                 <div class="item__wrapper" @click="toggleMovieInfo(index)">
                     <div class="wrapper__img-wrapper">
-                        <img class="img-wrapper__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt=""> 
+                        <img class="img-wrapper__img" :src="`${baseURL}${movie.thumbnail}`" alt=""> 
                     </div>
                     <div class="wrapper__title-wrapper">
                         <h3 class="title-wrapper__title">{{movie.title}}</h3>
@@ -57,7 +57,7 @@
             <button class="content__close-btn" type="button" @click="toggleMovieInfo()">
                 <i class="close-btn__icon fas fa-times"></i>
             </button>
-            <img :src="`http://localhost:8000/${selectedMovie.thumbnail}`" alt="">
+            <img :src="`${baseURL}${selectedMovie.thumbnail}`" alt="">
             <div class="content__description-wrapper">
                 <h3 class="description-wrapper__creator">Creator: <router-link class="creator__link" :to="{ path: '/Dashboard/Profile', query: { id: selectedMovie.user._id }}">{{selectedMovie.user.firstname}} {{selectedMovie.user.lastname}}</router-link></h3>
                 <h4>Title: {{selectedMovie.title}}</h4>
@@ -103,7 +103,8 @@ export default {
             selectedMovie: {},
             playVideo: false,
             category: '',
-            movies: []
+            movies: [],
+            baseURL: this.$store.state.baseURL
         }
     },
 

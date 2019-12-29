@@ -18,7 +18,7 @@
             <li v-if="!network.length">You do not currently have a network, start building one <router-link class="item__link" to="/Dashboard/Community">here</router-link></li>
             <section class="listing__profiles">
             <li v-for="(user, index) in network" :key="index">
-            <img v-if="user.avatar" class="btn__img" :src="`http://localhost:8000/${user.avatar}`">
+            <img v-if="user.avatar" class="btn__img" :src="`${baseURL}${user.avatar}`">
                 <router-link class="listing__profiles--firstname" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
                    {{ user.firstname + "," }}</router-link>
                 <div class="listing__profiles--role">{{ user.role }}</div> 
@@ -45,7 +45,8 @@ export default {
     data() {
         return {
             network: [],
-            pendingRequests: []
+            pendingRequests: [],
+            baseURL: this.$store.state.baseURL
         }
     },
     methods: {

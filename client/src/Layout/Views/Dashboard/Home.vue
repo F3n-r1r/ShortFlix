@@ -27,7 +27,7 @@
                 <slide class="carousel__slide" v-for="(movie, index) in myMovies" :key="index">
                     <div class="slide__content">
                         <div @click="toggleMovieInfo(index)" class="content__img-container">
-                            <img class="img-container__img" :src="`http://localhost:8000/${movie.thumbnail}`" alt="">
+                            <img class="img-container__img" :src="`${baseURL}${movie.thumbnail}`" alt="">
                             <div class="img-container__title-container">
                                 <h4 class="title-container__title">{{movie.title}}</h4>
                             </div> 
@@ -61,7 +61,7 @@
             <button class="content__close-btn" type="button" @click="toggleMovieInfo()">
                 <i class="close-btn__icon fas fa-times"></i>
             </button>
-            <img style="height: 200px;" :src="`http://localhost:8000/${selectedMovie.thumbnail}`" alt="">
+            <img style="height: 200px;" :src="`${baseURL}${selectedMovie.thumbnail}`" alt="">
             <button @click="playMovie(selectedMovie.video)">PLAY</button>
         </div>
     </modal>
@@ -130,6 +130,7 @@ export default {
             myMovies: [],
             selectedMovie: {},
             playVideo: false,
+            baseURL: this.$store.state.baseURL
         }
     },
 

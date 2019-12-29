@@ -34,7 +34,7 @@
 					<span class="username__firstname">{{ user.firstname }}</span>&nbsp;
 					<span class="username__lastname">{{ user.lastname }}</span>
 				</p>
-				<img v-if="user.avatar" class="btn__img" :src="`http://localhost:8000/${user.avatar}`">
+				<img v-if="user.avatar" class="btn__img" :src="`${baseURL}${user.avatar}`">
 			</button>
 
 			<!-- DROPDOWN CONTENT -->
@@ -123,6 +123,7 @@ export default {
 			uploadModal: false,
 			resetUpload: false,
 			myMovies: [],
+			baseURL: this.$store.state.baseURL
 		}
 	},
 
