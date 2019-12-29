@@ -1,5 +1,7 @@
 <template>
   <div class="view profile-view">
+
+	  <button v-if="showBack" @click="$router.go(-1)">back</button>
     <p>Profile</p>
 	{{ user }}
   </div>
@@ -28,6 +30,17 @@ export default {
 			}).catch(err => {
 				throw(err)
 			})
+		},
+	},
+	computed: {
+		showBack() {
+			let currentUser = this.$store.getters.user._id;
+			let params = this.$route.query.id;
+			if (params === currentUser) {
+				return false
+			} else {
+				return true
+			}
 		}
 	},
 	mounted() {
