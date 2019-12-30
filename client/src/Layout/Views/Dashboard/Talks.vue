@@ -335,20 +335,30 @@ export default {
 .talks-view {
     // position: absolute;
     // //top: -150px;
+    padding: 20px;
     display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(min-content, max-content) 1fr;
     grid-column-gap: 20px;
+    grid-row-gap: 20px;
+
+    @include media(min, xs) {
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: 1fr;
+        grid-row-gap: 0px;
+    }
     
     &__aside {
-        width: 300px;
-        height: 100%;
-        grid-row: 1;
-        grid-column: 1;
+        width: 100%;
+        position:relative;
+
+        @include media(min, xs) {
+            width: 250px;
+        }
 
         .aside__header {
+            position:relative;
            display: flex;
-           padding: 20px;
 
             .header__return-btn {
                 @extend %icon-btn;
@@ -380,8 +390,16 @@ export default {
         }
 
         .aside__section {
+            position:relative;
+            z-index: 1;
+
             .section__thread-list {
-                
+                display: none;
+
+                @include media(min, xs) {
+                    display: block;
+                }
+
                 .thread-list__title {         
                     color: getColor($darkTheme, fontColor);
                     padding: 10px 0px;
@@ -418,6 +436,7 @@ export default {
 
             .section__network-list {
                 padding: 10px 0px;
+                z-index: 999;
 
                 .network-list__item{
                     @include flexRow(center, null);
@@ -440,7 +459,6 @@ export default {
 
     &__chat {
         position: relative;
-        grid-column: 2;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
@@ -465,14 +483,22 @@ export default {
                     position: relative;
                     display: flex;
                     flex-direction: column;
-                    padding: 15px 50px;
+                    padding: 15px 10px;
                     border-radius: 10px;
 
+                    @include media(min, xs) {
+                        padding: 15px 50px;
+                    }
+
                     .message__content {
-                        width: 60%;
+                        width: 80%;
                         padding: 10px;
                         border-radius: 10px;
                         color: getColor($accents, _white);
+
+                        @include media(min, sm) {
+                            width: 60%;
+                        }
 
                         .content__author-name {
                             text-transform: capitalize;
@@ -535,7 +561,11 @@ export default {
             overflow: hidden;
             border-bottom-left-radius: 10px;
          
-            padding: 25px 50px;
+            padding: 25px 10px;
+
+            @include media(min, xs) {
+                padding: 25px 50px;
+            }
   
             .form__input {
                 height: 100%;
