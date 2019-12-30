@@ -138,27 +138,70 @@ var fileCheck = function (err, req, res, next) {
 
 
 /*-------------------------------------------------*\
-    6. - EDIT USER PROFILE
+    6. - EDIT USER PROFILE (WITH IMG UPLOAD)
 \*-------------------------------------------------*/
-router.post('/profile/edit/:id', upload.single('file'), fileCheck, (req, res) => {
-    let id = req.params.id;
+const bcrypt = require('bcrypt');
+const { saltrounds } = require('../config/envConfig');
 
-    user.findOneAndUpdate(
-        { _id: id },
-        { $set: 
-            { 
-                email: req.body.email,
-                password: req.body.password, // Password not hashed
-                avatar: req.file.path
-            }
-            
+router.post('/profile/edit/:id', upload.single('file'), fileCheck, async (req, res) => {
+    let id = req.params.id;
+    let data = {}
+
+    if(req.body.email) {
+        data.email = req.body.email
+    }
+    if(req.file) {
+        data.avatar = req.file.path
+    }
+    if(req.body.biography) {
+        data.biography = req.body.biography
+    }
+    //console.log(data)
+
+    if(req.body.password) {
+            let salt = bcrypt.genSaltSync(parseInt(saltrounds));
+            let pass = req.body.password;
+          
+            new Promise((resolve, reject) => {
+              bcrypt.hash(pass, salt, function(err, hash) {
+                if (err) reject(err)
+                resolve(hash)
+              });
+            }).then((pass) => {
+                data.password = pass;
+            }).then(() => {
+                user.findOneAndUpdate(
+                    { _id: id },
+                    { $set:        
+                        data    
+                    },
+                    {new: true}
+                ).then(user => {
+                    res.status(200).json(user)
+                }).catch(err => {
+                    console.log(err)
+                })
+            })
+        } else {
+            user.findOneAndUpdate(
+                { _id: id },
+                { $set:        
+                    data    
+                },
+                {new: true}
+            ).then(user => {
+                res.status(200).json(user)
+            }).catch(err => {
+                console.log(err)
+            })
         }
-    ).then(user => {
-        console.log(user)
-    }).catch(err => {
-        console.log(err)
-    })
+     
+
+     
+
 })
+
+
 
 
 

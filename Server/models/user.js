@@ -58,6 +58,11 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    biography: {
+        type: String,
+        trim: true,
+        default: 'Currently no bio...'
+    },
     avatar: {
         type: String,
         default: 'uploads/images/avatar.png'

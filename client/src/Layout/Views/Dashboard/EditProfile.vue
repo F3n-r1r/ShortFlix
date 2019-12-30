@@ -5,14 +5,17 @@
     <form class="editProfile__form" @submit.prevent="submitEdit" enctype="multipart/form-data">
 
         <div class="form__row">
-            <img class="row__avatar" v-if="avatar" :src="`http://localhost:8000/${avatar}`" alt="">
+            <img class="row__avatar" v-if="avatar" :src="`${baseURL}${avatar}`" alt="">
             <div class="form__field form__field--dropzone">
                 <input class="field__dropzone-input" multiple ref="file" @change="validateFile" type="file">
                 <p class="dropzone__cta">Drag new avatar here...</p>
             </div>
-            <p v-if="file.length" class="row__file-name">{{file.name}}</p>
+            <p v-if="file.name" class="row__file-name">{{ file.name}}</p>
         </div>
 
+        <div class="form__field">
+            <textarea class="field__textarea" placeholder="Write your biography..." v-model="biography"></textarea>
+        </div>
 
         <div class="form__field form__field--email">
             <input class="field__input" type="email" v-model="email">
@@ -44,9 +47,11 @@ export default {
             user: {},
             email: '',
             avatar: '',
+            biography: '',
             password: '',
             repeatPassword: '',
-            file: {}
+            file: {},
+            baseURL: this.$store.state.baseURL
         }
   	},
 
@@ -58,8 +63,9 @@ export default {
         
                 this.email = user.email;
                 this.avatar = user.avatar;
+                this.biography = user.biography;
                
-                
+                console.log(user)
 			}).catch(err => {
 				throw(err)
 			})
@@ -79,6 +85,7 @@ export default {
             }
             
             this.file  = file;
+            //console.log(this.file)
         },
 
 
@@ -86,7 +93,7 @@ export default {
             let id = this.$route.query.id;
             const formData = new FormData();
             formData.append('email', this.email);
-
+            formData.append('biography', this.biography);
             
             if(this.file.size > 0 && this.file != undefined) {
                 formData.append('file', this.file);
@@ -102,12 +109,16 @@ export default {
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
+
             await axios.post(`/api/user/profile/edit/${id}`, formData)
-			.then(resp => {
-                console.log(res)
-			}).catch(err => {
-				throw(err)
-			})
+            .then(resp => {
+                console.log(resp)
+                this.email = resp.data.email;
+                this.biography = resp.data.biography;
+                this.avatar = resp.data.avatar;
+            }).catch(err => {
+                throw(err)
+            })
         }
 	},
 	mounted() {
@@ -145,7 +156,7 @@ export default {
             }
 
             .row__file-name {
-                margin: 15px 0px 15px 0px;
+                margin: 15px 0px 0px 0px;
                 width: 100%;
                 background: getColor($accents, tertiary);
                 padding: 5px;
@@ -162,6 +173,13 @@ export default {
                 @include media(min, xs) {
                     width: auto;
                 }
+            }
+
+            .field__textarea {
+                width: 100%;
+                margin-top: 15px;
+                height: 100px;
+                padding: 10px;
             }
 
             &--dropzone {
