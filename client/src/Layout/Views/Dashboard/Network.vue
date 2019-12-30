@@ -7,6 +7,7 @@
             <li v-for="(user, index) in pendingRequests" :key="index">
                 {{ index }} - {{ user.firstname }} - {{ user.role }}
                 <button @click="acceptRequest(user._id)">Accept Request</button>
+                <button @click="denyRequest(user._id)">Deny Request</button>
             </li>
         </ul>
     </section>
@@ -59,6 +60,20 @@ export default {
                 .then(resp => {
                     //console.log(resp)
                     this.network = this.network.concat(this.pendingRequests.filter(x => x._id == userId))
+                    this.pendingRequests = this.pendingRequests.filter(x => x._id !== userId)
+                    resolve(resp);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        },
+        denyRequest: function(userId) {
+            return new Promise((resolve, reject) => {
+                let data = {
+                    id: userId
+                }
+                axios({method: 'POST', url: '/api/user/network/deny', data: data })
+                .then(resp => {
                     this.pendingRequests = this.pendingRequests.filter(x => x._id !== userId)
                     resolve(resp);
                 }).catch(err => {

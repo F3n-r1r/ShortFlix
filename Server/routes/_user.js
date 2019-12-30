@@ -195,10 +195,6 @@ router.post('/profile/edit/:id', upload.single('file'), fileCheck, async (req, r
                 console.log(err)
             })
         }
-     
-
-     
-
 })
 
 
@@ -325,7 +321,44 @@ router.post('/network/accept', function(req, res) {
 /*-------------------------------------------------*\
     8. - DENY NETWORK REQUEST
 \*-------------------------------------------------*/
+router.post('/network/deny', function(req, res) {
+    let decodedToken = jwt.verify(req.headers['authorization'], jwtkey);
+    let bodyId = req.body.id;
+    user.find({
+        _id: { $in: [
+            decodedToken.id,
+            bodyId
+        ]}
+    }).then((users) => {
+        let sortedUsers = users.sort(function(a,b) {
+            if(a._id == decodedToken.id) {
+                return 1
+            }
+	        if (b._id == bodyId ) {
+                return -1
+            }
+        });
+        let queriesPull = [{ $pull: { requested: decodedToken.id }}, { $pull: { pending: bodyId}}]
+        sortedUsers.forEach( function(user, index) {
+            network.findOneAndUpdate(
+                { _id: user.network },
+                queriesPull[index],
+                function (err, res){
+                    if (err) throw err;
+                },
+                { upsert: true, new: true }
+            ).then((res) => {
+                console.log('Pull from set succeded')
+            })
+        })
 
+        res.status(200).json({
+            msg: 'User succescully added to network'
+        })
+    }).catch((err) => {
+        console.log(err)
+    })
+});
 
 
 
