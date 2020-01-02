@@ -1,17 +1,21 @@
 <template>
-    <section class="sitemap">
-        <div class="sitemap__content">
-            <h3 class="content__headline">Site Map</h3>
+    <section class="view sitemap-view">
+        <div class="sitemap-view__content">
+            <h3 class="sitemap-view__content--headline">Site Map</h3>
+            <p>Site Map will follow soon</p>
         </div>
     </section>
 </template>
 
 <script>
 export default {
-    name: 'sitemap'
+    name: 'Sitemap'
 }
 </script>
 
 <style lang="scss">
-
+.sitemap-view {
+    margin: 50px;
+    min-height: 400px;
+}
 </style>

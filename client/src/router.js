@@ -18,6 +18,7 @@ import Community from './Layout/Views/Dashboard/Community.vue';
 import Network from './Layout/Views/Dashboard/Network.vue';
 import Cinema from './Layout/Views/Dashboard/Cinema.vue';
 import News from './Layout/Views/Dashboard/News.vue';
+import Sitemap from './Layout/Views/Dashboard/Sitemap.vue';
 
 
 
@@ -78,6 +79,11 @@ const routes = [
 				name: 'Community',
 				path: 'Community',
 				component: Community
+			},
+			{
+				name: 'Sitemap',
+				path: 'Sitemap',
+				component: Sitemap
 			},
 			{
 				name: 'PendingUsers',
