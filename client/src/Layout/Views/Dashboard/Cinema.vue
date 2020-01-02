@@ -219,7 +219,7 @@ export default {
     }
 
     .cinema-view__category-select {
-        padding: 0px 20px;
+        padding: 0px 20px 10px;
 
         .category-select__list {
             @include flexRow(center, space-between);

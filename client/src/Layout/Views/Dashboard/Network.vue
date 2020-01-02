@@ -2,12 +2,15 @@
   <div class="view network-view">
     <banner class="dashboard__banner" bannerText="Adventure is more than backpacking" bannerImg="/images/adventure.svg" />
     <section class="network-view__pending-section" v-if="pendingRequests.length">
-        <h3>Pending Network Requests</h3>
-        <ul>
-            <li v-for="(user, index) in pendingRequests" :key="index">
-                {{ index }} - {{ user.firstname }} - {{ user.role }}
-                <button @click="acceptRequest(user._id)">Accept Request</button>
-                <button @click="denyRequest(user._id)">Deny Request</button>
+        <h3 class="pending-section__headline">Pending Network Requests</h3>
+        <ul class="network-section__pending-list">
+            <li class="pending-list__item" v-for="(user, index) in pendingRequests" :key="index">
+                <img class="item__img" v-if="user.avatar" :src="`${baseURL}${user.avatar}`">
+                <router-link class="item__route" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
+                    {{ user.firstname }} - {{ user.role }}
+                </router-link>
+                <button class="item__btn-acc" @click="acceptRequest(user._id)"><i class="fas fa-check"></i></button>
+                <button class="item__btn-deny" @click="denyRequest(user._id)"><i class="fas fa-times"></i></button>
             </li>
         </ul>
     </section>
@@ -21,7 +24,7 @@
             <li v-for="(user, index) in network" :key="index">
             <img v-if="user.avatar" class="btn__img" :src="`${baseURL}${user.avatar}`">
                 <router-link class="listing__profiles--firstname" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
-                   {{ user.firstname + "," }}</router-link>
+                   {{ user.firstname }},</router-link>
                 <div class="listing__profiles--role">{{ user.role }}</div> 
             </li>
             </section>
@@ -104,7 +107,41 @@ export default {
 .network-view {
 
     &__pending-section {
-        margin-bottom: 20px;
+        margin: 30px;
+        .pending-section__headline {
+            color: getColor($accents, primary);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .network-section__pending-list {
+            .pending-list__item {
+                @include flexRow(center, flex-start);
+                 padding: 10px;
+                .item__img {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                }
+                .item__route {
+                    font-size: 14px;
+                    padding-left: 10px;
+                    font-weight: bold;
+                    text-transform: capitalize;
+                }
+                .item__btn-acc {
+                    @extend %icon-btn;
+                    color: getColor($accents, tertiary);
+                    margin-left: 20px;
+                    font-size: 24px;
+                }
+                .item__btn-deny {
+                    @extend %icon-btn;
+                    color: getColor($accents, primary);
+                    margin-left: 10px;
+                    font-size: 24px;
+                }
+            }
+        }
     }
 
     &__network-section {
@@ -130,6 +167,8 @@ export default {
 
                     .btn__img {
                         width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
                     }
                 }
 
@@ -156,7 +195,12 @@ export default {
 .dark-theme {
     .network-view {
         &__network-section {
-        color: getColor($darkTheme, fontColor);
+            color: getColor($darkTheme, fontColor);
+        }
+        .network-section__pending-list {
+            .item__route {
+                color: getColor($darkTheme, fontColor);
+            }
         }
     }
 }
@@ -167,7 +211,12 @@ export default {
 .light-theme {
     .network-view {
         &__network-section {
-        color: getColor($lightTheme, fontColor);
+            color: getColor($lightTheme, fontColor);
+        }
+        .network-section__pending-list {
+            .item__route {
+                color: getColor($lightTheme, fontColor);
+            }
         }
     }
 }

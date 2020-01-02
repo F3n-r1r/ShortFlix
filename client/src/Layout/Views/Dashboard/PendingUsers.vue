@@ -1,13 +1,13 @@
 <template>
   <div class="view pendingUsers-view">
-    <p>Admin panel</p>
 
-    <ul>
-        <li v-for="(user, index) in pendingUsers" :key="index">
-            {{ index }} - {{ user.firstname }} - {{ user.role }}
-            <button @click="approveUser(user._id)">Approve</button>
-        </li>
-    </ul>
+      <h3 class="view__headline">Pending new users ({{pendingUsers.length}})</h3>
+        <ul class="pending-list">
+            <li class="pending-list__item" v-for="(user, index) in pendingUsers" :key="index">
+                <div class="item__info">{{ user.firstname }} - {{ user.role }}</div>
+                <button @click="approveUser(user._id)">Approve</button>
+            </li>
+        </ul>
 
 
   </div>
@@ -63,6 +63,19 @@ export default {
 
 
 <style lang="scss">
-
+.pendingUsers-view {
+    padding: 20px;
+    .view__headline {
+        color: getColor($accents, primary);
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+    .pending-list {
+        .pending-list__item {
+            @include flexRow(center, flex-start);
+            padding: 10px;
+        }
+    }
+}
 
 </style>

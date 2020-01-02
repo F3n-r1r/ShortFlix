@@ -57,19 +57,19 @@
                 <!-------------------------------------------------------------------------------------->
                 <ul class="content-nav__list content-nav__list--personal">
                     <li class="list__header">PERSONAL</li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Home"><i class="link__icon fas fa-home"></i>Home</router-link>
                     </li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Movies"><i class="link__icon fas fa-film"></i>Movies</router-link>
                     </li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Showcases"><i class="link__icon fas fa-photo-video"></i>Showcases</router-link>
                     </li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Network"><i class="link__icon fas fa-font"></i>A-List</router-link>
                     </li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Talks"><i class="link__icon far fa-comment-dots"></i>Talks</router-link>
                     </li>
                 </ul>
@@ -79,13 +79,13 @@
                 <!-------------------------------------------------------------------------------------->
                 <ul class="content-nav__list content-nav__list--public">
                     <li class="list__header">PUBLIC</li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Cinema"><i class="link__icon fas fa-play"></i>Cinema</router-link>
                     </li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/Community"><i class="link__icon fas fa-users"></i>Shortflix Community</router-link>
                     </li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/News"><i class="link__icon fas fa-broadcast-tower"></i>News</router-link>
                     </li>
                 </ul>
@@ -95,7 +95,7 @@
                 <!-------------------------------------------------------------------------------------->
                 <ul class="content-nav__list content-nav__list--admin" v-if="user.role === 'Admin'">
                     <li class="list__header">ADMIN</li>
-                    <li class="list__item">
+                    <li class="list__item" @click="closeMenu()">
                         <router-link class="item__link" to="/Dashboard/PendingUsers"><i class="link__icon fas fa-tools"></i>Pending users</router-link>
                     </li>
                 </ul>
