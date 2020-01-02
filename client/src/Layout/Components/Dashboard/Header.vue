@@ -247,7 +247,7 @@ export default {
 			@extend %secondary-btn;
 			font-style: normal;
 			border: none;
-			background-color: getColor($accents, secondary);
+			background-color: getColor($lightTheme, primary);
             transition: transform .5s ease, color .5s ease;
             color: getColor($accents, primary);
         }

@@ -70,6 +70,7 @@ export default {
                 
                 &:hover {
                     transition: color $hoverTransitionTime;
+                    color: getColor($accents, tertiary);
                 }
             }
         }
