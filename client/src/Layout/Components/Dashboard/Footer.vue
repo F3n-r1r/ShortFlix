@@ -89,18 +89,18 @@ export default {
                 grid-template-columns: repeat(3, 1fr);
                     
                 &__list {
+                    &.content-nav__list--left {
+                        grid-column: 1;
+                    }
 
-                        &.content-nav__list--left {
-                            grid-column: 1;
-                        }
+                    &.content-nav__list--middle {
+                        grid-column: 2;
+                    }
 
-                        &.content-nav__list--middle {
-                            grid-column: 2;
-                        }
+                    &.content-nav__list--right {
+                        grid-column: 3;
+                    }
 
-                        &.content-nav__list--right {
-                            grid-column: 3;
-                        }
                 }
             }
         }
