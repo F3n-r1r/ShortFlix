@@ -2,8 +2,8 @@
     <section class="banner">
         <router-link to="/Dashboard/News">
             <div class="banner__content">
-                <h3 class="banner__content--headline">{{ bannerText }}</h3>
                 <img :src="bannerImg">
+                <h3 class="banner__content--headline">{{ bannerText }}</h3>
             </div>
         </router-link>
     </section>
@@ -30,6 +30,11 @@ export default {
     width: 100%;
     height: 150px;
     background-color: getColor($accents, secondary);
+    background-image: url("/images/steam.png");
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-blend-mode: saturation;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     @include flexRow(center, center);
 
         @include media(min, md) {
@@ -40,10 +45,6 @@ export default {
     &__content {
         @include flexRow(center, center);
         
-        @include media(min, md) {
-            // @include flexRow(center, flex-start);
-        }
-
         &--headline  {
             width: 40%;
             font-size: 16px;
@@ -55,7 +56,7 @@ export default {
                 width: auto;
                 font-size: 18px;
                 position: absolute;
-                left: 10%;
+                right: 20%;
             }
         }
 
@@ -66,7 +67,7 @@ export default {
             @include media(min, md) {
                 width: 20%;
                 position: absolute;
-                right: 15%;
+                left: 15%;
             }
         }
     }

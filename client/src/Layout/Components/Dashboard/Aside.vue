@@ -318,7 +318,7 @@ export default {
                             color: getColor($darkTheme, fontColor);
 
                             &:hover {
-                                color: getColor($accents, _white);
+                                color: getColor($accents, primary);
                             }
                         }
 
