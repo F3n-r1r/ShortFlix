@@ -46,7 +46,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 \*-------------------------------------------------*/
 
 const chat = require('./models/chat');
-const http = require('http').Server(app)
+const http = require('http').createServer(app)
 const io = require('socket.io')(http);
 
 let connectedUsers = [];
@@ -105,10 +105,9 @@ io.on("connection", socket => {
     })
 })
 
-http.listen(3000, () => {
-    console.log("listening on %s", 3000);
-})
-
+// http.listen(3000, () => {
+//     console.log("listening on %s", 3000);
+// })
 
 
 
@@ -139,7 +138,7 @@ app.use(history({
 \*-------------------------------------------------*/
 let portNum = process.env.PORT || port;
 let listen = (portNum) => {
-    app.listen(portNum, () => {
+    http.listen(portNum, () => {
         console.log(`Server is running on port: ${portNum}`);
         }).on('error', (err) => {
         if(err.errno === 'EADDRINUSE') {

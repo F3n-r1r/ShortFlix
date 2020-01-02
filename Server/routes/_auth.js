@@ -35,7 +35,7 @@ router.post('/login', function(req, res) {
         email: req.body.email
     }).then((user) => {
         if(bcrypt.compareSync(req.body.password, user.password) && user.approved) {
-            const token = jwt.sign({id: user._id}, jwtkey, { expiresIn: '24h' });
+            const token = jwt.sign({id: user._id}, jwtkey, { expiresIn: '999h' });
             res.json({
                 message: 'success',
                 token: token,

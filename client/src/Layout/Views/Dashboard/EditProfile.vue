@@ -65,7 +65,7 @@ export default {
                 this.avatar = user.avatar;
                 this.biography = user.biography;
                
-                console.log(user)
+                //console.log(user)
 			}).catch(err => {
 				throw(err)
 			})
@@ -106,13 +106,13 @@ export default {
                     return 'Passwords do not match';
                 }
             }
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0]+ ', ' + pair[1]); 
+            // }
 
             await axios.post(`/api/user/profile/edit/${id}`, formData)
             .then(resp => {
-                console.log(resp)
+                //console.log(resp)
                 this.email = resp.data.email;
                 this.biography = resp.data.biography;
                 this.avatar = resp.data.avatar;

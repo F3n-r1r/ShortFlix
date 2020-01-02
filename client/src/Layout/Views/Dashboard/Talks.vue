@@ -104,7 +104,7 @@ export default {
             searchArr: [],
 
             msg: '',
-            socket: io('http://localhost:3000'),
+            socket: io('http://localhost:8000'),
             messages: [],
 
             activeThread: '',

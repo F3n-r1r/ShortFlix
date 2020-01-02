@@ -88,7 +88,7 @@ const routes = [
 						if(store.getters.user.role === 'Admin') {
 							next();		
 						} else {
-							next('Dashboard/Home')
+							next('/')
 						}
 					} catch(e) {
 						next({
