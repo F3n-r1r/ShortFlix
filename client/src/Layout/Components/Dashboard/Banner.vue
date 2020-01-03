@@ -35,39 +35,32 @@ export default {
     background-repeat: no-repeat;
     background-blend-mode: saturation;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    @include flexRow(center, center);
+    @include flexRow(center, null);
 
         @include media(min, md) {
-            height: 150px;
-            @include flexRow(center, flex-start);
+           padding-left: 100px;
         }
 
     &__content {
         @include flexRow(center, center);
         
         &--headline  {
-            width: 40%;
             font-size: 16px;
             font-family: courier-std, monospace;
             font-style: normal;
             font-weight: 400;
 
             @include media(min, md) {
-                width: auto;
-                font-size: 18px;
-                position: absolute;
-                right: 20%;
+                font-size: 32px;
             }
         }
 
         img {
-            width: 50%;
-            height: auto;
+            max-height: 120px;
 
-            @include media(min, md) {
-                width: 20%;
-                position: absolute;
-                left: 15%;
+            @include media(min, sm) {
+                max-height: 150px;
+                padding: 0 20px;
             }
         }
     }

@@ -123,9 +123,7 @@ export default {
 				@include media(min, sm) {
 					width: 200px;
 					align-self: center;
-					position: absolute;
-					left: 10%;
-					top: 20%;
+					top: 90px;
 				}
 			}
 		}
