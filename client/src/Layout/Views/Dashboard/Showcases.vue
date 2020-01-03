@@ -56,14 +56,19 @@ export default {
         .showcase-section__headline {
             color: getColor($accents, primary);
             font-size: 18px;
-            margin-bottom: 20px;
+            margin: 30px 0 10px 0;
         }
 
         .showcase-section__row {
             @include flexRow(null, space-between);
+            flex-wrap: wrap;
+              
+            @include media(min, xs) {
+              @include flexRow(null, space-between);
+              flex-wrap: nowrap;
 
+            }
             .row__add-showcase {
-                display: none;
                 width: 250px;
                 height: 135px;
                 margin-right: 15px;

@@ -207,19 +207,24 @@ export default {
         }
 
         .movie-section__row {
-            @include flexRow(null, null);
-            padding-bottom: 40px;
-
+            @include flexRow(null, space-between);
+            flex-wrap: wrap;
+              
+            @include media(min, xs) {
+                flex-wrap: nowrap;
+            }
+ 
             .row__add-movie  {
-                display: none;
-                width: 200px;
+                @include flexColumn(center, center);
+                width: 250px;
+                height: 135px;
                 margin-right: 15px;
                 background-color: getColor($lightTheme, primary);
                 cursor: pointer;
 
                 @include media(min, xs) {
-                    @include flexColumn(center, center);
-                    padding: 40px 0;
+                    width: 25%;
+                    padding: 4%;
                 }
 
                 &:hover > .add-movie__icon {
@@ -265,7 +270,7 @@ export default {
                                 position: relative;
                                 object-fit: contain;
                                 height: 100%;
-                                width:100%;
+                                width: 100%;
                             }
 
                             .img-container__title-container {
