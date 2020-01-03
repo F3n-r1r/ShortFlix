@@ -3,7 +3,7 @@
 	<button v-if="showBack" @click="$router.go(-1)">back</button>
 		<section class="profile-view__banner">
 			<div class="profile-img">
-				<img :src="`${baseURL}${user.avatar}`">
+				<img v-if="user.avatar" :src="`${baseURL}${user.avatar}`">
 			</div>
 		</section>
 		<section class="profile-view__content">

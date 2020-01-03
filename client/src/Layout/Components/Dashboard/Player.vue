@@ -70,5 +70,8 @@ export default {
 		cursor: pointer;
 		z-index: 99999;
 	}
+	.player__video {
+		width: 100%;
+	}
 }
 </style>
