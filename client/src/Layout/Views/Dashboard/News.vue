@@ -2,7 +2,7 @@
   <div class="view news-view">
     <banner class="dashboard__banner" bannerText="Adventure is more than backpacking" bannerImg="/images/adventure.svg" />
     
-    <h2 class="news-view__title">Latest News Feeds</h2>
+    <h2 class="news-view__title">Latest News</h2>
 
     <section class="news-view__content">
       <section class="news-view__content--newsfeeds">

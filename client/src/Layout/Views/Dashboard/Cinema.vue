@@ -61,7 +61,7 @@
             <div class="content__description-wrapper">
                 <h3 class="description-wrapper__creator">Creator: <router-link class="creator__link" :to="{ path: '/Dashboard/Profile', query: { id: selectedMovie.user._id }}">{{selectedMovie.user.firstname}} {{selectedMovie.user.lastname}}</router-link></h3>
                 <h4>Title: {{selectedMovie.title}}</h4>
-                <h5>Description:</h5>
+                <h4 class="description-wrapper__text">Description:</h4>
                 <p>{{selectedMovie.description}}</p>
             </div>
             <button class="content__play-btn" @click="playMovie(selectedMovie.video)">PLAY</button>
@@ -198,6 +198,7 @@ export default {
 
 
 
+
 <style lang="scss">
 .cinema-view {
 
@@ -222,29 +223,26 @@ export default {
         padding: 0px 20px 10px;
 
         .category-select__list {
-            @include flexRow(center, space-between);
-            flex-wrap: wrap;
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); // auto-fit vs auto-fill ??
+            grid-template-rows: auto;
+            padding: 20px;
+            user-select: none;
 
             .list__item {
-                margin-top: 10px;
-                background-color: getColor($accents, secondary);
+                padding: 20px 5px;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
                 @include flexRow(center, center);
-                width: calc(50% - 10px);
-                height: 50px;
                 cursor: pointer;
-                transition: background-color .3s;
+                transition: background-color .5s;
+                font-size: 18px;
 
                 &:hover {
                     background-color: getColor($accents, primary);
                 }
    
-                @include media(min, xs) {
-                    width: calc(33% - 10px);
-                }
 
-                @include media(min, sm) {
-                    width: calc(25% - 10px);
-                }
             }
         }
     }
@@ -285,7 +283,6 @@ export default {
 
                     .wrapper__title-wrapper {
                         position: relative;
-                        color: getColor($darkTheme, fontColor);
 
                         .title-wrapper__title {
                             font-weight: 500;
@@ -301,26 +298,103 @@ export default {
     .movies-view__modal-details {
         .modal__content {
             @include flexColumn(center, center);
+            max-width: 800px;
+            padding: 30px;
+            max-height: 500px;
+            overflow-y: auto;
             user-select: none;
+            
+
+            img {
+                height: 200px;
+            }
 
             .content__description-wrapper {
                 margin-top: 15px;
                 .description-wrapper__creator {
                     text-transform: capitalize;
                     .creator__link {
-                        &:hover {
-                            color: getColor($accents, _white);
-                        }
+
                     }
+                }
+                .description-wrapper__text {
+                    margin-top: 15px;
+
                 }
             }
 
             .content__play-btn {
-                margin-top: 15px;
+                margin-top: 25px;
                 @extend %secondary-btn;
             }
         }
     }
 }
 
+.dark-theme {
+    .cinema-view {
+        .category-select__list {
+            .list__item {
+                color: getColor($darkTheme, fontColor);
+            }
+        }
+        .cinema-view__movie-header {
+            .movie-header__btn {
+                color: getColor($darkTheme, fontColor);
+            }
+        }
+        .wrapper__title-wrapper {
+            .title-wrapper__title {
+               color: getColor($darkTheme, fontColor); 
+            }
+        }
+        .modal__content {
+            background-color: getColor($darkTheme, tertiary);
+            .content__close-btn {
+                color: getColor($darkTheme, fontColor); 
+            }
+            .content__description-wrapper {
+                color: getColor($darkTheme, fontColor); 
+            }
+            .creator__link {
+                &:hover {
+                    color: getColor($accents, _white);
+                }
+            }
+        }
+    }
+}
+
+.light-theme {
+    .cinema-view {
+        .category-select__list {
+            .list__item {
+                color: getColor($lightTheme, fontColor);
+            }
+        }
+        .cinema-view__movie-header {
+            .movie-header__btn {
+                color: getColor($lightTheme, fontColor);
+            }
+        }
+        .wrapper__title-wrapper {
+            .title-wrapper__title {
+               color: getColor($lightTheme, fontColor); 
+            }
+        }
+        .modal__content {
+            background-color: getColor($lightTheme, secondary);
+            .content__close-btn {
+                color: getColor($lightTheme, fontColor); 
+            }
+            .content__description-wrapper {
+                color: getColor($lightTheme, fontColor); 
+            }
+            .content__play-btn {
+                color: getColor($lightTheme, fontColor); 
+                border-color: getColor($lightTheme, fontColor); 
+            }
+        }
+    }
+}
 </style>

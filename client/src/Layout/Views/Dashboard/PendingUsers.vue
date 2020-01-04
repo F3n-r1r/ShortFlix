@@ -64,7 +64,6 @@ export default {
 </script>
 
 
-
 <style lang="scss">
 .pendingUsers-view {
     padding: 20px;
@@ -80,7 +79,7 @@ export default {
             @include flexRow(center, space-between);
             padding: 10px;
             margin-top: 10px;
-            transition: background-color $themeTransitionTime;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
             .item__info {
                 text-transform: capitalize;
@@ -116,7 +115,7 @@ export default {
 
 .dark-theme {
     .pending-list__item {
-        background-color: getColor($darkTheme, secondary);
+       
         .item__info {
             color: getColor($darkTheme, fontColor);
         }
@@ -125,7 +124,7 @@ export default {
 
 .light-theme {
     .pending-list__item {
-        background-color: getColor($lightTheme, primary);
+     
         .item__info {
             color: getColor($lightTheme, fontColor);
         }
