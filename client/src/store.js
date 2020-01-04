@@ -12,7 +12,7 @@ export default new Vuex.Store({
 		status: '',
 		token: localStorage.getItem('token') || '',
 		user: '',
-		theme: localStorage.getItem('theme') || 'light-theme',
+		theme: localStorage.getItem('theme') || 'dark-theme',
 		baseURL: 'http://localhost:8000/'
   	},
 

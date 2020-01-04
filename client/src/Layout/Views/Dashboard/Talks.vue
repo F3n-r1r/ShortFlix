@@ -363,7 +363,6 @@ export default {
             .header__return-btn {
                 @extend %icon-btn;
                 font-size: 18px;
-                color: #fff; // Move to theme
                 padding: 0px 20px;
             }
 
@@ -383,8 +382,6 @@ export default {
                     height: 100%;
                     width: 100%;
                     font-size: 16px;
-                    background-color: getColor($darkTheme, secondary);
-                    color: getColor($accents, _white);
                 }
             }
         }
@@ -401,31 +398,17 @@ export default {
                 }
 
                 .thread-list__title {         
-                    color: getColor($darkTheme, fontColor);
                     padding: 10px 0px;
                     font-size: 18px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                    
                 }
 
                 .thread-list__item {
                     position: relative;
                     cursor: pointer;
-                    color: getColor($darkTheme, fontColor);
                     padding: 20px 18px;
-                    background-color: getColor($darkTheme, secondary);
                     border-radius: 10px;
                     margin-top: 15px;
                     // border-left: 2px solid transparent;
-
-                    &:hover {
-                        color: getColor($accents, _white);
-                    }
-
-                    &--active {
-                        background-color: getColor($accents, primary);
-                        color: getColor($accents, _white);
-                    }
 
                     .item__username {
                         font-size: 18px;
@@ -440,11 +423,11 @@ export default {
 
                 .network-list__item{
                     @include flexRow(center, null);
-                    padding: 10px 5px;
-                    margin-bottom: 10px;
-                    border-radius: 5px;
                     cursor: pointer;
-                    background-color: getColor($accents, _white);
+                    padding: 20px 18px;
+                    border-radius: 10px;
+                    margin-top: 10px;
+                    text-transform: capitalize;
 
 
                     .item__avatar {
@@ -462,7 +445,7 @@ export default {
         border-radius: 10px;
         display: flex;
         flex-direction: column;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        
 
         .chat__window {
             position: relative;
@@ -494,7 +477,7 @@ export default {
                         width: 80%;
                         padding: 10px;
                         border-radius: 10px;
-                        color: getColor($accents, _white);
+                        
 
                         @include media(min, sm) {
                             width: 60%;
@@ -502,6 +485,8 @@ export default {
 
                         .content__author-name {
                             text-transform: capitalize;
+                            margin-bottom: 10px;
+                            font-weight: 600;
                         }
                     
                         .content__msg-text {
@@ -518,7 +503,7 @@ export default {
                         align-items: flex-start;
                         
                         .message__content {
-                            background-color: getColor($accents, primary);       
+                                   
                         }
                               
                     }
@@ -528,7 +513,7 @@ export default {
                         align-items: flex-end;
 
                         .message__content {
-                            background-color: lighten(getColor($darkTheme, primary), 7%);  
+                              
                         }
                     }
                 }
@@ -574,8 +559,7 @@ export default {
                 font-size: 16px;
                 border: none;
                 border-radius: 10px;
-                background-color: getColor($darkTheme, secondary);
-                color: getColor($accents, _white);
+
             }
 
             .form__submit {
@@ -584,13 +568,12 @@ export default {
                 font-size: 26px;
                 padding: 0px 20px;
                 margin-left: 20px;
-                background-color: getColor($accents, primary);
                 border-radius: 10px;
-                color: getColor($accents, _white);
                 transition: transform .5s, color .5s;
 
                 &:hover {
-                    color: getColor($accents, primary);
+                    
+                    transform: scale(1.1);
                 }
             }
         }
@@ -598,5 +581,158 @@ export default {
 }
 
 
+.dark-theme {
+    .talks-view{
+        .aside__header {
+            .header__return-btn {
+                color: getColor($darkTheme, fontColor);
+            }
+            .header__form {
+                .form__search-input {
+                    background-color: getColor($darkTheme, secondary);
+                    color: getColor($darkTheme, fontColor);
+                }
+            }
+        }
+        .aside__section {
+            .section__thread-list {
+                .thread-list__title {
+                    color: getColor($darkTheme, fontColor);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                .thread-list__item {
+                    color: getColor($darkTheme, fontColor);
+                    background-color: getColor($darkTheme, secondary);
+
+                    &--active {
+                        background-color: getColor($accents, primary);
+                        color: getColor($darkTheme, fontColor);
+                    }
+                }
+            }
+            .section__network-list {
+                .network-list__item {
+                    color: getColor($darkTheme, fontColor);
+                    background-color: getColor($darkTheme, secondary);
+                }
+            }
+        }
+
+        &__chat {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            .chat__window  {
+                .window__messages-list {
+                    .messages-list__message {
+                        .message__content {
+                            color: getColor($accents, _white);
+                        }
+                        &--receiver {
+                            .message__content {
+                                background-color: getColor($accents, primary);
+                            }
+                        }
+                         &--sender {
+                            .message__content {
+                                background-color: lighten(getColor($darkTheme, primary), 7%);
+                            }
+                         }
+                    }
+                }
+
+            }
+            .chat__form {
+                .form__input {
+                    background-color: getColor($darkTheme, secondary);
+                    color: getColor($accents, _white);
+                }
+                .form__submit {
+                    background-color: getColor($accents, primary);
+                    color: getColor($accents, _white);
+                    &:hover {
+                        color: darken(getColor($accents, _white), 10%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.light-theme {
+    .talks-view{
+        .aside__header {
+            .header__return-btn {
+                color: getColor($lightTheme, fontColor);
+            }
+            .header__form {
+                .form__search-input {
+                    background-color: getColor($lightTheme, primary);
+                    color: getColor($lightTheme, fontColor);
+                }
+            }
+        }
+        .aside__section {
+            .section__thread-list {
+                .thread-list__title {
+                    color: getColor($lightTheme, fontColor);
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                }
+                .thread-list__item {
+                    color: getColor($lightTheme, fontColor);
+                    background-color: getColor($lightTheme, primary);
+                    
+
+
+                    &--active {
+                        background-color: getColor($accents, primary);
+                        color: getColor($accents, _white);
+                    }
+                }
+            }
+            .section__network-list {
+                .network-list__item {
+                    color: getColor($lightTheme, fontColor);
+                    background-color: getColor($lightTheme, primary);
+                }
+            }
+        }
+
+        &__chat {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            .chat__window  {
+                .window__messages-list {
+                    .messages-list__message {
+                        .message__content {
+                            color: getColor($accents, _white);
+                        }
+                        &--receiver {
+                            .message__content {
+                                background-color: getColor($accents, primary);
+                            }
+                        }
+                         &--sender {
+                            .message__content {
+                                background-color: getColor($lightTheme, primary);
+                                color: getColor($accents, _black);
+                            }
+                         }
+                    }
+                }
+            }
+            .chat__form {
+                .form__input {
+                    background-color: getColor($lightTheme, primary);
+                    color: getColor($accents, _black);
+                }
+                .form__submit {
+                    background-color: getColor($accents, primary);
+                    color: getColor($accents, _white);
+                    &:hover {
+                        color: darken(getColor($accents, _white), 10%);
+                    }
+                }
+            }
+        }
+    }
+}
 
 </style>
