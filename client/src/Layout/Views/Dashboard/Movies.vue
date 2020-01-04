@@ -5,39 +5,28 @@
     <!-------------------------------------------------------------------------------------->
     <!-- MOVIES SECTION				             										  -->
     <!-------------------------------------------------------------------------------------->
+    <header class="movies-view__header">
+        <h2 class="header__headline">Your movies</h2>
+        <button class="header__add-btn" @click="toggleUploadModal">Add movie<i class="add-movie__icon fas fa-plus-circle"></i></button>
+    </header>
     <section class="movies-view__movie-section">
-        <h2 class="movie-section__headline">Your recent movies</h2>
-
-        <div class="movie-section__row">
-            <!-------------------------------------------------------------------------------------->
-            <!-- ADD MOVIE (DESKTOP)      				             							  -->
-            <!-------------------------------------------------------------------------------------->
-            <div class="row__add-movie" @click="toggleUploadModal">
-                <i class="add-movie__icon fas fa-plus-circle"></i>
-                <p class="add-movie__subtext">Add new movie</p>
-            </div>
         
-            <!-------------------------------------------------------------------------------------->
-            <!-- MOVIES CAROUSEL				             									  -->
-            <!-------------------------------------------------------------------------------------->
-            <carousel class="row__carousel" 
-            :perPageCustom="[[0, 1], [576, 3], [992, 3], [1300, 4], [1600, 5]]"
-            :scrollPerPage="true"
-            :paginationEnabled="false"
-            >
-                <slide class="carousel__slide" v-for="(movie, index) in myMovies" :key="index">
-                    <div class="slide__content">
-                        <div @click="toggleMovieInfo(index)" class="content__img-container">
-                            <img class="img-container__img" :src="`${baseURL}${movie.thumbnail}`" alt="">
-                            <div class="img-container__title-container">
-                                <h4 class="title-container__title">{{movie.title}}</h4>
-                            </div> 
-                        </div>
-                    </div>       
-                </slide>
-            </carousel>
-        </div>
+        <ul class="movie-section__movie-list">
+            <li class="movie-list__item" v-for="(movie, index) in myMovies" :key="index">
+                <div @click="toggleMovieInfo(index)" class="content__wrapper">
+                    <div class="wrapper__img-wrapper">
+                        <img class="img-container__img" :src="`${baseURL}${movie.thumbnail}`" alt="">
+                    </div>
+                    <div class="img-container__title-container">
+                        <h4 class="title-container__title">{{movie.title}}</h4>
+                    </div> 
+                </div>
+            </li>
+        </ul>
+
     </section>
+
+    
 
     <!-------------------------------------------------------------------------------------->
     <!-- (SEE VIDEO DETAILS) MODAL COMPONENT					        				  -->
@@ -47,8 +36,14 @@
             <button class="content__close-btn" type="button" @click="toggleMovieInfo()">
                 <i class="close-btn__icon fas fa-times"></i>
             </button>
-            <img style="height: 200px;" :src="`${baseURL}${selectedMovie.thumbnail}`" alt="">
-            <button @click="playMovie(selectedMovie.video)">PLAY</button>
+            <img :src="`${baseURL}${selectedMovie.thumbnail}`" alt="">
+            <div class="content__description-wrapper">
+                <h3 class="description-wrapper__creator">Creator: <router-link class="creator__link" :to="{ path: '/Dashboard/Profile', query: { id: selectedMovie.user._id }}">{{selectedMovie.user.firstname}} {{selectedMovie.user.lastname}}</router-link></h3>
+                <h4>Title: {{selectedMovie.title}}</h4>
+                <h4 class="description-wrapper__text">Description:</h4>
+                <p>{{selectedMovie.description}}</p>
+            </div>
+            <button class="content__play-btn" @click="playMovie(selectedMovie.video)">PLAY</button>
         </div>
     </modal>
 
@@ -59,7 +54,7 @@
     <modal class="movies-view__modal-upload" v-show="uploadModal"> 
         <div class="modal__content">
             <button class="content__close-btn" type="button" @click="toggleUploadModal">
-                <i class="close-btn__icon far fa-times"></i>
+                <i class="close-btn__icon fas fa-times"></i>
             </button>
             <upload v-model="myMovies" :resetUpload="resetUpload"/>
         </div>
@@ -187,6 +182,7 @@ export default {
 </script>
 
 
+
 <style lang="scss">
 .movies-view {
     display: grid;
@@ -195,120 +191,123 @@ export default {
     .dashboard__banner {
         grid-row: 1;
     }
+    .movies-view__header {
+        @include flexRow(center, space-between);
+        padding: 20px;
 
-    .movies-view__movie-section {
-        grid-row: 2;
-        padding: 0px 20px;
-
-        .movie-section__headline {
+        .header__headline {
             color: getColor($accents, primary);
-            font-size: 18px;
-            margin: 30px 0 10px 0;
         }
+        .header__add-btn {
+            @include flexRow(center, space-between);
+            @extend %icon-btn;
+            font-size: 14px;
+            transition: transform .5s;
 
-        .movie-section__row {
-            @include flexRow(null, space-between);
-            flex-wrap: wrap;
-              
             @include media(min, xs) {
-                flex-wrap: nowrap;
+                font-size: 18px;
             }
- 
-            .row__add-movie  {
-                @include flexColumn(center, center);
-                width: 250px;
-                height: 135px;
-                margin-right: 15px;
-                background-color: getColor($lightTheme, primary);
+            .add-movie__icon {
+                margin-left: 5px;
+            }
+
+            &:hover {
+                transform: scale(1.1);
+
+            }
+        }
+    }
+    .movies-view__movie-section {
+        .movie-section__movie-list {
+            padding: 0px 20px 20px;
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-rows: minmax(300px, auto);
+           
+           .movie-list__item {
+                @include flexColumn(center, flex-start);
+                overflow: hidden;
                 cursor: pointer;
 
-                @include media(min, xs) {
-                    width: 25%;
-                    padding: 4%;
-                }
-
-                &:hover > .add-movie__icon {
-                    transform: scale(1.3);
-                    color: getColor($accents, tertiary);
-                }
-
-                .add-movie__icon {
-                    font-size: 30px;
-                    transition: transform .5s ease, color .5s ease;
-                    color: getColor($lightTheme, tertiary);
-                }
-            }
-
-            .row__carousel {
-                
-
-                .carousel__slide {
+                .content__wrapper {
+                    @include flexColumn(center, space-between);
+                    position: relative;
+                    overflow: hidden;
+                    height: 100%;
+                    width: 100%;
                     
-
-                    .slide__content {
-                        position: relative; 
-                        display:flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
+                    .wrapper__img-wrapper {
+                        @include flexRow(center, center);
+                        position: relative;
                         height: 100%;
-                        max-height: 250px;
+                        width: 100%;
 
-                        @include media(min, xs) {
-                            padding: 0px 15px;
+                        .img-container__img {
+                            object-fit: contain;
+                            width: 100%;
+                            transition: transform .5s;
+
+                            &:hover {
+                                transform: scale(1.05);
+                            }
                         }
+                    }
 
-                        .content__img-container {
-                            position: relative;
-                            cursor: pointer;
+                    
+                    .img-container__title-container {
+                        height: 50px;
+                        @include flexRow(center, center);
 
-                            &:hover > .img-container__title-container {
-                                opacity: 1;
-                            }
+                        .title-container__title {
 
-                            .img-container__img {
-                                position: relative;
-                                object-fit: contain;
-                                height: 100%;
-                                width: 100%;
-                            }
-
-                            .img-container__title-container {
-                                position: absolute;
-                                @include flexRow(center, center);
-                                top: 0;
-                                bottom: 0;
-                                left: 0;
-                                right: 0;
-                                background-color: rgba(0,0,0,0.5);
-                                opacity: 0;
-                                padding: 20px;
-
-                                .title-container__title {
-                                    position: relative;
-                                    color: getColor($accents, _white);
-                                    word-wrap: break-word;
-                                    word-break: break-all;
-                                }
-                            }
                         }
                     }
                 }
             }
         }
     }
+   
 
     &__modal-details {
         .modal__content {
-            background-color: getColor($darkTheme, primary);
+            @include flexColumn(center, center);
+            max-width: 800px;
             padding: 30px;
+            max-height: 500px;
 
+            user-select: none;
+            
             .content__close-btn {
                 @extend %icon-btn;
                 position: absolute;
                 right: 10px;
                 top: 10px;
-                font-size: 18px;
+                font-size: 24px;
+            }
+
+            img {
+                height: 200px;
+            }
+
+            .content__description-wrapper {
+                margin-top: 15px;
+                overflow-y: auto;
+                .description-wrapper__creator {
+                    text-transform: capitalize;
+                    .creator__link {
+
+                    }
+                }
+                .description-wrapper__text {
+                    margin-top: 15px;
+
+                }
+            }
+
+            .content__play-btn {
+                margin-top: 25px;
+                @extend %secondary-btn;
             }
         }
     }
@@ -316,7 +315,6 @@ export default {
     &__modal-upload {
         
         .modal__content {
-            background-color: getColor($darkTheme, primary);
             padding: 30px;
 
             .content__close-btn {
@@ -325,6 +323,106 @@ export default {
                 right: 10px;
                 top: 10px;
                 font-size: 18px;
+            }
+        }
+    }
+}
+
+.dark-theme {
+    .movies-view {
+        .movies-view__header  {
+            .header__add-btn {
+                color: getColor($darkTheme, fontColor);
+            }
+        }
+
+        .movies-view__movie-section {
+            .movie-section__movie-list {
+                .movie-list__item {
+                     .content__wrapper {
+                         .img-container__title-container {
+                             .title-container__title  {
+                                 color: getColor($darkTheme, fontColor);
+                             }
+                         }
+                     }
+                }
+            }
+        }
+
+        &__modal-details {
+            .modal__content {
+                 background-color: getColor($darkTheme, primary);
+                .content__close-btn {
+                    color: getColor($darkTheme, fontColor); 
+                }
+                .content__description-wrapper {
+                    color: getColor($darkTheme, fontColor); 
+                }
+                .content__play-btn {
+                    color: getColor($darkTheme, fontColor); 
+                    border-color: getColor($darkTheme, fontColor); 
+                }
+            }
+        }
+
+        &__modal-upload {
+            .modal__content {
+                background-color: getColor($darkTheme, primary);
+                .content__close-btn {
+                    color: getColor($darkTheme, fontColor);
+                }
+            }
+        }
+    }
+}
+
+
+
+.light-theme {
+    .movies-view {
+        .movies-view__header  {
+            .header__add-btn {
+                color: getColor($lightTheme, fontColor);
+            }
+        }
+
+        .movies-view__movie-section {
+            .movie-section__movie-list {
+                .movie-list__item {
+                     .content__wrapper {
+                         .img-container__title-container {
+                             .title-container__title  {
+                                 color: getColor($lightTheme, fontColor);
+                             }
+                         }
+                     }
+                }
+            }
+        }
+
+        &__modal-details {
+            .modal__content {
+                 background-color: getColor($lightTheme, secondary);
+                .content__close-btn {
+                    color: getColor($lightTheme, fontColor); 
+                }
+                .content__description-wrapper {
+                    color: getColor($lightTheme, fontColor); 
+                }
+                .content__play-btn {
+                    color: getColor($lightTheme, fontColor); 
+                    border-color: getColor($lightTheme, fontColor); 
+                }
+            }
+        }
+
+        &__modal-upload {
+            .modal__content {
+                background-color: getColor($lightTheme, primary);
+                .content__close-btn {
+                    color: getColor($lightTheme, fontColor);
+                }
             }
         }
     }

@@ -89,6 +89,7 @@ export default {
                     font-size: 30px;
                     transition: transform .5s ease, color .5s ease;
                     color: getColor($lightTheme, tertiary);
+                    margin-bottom: 10px;
                 }
             }
 

@@ -199,6 +199,7 @@ export default {
 
 
 
+
 <style lang="scss">
 .cinema-view {
 
@@ -301,7 +302,7 @@ export default {
             max-width: 800px;
             padding: 30px;
             max-height: 500px;
-            overflow-y: auto;
+ 
             user-select: none;
             
 
@@ -311,6 +312,7 @@ export default {
 
             .content__description-wrapper {
                 margin-top: 15px;
+                overflow-y: auto;
                 .description-wrapper__creator {
                     text-transform: capitalize;
                     .creator__link {
@@ -349,7 +351,7 @@ export default {
             }
         }
         .modal__content {
-            background-color: getColor($darkTheme, tertiary);
+           background-color: getColor($darkTheme, primary);
             .content__close-btn {
                 color: getColor($darkTheme, fontColor); 
             }

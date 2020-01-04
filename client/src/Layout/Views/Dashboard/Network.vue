@@ -5,9 +5,9 @@
         <h3 class="pending-section__headline">Pending Network Requests</h3>
         <ul class="network-section__pending-list">
             <li class="pending-list__item" v-for="(user, index) in pendingRequests" :key="index">
-                <img class="item__img" v-if="user.avatar" :src="`${baseURL}${user.avatar}`">
                 <router-link class="item__route" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
-                    {{ user.firstname }} - {{ user.role }}
+                    <img class="item__img" v-if="user.avatar" :src="`${baseURL}${user.avatar}`">
+                    <p class="route__name">{{ user.firstname }}, {{ user.role }}</p>
                 </router-link>
                 <button class="item__btn-acc" @click="acceptRequest(user._id)"><i class="fas fa-check"></i></button>
                 <button class="item__btn-deny" @click="denyRequest(user._id)"><i class="fas fa-times"></i></button>
@@ -20,14 +20,15 @@
         <p class="network-section__subtext">The persons you have communicated with will appear here</p>
         <ul class="network-section__listing">
             <li v-if="!network.length">You do not currently have a network, start building one <router-link class="item__link" to="/Dashboard/Community">here</router-link></li>
-            <section class="listing__profiles">
-            <li v-for="(user, index) in network" :key="index">
-            <img v-if="user.avatar" class="btn__img" :src="`${baseURL}${user.avatar}`">
-                <router-link class="listing__profiles--firstname" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
-                   {{ user.firstname }},</router-link>
-                <div class="listing__profiles--role">{{ user.role }}</div> 
+            
+            <li class="listing__li" v-for="(user, index) in network" :key="index">
+                <router-link class="listing__link" :to="{ path: '/Dashboard/Profile', query: { id: user._id }}">
+                    <img v-if="user.avatar" class="btn__img" :src="`${baseURL}${user.avatar}`">
+                    <div class="listing__profiles--firstname">{{ user.firstname }},</div>
+                    <div class="listing__profiles--role">{{ user.role }}</div> 
+                </router-link>
             </li>
-            </section>
+        
         </ul>
     </section>
 
@@ -123,10 +124,12 @@ export default {
                     border-radius: 50%;
                 }
                 .item__route {
+                    @include flexRow(center, flex-start);
                     font-size: 14px;
-                    padding-left: 10px;
-                    font-weight: bold;
                     text-transform: capitalize;
+                    .route__name {
+                        margin-left: 10px;
+                    }
                 }
                 .item__btn-acc {
                     @extend %icon-btn;
@@ -159,11 +162,13 @@ export default {
         }
 
         .network-section__listing {
-
-            .listing__profiles {
-                li {
-                    @include flexRow(center, flex-start);
-                    padding: 10px;
+                @include flexColumn(flex-start, center);
+           
+                .listing__li {
+                    .listing__link {
+                        @include flexRow(center, flex-start);
+                        padding: 10px;
+                    }
 
                     .btn__img {
                         width: 60px;
@@ -172,19 +177,16 @@ export default {
                     }
                 }
 
-                &--firstname {
-                    font-size: 14px;
-                    padding-left: 10px;
-                    font-weight: bold;
+                .listing__profiles--firstname { 
+                    margin-left: 10px;
+                    margin-right: 5px;
                     text-transform: capitalize;
                 }
 
-                &--role {
-                    font-size: 14px;
-                    padding-left: 2px;
-                    text-transform: lowercase;
+                .listing__profiles--role {
+                    text-transform: capitalize;
                 }
-            }
+            
         }
 
     }

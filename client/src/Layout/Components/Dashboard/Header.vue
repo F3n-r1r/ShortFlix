@@ -280,7 +280,7 @@ export default {
 	&__dropdown {
 		position: relative;
 		@include flexColumn(center, center);
-		z-index: 1;
+		z-index: 9999;
 	
 
 		/*----------------------------------------------------------------------------------*\

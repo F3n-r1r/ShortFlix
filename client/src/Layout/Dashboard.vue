@@ -130,6 +130,7 @@ export default {
 		position: relative;
 		overflow-y: auto;
 		display: grid;
+		overflow-x: hidden;
 		grid-row: 2;
 		// grid-template-rows: min(500px) auto;
 		transition: background-color $themeTransitionTime;

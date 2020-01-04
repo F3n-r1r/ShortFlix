@@ -55,6 +55,7 @@ export default {
 		position: relative;
 		box-shadow: 0px 0px 20px 1px;
 		border-radius: 5px;
+		margin: 0px 30px;
 		overflow-x: auto;
 	}
 }

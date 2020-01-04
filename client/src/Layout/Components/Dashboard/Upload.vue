@@ -19,7 +19,7 @@
                         <option value="Drama">Drama</option>
                         <option value="Action">Action</option>
                         <option value="Sci-fi">Sci-fi</option>
-                        <option value="Adcenture">Adcenture</option>
+                        <option value="Adventure">Adventure</option>
                         <option value="Romance">Romance</option>
                         <option value="Animation">Animation</option>
                     </select>
@@ -220,7 +220,6 @@ export default {
 
     &__form {
         @include flexColumn(center, center);
-        min-width: 500px;
 
         .form__field {
             width: 100%;
@@ -240,7 +239,6 @@ export default {
         }
 
         .form__info {
-            color: getColor($darkTheme, fontColor);
             font-size: 12px;
             margin-bottom: 5px;
         }
@@ -308,6 +306,28 @@ export default {
             @extend %secondary-btn;
             margin-top: 20px;
 
+        }
+    }
+}
+
+
+.dark-theme {
+    .upload {
+        &__form {
+            .form__info {
+                color: getColor($darkTheme, fontColor);
+            }
+        }
+    }
+}
+
+
+.light-theme {
+    .upload {
+        &__form {
+            .form__info {
+                color: getColor($lightTheme, fontColor);
+            }
         }
     }
 }
