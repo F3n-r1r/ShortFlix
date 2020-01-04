@@ -1,6 +1,6 @@
 <template>
   <div class="view profile-view" id="userProfile">
-	<button v-if="showBack" @click="$router.go(-1)">back</button>
+	<button class="profile-view__back-btn" v-if="showBack" @click="$router.go(-1)"><i class="fas fa-arrow-left"></i>Back</button>
 		<section class="profile-view__banner">
 			<div class="profile-img">
 				<img v-if="user.avatar" :src="`${baseURL}${user.avatar}`">
@@ -80,7 +80,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
 #userProfile {
 	padding: 10px;
@@ -88,6 +87,25 @@ export default {
 .profile-view {
 	display: block;
 	text-align: center;
+
+	.profile-view__back-btn {
+		position: absolute;
+		@extend %icon-btn;
+		left: 20px;
+		top: 20px;
+		color: getColor($accents, primary);
+		font-size: 20px;
+		font-weight: 600;
+		transition: transform .5s;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+
+		.fas {
+			margin-right: 5px;
+		}
+	}
 
 	h3 {
 		padding-bottom: 5px;
@@ -97,32 +115,45 @@ export default {
 		width: 100%;
 		height: 100px;
 		background-image: url("/images/profile-banner.jpeg");
-		background-size: contain;
+		background-size: cover;
 		background-repeat: no-repeat;
+		background-position: top center;
+		margin-bottom: 0px;
 		
 		@include media(min, xs) {
 			background-size: cover;
 			height: 180px;
+			margin-bottom: 30px;
+		}
+
+		@include media(min, sm) {
+			margin-bottom: 0px;
 		}
 
 		.profile-img  {
 			padding-top: 50px;
+			position: relative;
+			height: 100%;
 
 			img {
 				border-radius: 100px;
 				width: 100px;
+				height: 100%;
 				height: auto;
 
 				@include media(min, xs) {
 					width: 150px;
 					position: absolute;
-					left: 10%;
+					left: 50%;
+					transform: translate(-50%, 50%);
 					bottom: 0;
 				}
-
 				@include media(min, sm) {
 					width: 200px;
 					align-self: center;
+					left: 20%;
+					transform: translate(-50%, 0%);
+					bottom: 0;
 					top: 90px;
 				}
 			}
