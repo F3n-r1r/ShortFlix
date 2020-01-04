@@ -107,13 +107,12 @@ export default {
                 }
 
                 .description-container__role {
-                    color: getColor($accents, _white);
                     margin-top: 5px;
                     font-size: 14px;
+                    transition: color $themeTransitionTime;
                 }
 
                 .description-container__bio {
-                    color: getColor($accents, _white);
                     margin-top: 10px;
                     overflow: hidden;
                     word-break: break-all;
@@ -121,6 +120,7 @@ export default {
                     display: -webkit-box;
                     -webkit-line-clamp: 2; /* number of lines to show */
                     -webkit-box-orient: vertical;
+                    transition: color $themeTransitionTime;
                 }
             }
 
@@ -128,6 +128,7 @@ export default {
                 @include flexRow(center, space-between);
                 width: 100%;
                 padding: 10px 0px;
+                margin-top: 20px;
 
                 .footer__request-btn {
                     @extend %primary-btn;
@@ -147,6 +148,28 @@ export default {
                 }
             }
         }
+    }
+}
+
+.dark-theme {
+    .community-view {
+        .description-container__role {
+            color: getColor($darkTheme, fontColor);
+        }
+        .description-container__bio {
+            color: getColor($darkTheme, fontColor);
+        }
+    }
+}
+
+.light-theme {
+    .community-view { 
+        .description-container__role {
+            color: getColor($lightTheme, fontColor);
+        }
+        .description-container__bio {
+            color: getColor($lightTheme, fontColor);
+        } 
     }
 }
 
