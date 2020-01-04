@@ -5,7 +5,10 @@
         <ul class="pending-list">
             <li class="pending-list__item" v-for="(user, index) in pendingUsers" :key="index">
                 <div class="item__info">{{ user.firstname }} - {{ user.role }}</div>
-                <button @click="approveUser(user._id)">Approve</button>
+                <div class="item__btn-container">
+                    <button class="btn-container__appr-btn" @click="approveUser(user._id)"><i class="fas fa-check"></i></button>
+                    <button class="btn-container__deny-btn"><i class="fas fa-times"></i></button>
+                </div>
             </li>
         </ul>
 
@@ -65,15 +68,66 @@ export default {
 <style lang="scss">
 .pendingUsers-view {
     padding: 20px;
+
     .view__headline {
         color: getColor($accents, primary);
         font-size: 18px;
         margin-bottom: 5px;
     }
+
     .pending-list {
         .pending-list__item {
-            @include flexRow(center, flex-start);
+            @include flexRow(center, space-between);
             padding: 10px;
+            margin-top: 10px;
+            transition: background-color $themeTransitionTime;
+
+            .item__info {
+                text-transform: capitalize;
+            }
+
+            .item__btn-container {
+                @include flexRow(null, null);
+
+                .btn-container__appr-btn {
+                    @extend %icon-btn;
+                    color: getColor($accents, tertiary);
+                    margin-left: 20px;
+                    font-size: 24px;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+                .btn-container__deny-btn {
+                    @extend %icon-btn;
+                    color: getColor($accents, primary);
+                    margin-left: 10px;
+                    font-size: 24px;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.dark-theme {
+    .pending-list__item {
+        background-color: getColor($darkTheme, secondary);
+        .item__info {
+            color: getColor($darkTheme, fontColor);
+        }
+    }
+}
+
+.light-theme {
+    .pending-list__item {
+        background-color: getColor($lightTheme, primary);
+        .item__info {
+            color: getColor($lightTheme, fontColor);
         }
     }
 }
